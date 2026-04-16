@@ -1,0 +1,35 @@
+#!/bin/sh
+# .husky/pre-commit
+# Lints and auto-formats every staged file before the commit is recorded.
+# Only staged files are processed. Auto-fixes are re-staged automatically.
+#
+# File type → tool(s)
+#   *.md              → markdownlint-cli2 --fix  +  prettier --write
+#   *.{json,jsonc}    → prettier --write
+#   *.{yml,yaml}      → prettier --write
+#   *.{ts,tsx,js,cjs} → prettier --write
+#   *.py              → ruff check --fix  +  ruff format
+#   *.go              → gofmt -w
+#   *.cs              → dotnet format --include
+#   *.sh              → shfmt -w
+#
+# Setup: npm install && npm run prepare
+# Guide: COMMIT-GUIDE.md
+
+echo ""
+echo "⏳ pre-commit: linting and formatting staged files..."
+echo ""
+
+npx lint-staged
+
+EXIT_CODE=$?
+
+if [ $EXIT_CODE -ne 0 ]; then
+  echo ""
+  echo "✖ pre-commit failed — one or more staged files have unfixable errors."
+  echo "  Fix the errors above, then stage again with: git add <file>"
+  echo "  See COMMIT-GUIDE.md → Troubleshooting for common causes."
+  echo ""
+fi
+
+exit $EXIT_CODE

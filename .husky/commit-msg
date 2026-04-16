@@ -1,0 +1,31 @@
+#!/bin/sh
+# .husky/commit-msg
+# Validates the commit message against commitlint.config.cjs.
+# Runs after you write the message (before the commit is finalised).
+#
+# Format:  <type>(<scope>): <subject>
+# Guide:   COMMIT-GUIDE.md
+#
+# Quick reference — types:
+#   feat fix docs style refactor perf test chore revert release
+#
+# Quick reference — scopes (optional):
+#   shared | copilot | claude | cursor | opencode | windsurf | generic
+#   linting | python | typescript | go | java | csharp
+#   editorconfig | pre-commit | hooks | deps | release | ci
+#
+# Interactive helper: npm run commit
+
+npx --no -- commitlint --edit "$1"
+
+EXIT_CODE=$?
+
+if [ $EXIT_CODE -ne 0 ]; then
+  echo ""
+  echo "  Commit message was rejected. See the errors above."
+  echo "  Full guide: COMMIT-GUIDE.md"
+  echo "  Interactive prompt: npm run commit"
+  echo ""
+fi
+
+exit $EXIT_CODE

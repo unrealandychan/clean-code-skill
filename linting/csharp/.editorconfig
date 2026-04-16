@@ -1,0 +1,99 @@
+# ──────────────────────────────────────────────────────────────────────────────
+#  C# / .NET EditorConfig + Roslyn analyser settings
+#  Drop in project root as .editorconfig
+#  Works with: dotnet format, Visual Studio, Rider, VS Code (C# Dev Kit)
+#  Run: dotnet format --verify-no-changes
+# ──────────────────────────────────────────────────────────────────────────────
+
+root = true
+
+[*]
+indent_style = space
+indent_size = 4
+end_of_line = lf
+charset = utf-8
+trim_trailing_whitespace = true
+insert_final_newline = true
+
+[*.{cs,csx}]
+# ── Naming (Clean Code: meaningful names, DDD: ubiquitous language) ──────────
+
+# Interfaces must start with I
+dotnet_naming_rule.interface_should_start_with_i.severity = warning
+dotnet_naming_rule.interface_should_start_with_i.symbols = interface
+dotnet_naming_rule.interface_should_start_with_i.style = begins_with_i
+
+dotnet_naming_symbols.interface.applicable_kinds = interface
+dotnet_naming_symbols.interface.applicable_accessibilities = public, internal
+
+dotnet_naming_style.begins_with_i.required_prefix = I
+dotnet_naming_style.begins_with_i.capitalization = pascal_case
+
+# Types: PascalCase
+dotnet_naming_rule.types_pascal_case.severity = warning
+dotnet_naming_rule.types_pascal_case.symbols = types
+dotnet_naming_rule.types_pascal_case.style = pascal_case_style
+
+dotnet_naming_symbols.types.applicable_kinds = class, struct, enum, record
+dotnet_naming_style.pascal_case_style.capitalization = pascal_case
+
+# Private fields: _camelCase
+dotnet_naming_rule.private_fields_camel.severity = warning
+dotnet_naming_rule.private_fields_camel.symbols = private_fields
+dotnet_naming_rule.private_fields_camel.style = underscore_camel
+
+dotnet_naming_symbols.private_fields.applicable_kinds = field
+dotnet_naming_symbols.private_fields.applicable_accessibilities = private, private_protected
+dotnet_naming_style.underscore_camel.required_prefix = _
+dotnet_naming_style.underscore_camel.capitalization = camel_case
+
+# ── Code quality (Clean Code + DDD) ─────────────────────────────────────────
+
+# Prefer var only when type is apparent
+csharp_style_var_for_built_in_types = false:suggestion
+csharp_style_var_when_type_is_apparent = true:suggestion
+csharp_style_var_elsewhere = false:suggestion
+
+# Expression-bodied members — keep short
+csharp_style_expression_bodied_methods = when_on_single_line:suggestion
+csharp_style_expression_bodied_properties = true:suggestion
+
+# Pattern matching (reduces nesting)
+csharp_style_prefer_switch_expression = true:suggestion
+csharp_prefer_pattern_matching = true:suggestion
+csharp_style_prefer_not_pattern = true:suggestion
+
+# Null checks (prefer is null over == null)
+dotnet_style_prefer_is_null_check_over_reference_equality_method = true:warning
+
+# DDD value objects — prefer records for immutability
+csharp_style_prefer_primary_constructors = true:suggestion
+
+# Throw expressions (cleaner guard clauses)
+csharp_style_throw_expression = true:suggestion
+
+# ── Roslyn analyser severity overrides ──────────────────────────────────────
+
+# CA1822 — mark members static if they don't access instance state
+dotnet_diagnostic.CA1822.severity = suggestion
+
+# CA1062 — validate public API arguments (boundaries / ACL)
+dotnet_diagnostic.CA1062.severity = warning
+
+# CA2000 — dispose objects before losing scope
+dotnet_diagnostic.CA2000.severity = warning
+
+# MA0051 — method too long (> 60 lines)
+dotnet_diagnostic.MA0051.severity = warning
+
+# MA0016 — prefer return collection abstraction (DDD repository interfaces)
+dotnet_diagnostic.MA0016.severity = suggestion
+
+# S1135 — complete TODO comments
+dotnet_diagnostic.S1135.severity = suggestion
+
+[*.{json,yml,yaml,xml}]
+indent_size = 2
+
+[Makefile]
+indent_style = tab

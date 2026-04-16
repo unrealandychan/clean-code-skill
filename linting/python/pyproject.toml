@@ -1,0 +1,70 @@
+# ──────────────────────────────────────────────
+#  Ruff — fast Python linter + formatter
+#  Drop this file in your project root.
+#  Run: ruff check . && ruff format .
+# ──────────────────────────────────────────────
+
+[tool.ruff]
+target-version = "py311"
+line-length = 100
+src = ["src", "app"]
+
+[tool.ruff.lint]
+select = [
+  "E",    # pycodestyle errors
+  "W",    # pycodestyle warnings
+  "F",    # pyflakes
+  "I",    # isort
+  "N",    # pep8-naming  — enforces meaningful names
+  "UP",   # pyupgrade
+  "B",    # flake8-bugbear — opinionated correctness
+  "C90",  # mccabe complexity
+  "SIM",  # flake8-simplify — reduces nesting/complexity
+  "ANN",  # type annotations
+  "PTH",  # use pathlib instead of os.path
+  "RUF",  # ruff-specific rules
+]
+ignore = [
+  "ANN101",  # do not require self annotation
+  "ANN102",  # do not require cls annotation
+  "E501",    # line length handled by formatter
+]
+
+[tool.ruff.lint.mccabe]
+# Flag functions with cyclomatic complexity > 10 (DDD aggregates and services should stay simple)
+max-complexity = 10
+
+[tool.ruff.lint.pep8-naming]
+# Enforce domain-meaningful names: single-letter variables only in comprehensions
+classmethod-decorators = ["classmethod", "pydantic.validator"]
+
+[tool.ruff.format]
+quote-style = "double"
+indent-style = "space"
+skip-magic-trailing-comma = false
+
+# ──────────────────────────────────────────────
+#  Mypy — static type checking
+#  Run: mypy src/
+# ──────────────────────────────────────────────
+
+[tool.mypy]
+python_version = "3.11"
+strict = true
+warn_return_any = true
+warn_unused_configs = true
+disallow_untyped_defs = true
+disallow_any_generics = true
+# Enforces explicit domain types instead of bare dicts/Any
+disallow_any_explicit = false
+no_implicit_optional = true
+show_error_codes = true
+
+# ──────────────────────────────────────────────
+#  Bandit — security linting
+#  Run: bandit -r src/ -c pyproject.toml
+# ──────────────────────────────────────────────
+
+[tool.bandit]
+targets = ["src", "app"]
+skips = []          # add "B101" to skip assert checks in test files if needed

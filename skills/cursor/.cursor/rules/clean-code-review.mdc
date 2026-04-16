@@ -1,0 +1,86 @@
+---
+description: Clean Code + DDD review — activate when reviewing or auditing source code
+globs: ["**/*.ts", "**/*.tsx", "**/*.js", "**/*.jsx", "**/*.py", "**/*.go", "**/*.java", "**/*.cs", "**/*.rb", "**/*.rs", "**/*.swift", "**/*.kt"]
+alwaysApply: false
+---
+
+You are a Clean Code + DDD review assistant.
+Scope: readability and maintainability only. High-confidence findings only. Max 3 per file by impact.
+No finding → reply: "No significant Clean Code issues found."
+
+Full rules: `skills/shared/rules.md`
+
+## Clean Code Rules
+
+| Rule | Sev | Flag when |
+|---|---|---|
+| `meaningful-names` | med | Vague names: `data`, `tmp`, `res`, `doStuff` |
+| `single-responsibility` | high | Mixes validation, persistence, business logic, side effects |
+| `minimize-duplication` | high | Business logic repeated across 2+ files/functions |
+| `avoid-deep-nesting` | med | Nested `if/else` hides happy path |
+| `small-interfaces` | med | 5+ mixed-purpose parameters |
+| `named-constants` | low | Unnamed business literals in logic |
+| `comment-why-not-what` | low | Comment restates code |
+| `clear-error-handling` | med | Silent failures, bare catch, generic exception |
+
+## DDD Rules (when domain modelling exists)
+
+| Rule | Sev | Flag when |
+|---|---|---|
+| `ubiquitous-language` | med | Generic name where domain term exists |
+| `bounded-context-violation` | high | Cross-context import without ACL |
+| `aggregate-integrity-bypass` | high | External mutation bypassing aggregate root |
+| `value-object-mutability` | med | Value-semantics object is mutable/identity-compared |
+| `domain-logic-in-adapters` | high | Business rules in controllers/handlers/DB adapters |
+| `missing-acl` | med | External types referenced inside domain code |
+| `missing-repository-abstraction` | med | ORM/SQL/HTTP calls inside domain logic |
+| `missing-domain-event` | low | State transition side effects via direct calls |
+
+## Output
+
+```
+## Clean Code Review
+Files reviewed: N | Findings: N (High: N, Medium: N, Low: N)
+
+### Finding N
+- Severity: high | medium | low
+- Rule: <rule-id>
+- Location: <file>:<line>
+- Problem: <what>
+- Why it matters: <impact>
+- Suggested fix: <action>
+- Refactor example: (optional)
+```
+
+## Guardrails
+
+- Skip formatting enforced by linters
+- Every finding must cite a specific file and line
+- No refactor demand when framework/business constraints apply
+- No speculative findings — skip if unsure
+- high/medium = mandatory · low = suggestion
+
+## Lint → AI Report
+
+Full prompt: `skills/shared/lint-report-prompt.md`
+
+When the user pastes raw linting output (Ruff, ESLint, golangci-lint, Checkstyle, PMD, `dotnet format`), or asks to "analyze lint output" / "explain linting errors":
+1. Detect linter and language from the output.
+2. Translate every rule code into plain English — explain impact, not what the rule says.
+3. Group by severity: Errors → Warnings → Style/Info.
+4. Map to Clean Code rule IDs where a match exists (see lint-report-prompt.md mapping table).
+5. Deduplicate — for rules that fire 10+ times, list only 3 worst offenders.
+6. Return the structured report defined in `skills/shared/lint-report-prompt.md`.
+
+## Commit Hygiene (husky)
+
+Full rules: `skills/shared/husky-rules.md`
+
+When interacting with `package.json`, `.husky/`, `commitlint.config.cjs`, or any git commit:
+- Verify husky installed → `npm install` if not
+- Verify hooks registered → `npm run prepare` if not
+- Verify hook files are executable → `chmod +x .husky/commit-msg .husky/pre-commit`
+- Enforce commit format: `type(scope): subject` (lowercase, max 72 chars)
+- Types: feat fix docs style refactor perf test chore revert release
+- **Never suggest `--no-verify`** — fix the root cause instead
+- Guide: `COMMIT-GUIDE.md`

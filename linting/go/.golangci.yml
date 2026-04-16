@@ -1,0 +1,118 @@
+# ──────────────────────────────────────────────────────────────────────────────
+#  golangci-lint configuration
+#  Drop in project root as .golangci.yml
+#  Run: golangci-lint run ./...
+#  Install: https://golangci-lint.run/usage/install/
+# ──────────────────────────────────────────────────────────────────────────────
+
+run:
+  timeout: 5m
+  go: "1.22"
+
+linters-settings:
+  # ── Cognitive complexity (Clean Code: shallow nesting) ──────────────────────
+  gocognit:
+    min-complexity: 10
+
+  # ── Cyclomatic complexity ───────────────────────────────────────────────────
+  cyclop:
+    max-complexity: 10
+    skip-tests: true
+
+  # ── Function / file length ──────────────────────────────────────────────────
+  funlen:
+    lines: 60
+    statements: 40
+
+  # ── Too many parameters (Clean Code: small interfaces) ───────────────────── 
+  gocritic:
+    enabled-checks:
+      - hugeParam
+      - rangeValCopy
+      - paramTypeCombine
+      - nestingReduce
+
+  # ── Magic numbers ───────────────────────────────────────────────────────────
+  gomnd:
+    ignored-functions:
+      - os.Exit
+      - strconv.FormatInt
+      - strconv.ParseInt
+
+  # ── Naming (DDD: ubiquitous language) ──────────────────────────────────────
+  revive:
+    rules:
+      - name: exported
+        severity: warning
+      - name: var-naming
+        severity: warning
+      - name: package-comments
+        severity: warning
+      - name: error-return
+        severity: warning
+      - name: error-naming
+        severity: warning
+      - name: receiver-naming
+        severity: warning
+      - name: unused-parameter
+        severity: warning
+
+  # ── Unused code ─────────────────────────────────────────────────────────────
+  unused:
+    field-writes-are-uses: false
+
+  # ── Error handling (Clean Code) ──────────────────────────────────────────── 
+  errcheck:
+    check-type-assertions: true
+    check-blank: true
+
+  # ── DDD: prevent import cycles between layers ───────────────────────────────
+  depguard:
+    rules:
+      domain-must-not-import-infra:
+        files:
+          - "**/domain/**"
+        deny:
+          - pkg: "*/infrastructure/**"
+            desc: "Domain layer must not import infrastructure packages (DDD dependency inversion)"
+          - pkg: "*/adapters/**"
+            desc: "Domain layer must not import adapter packages"
+      domain-must-not-import-application:
+        files:
+          - "**/domain/**"
+        deny:
+          - pkg: "*/application/**"
+            desc: "Domain layer must not import application layer"
+
+linters:
+  enable:
+    - errcheck          # check all errors are handled
+    - gosimple          # simplify code
+    - govet             # suspicious constructs
+    - ineffassign       # unused assignments
+    - staticcheck       # comprehensive static analysis
+    - unused            # unused code
+    - gocognit          # cognitive complexity
+    - cyclop            # cyclomatic complexity
+    - funlen            # function length
+    - gomnd             # magic numbers
+    - revive            # naming and style
+    - gocritic          # opinionated code checks
+    - dupl              # code duplication
+    - depguard          # layer import rules (DDD)
+    - godot             # comment formatting
+    - gofmt             # formatting
+    - goimports         # import ordering
+    - misspell          # spelling in comments
+    - noctx             # http requests must use context
+    - bodyclose         # http response body close
+    - gosec             # security checks
+
+issues:
+  max-same-issues: 5
+  exclude-rules:
+    - path: "_test.go"
+      linters:
+        - funlen
+        - gomnd
+        - dupl

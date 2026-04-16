@@ -1,0 +1,90 @@
+<?xml version="1.0"?>
+<!--
+  PMD ruleset — Clean Code + DDD enforcement for Java
+  Drop in project root as pmd-ruleset.xml
+  Maven: add maven-pmd-plugin pointing to this file
+  Run (Maven): mvn pmd:check
+  Run (Gradle): ./gradlew pmdMain
+-->
+<ruleset name="Clean Code DDD"
+  xmlns="http://pmd.sourceforge.net/ruleset/2.0.0"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://pmd.sourceforge.net/ruleset/2.0.0
+    https://pmd.sourceforge.io/ruleset_2_0_0.xsd">
+
+  <description>Clean Code and DDD ruleset for Java</description>
+
+  <!-- ── Single responsibility ───────────────────────────────────── -->
+  <rule ref="category/java/design.xml/TooManyMethods">
+    <properties>
+      <property name="maxmethods" value="15"/>
+    </properties>
+  </rule>
+  <rule ref="category/java/design.xml/TooManyFields">
+    <properties>
+      <property name="maxfields" value="10"/>
+    </properties>
+  </rule>
+  <rule ref="category/java/design.xml/GodClass"/>
+
+  <!-- ── Complexity (shallow nesting) ──────────────────────────────  -->
+  <rule ref="category/java/design.xml/CyclomaticComplexity">
+    <properties>
+      <property name="methodReportLevel" value="10"/>
+      <property name="classReportLevel" value="80"/>
+    </properties>
+  </rule>
+  <rule ref="category/java/design.xml/CognitiveComplexity">
+    <properties>
+      <property name="reportLevel" value="12"/>
+    </properties>
+  </rule>
+  <rule ref="category/java/design.xml/NPathComplexity"/>
+
+  <!-- ── DDD: coupling (bounded contexts) ──────────────────────────  -->
+  <rule ref="category/java/design.xml/CouplingBetweenObjects">
+    <properties>
+      <property name="threshold" value="15"/>
+    </properties>
+  </rule>
+  <rule ref="category/java/design.xml/ExcessiveImports">
+    <properties>
+      <property name="minimum" value="20"/>
+    </properties>
+  </rule>
+
+  <!-- ── Duplication ───────────────────────────────────────────────  -->
+  <rule ref="category/java/errorprone.xml/AvoidDuplicateLiterals">
+    <properties>
+      <property name="maxDuplicateLiterals" value="3"/>
+      <property name="skipAnnotations" value="true"/>
+    </properties>
+  </rule>
+
+  <!-- ── Error handling ────────────────────────────────────────────  -->
+  <rule ref="category/java/errorprone.xml/EmptyCatchBlock"/>
+  <rule ref="category/java/design.xml/AvoidCatchingGenericException"/>
+  <rule ref="category/java/design.xml/AvoidThrowingRawExceptionTypes"/>
+  <rule ref="category/java/design.xml/SignatureDeclareThrowsException"/>
+  <rule ref="category/java/errorprone.xml/AvoidCatchingNPE"/>
+
+  <!-- ── Magic numbers ─────────────────────────────────────────────  -->
+  <rule ref="category/java/errorprone.xml/AvoidLiteralsInIfCondition">
+    <properties>
+      <property name="ignoreMagicNumbers" value="-1,0,1"/>
+    </properties>
+  </rule>
+
+  <!-- ── Dead code ─────────────────────────────────────────────────  -->
+  <rule ref="category/java/bestpractices.xml/UnusedLocalVariable"/>
+  <rule ref="category/java/bestpractices.xml/UnusedPrivateField"/>
+  <rule ref="category/java/bestpractices.xml/UnusedPrivateMethod"/>
+
+  <!-- ── Code clarity  ─────────────────────────────────────────────  -->
+  <rule ref="category/java/codestyle.xml/UnnecessaryReturn"/>
+  <rule ref="category/java/codestyle.xml/UnnecessaryCast"/>
+  <rule ref="category/java/design.xml/CollapsibleIfStatements"/>
+  <rule ref="category/java/design.xml/SimplifyBooleanReturns"/>
+  <rule ref="category/java/design.xml/SimplifyBooleanExpressions"/>
+
+</ruleset>

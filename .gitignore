@@ -1,0 +1,42 @@
+# ── Node / npm ────────────────────────────────────────────────────────────────
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnpm-debug.log*
+
+# ── Python tool caches ────────────────────────────────────────────────────────
+__pycache__/
+*.pyc
+*.pyo
+.mypy_cache/
+.ruff_cache/
+.pytest_cache/
+*.egg-info/
+dist/
+build/
+
+# ── Go ────────────────────────────────────────────────────────────────────────
+*.test
+vendor/
+
+# ── Shell / OS ────────────────────────────────────────────────────────────────
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+*~
+
+# ── Editor / IDE ──────────────────────────────────────────────────────────────
+.idea/
+.vscode/settings.json
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+
+# ── Migration backups (created by scripts/migrate.sh) ────────────────────────
+*.bak.*
+
+# ── Lint output from lint-and-report.sh ──────────────────────────────────────
+lint-output.txt
