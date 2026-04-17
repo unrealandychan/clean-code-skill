@@ -1,15 +1,25 @@
 {
-  "name": "clean-code-ddd-ai-skill-kit",
+  "name": "clean-code-skill-kit",
   "version": "1.0.0",
   "description": "Plug-and-play AI skill adapters, linting configs, and pre-commit hooks for Clean Code + DDD",
   "license": "MIT",
-  "private": true,
+  "bin": {
+    "clean-code-skill": "./bin/clean-code-skill.js"
+  },
+  "files": [
+    "bin/",
+    "scripts/",
+    "skills/",
+    "linting/",
+    "COMMIT-GUIDE.md",
+    "README.md"
+  ],
   "engines": {
     "node": ">=20"
   },
   "scripts": {
     "prepare": "husky",
-    "lint:md": "markdownlint-cli2 \"**/*.md\" \"!node_modules\"",
+    "lint:md": "markdownlint-cli2 \"**/*.md\" \"!node_modules\" \"!src\"",
     "lint:json": "prettier --check \"**/*.json\" \"**/*.jsonc\"",
     "lint:yaml": "prettier --check \"**/*.yml\" \"**/*.yaml\"",
     "lint": "npm run lint:md && npm run lint:json && npm run lint:yaml",

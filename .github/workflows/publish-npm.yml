@@ -1,0 +1,65 @@
+name: Publish to npm
+
+# Triggers:
+#   1. Automatically when a version tag is pushed (e.g. v1.0.0)
+#   2. Manually via workflow_dispatch for testing
+#
+# Prerequisites (one-time setup):
+#   1. Create an npm account and generate an Automation token (or Granular Access token).
+#   2. Add the token as a repository secret named NPM_TOKEN.
+#   3. If the package name is scoped (e.g. @org/clean-code-skill-kit), add
+#      --access public to the `npm publish` command below.
+on:
+  push:
+    tags:
+      - 'v[0-9]+.[0-9]+.[0-9]*'
+  workflow_dispatch:
+    inputs:
+      dry_run:
+        description: 'Dry run — pack without publishing'
+        required: false
+        default: false
+        type: boolean
+
+permissions:
+  contents: read
+
+jobs:
+  publish:
+    name: Pack & Publish
+    runs-on: ubuntu-latest
+
+    steps:
+      # ── 1. Checkout ──────────────────────────────────────────────────────────
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      # ── 2. Set up Node ────────────────────────────────────────────────────────
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          registry-url: 'https://registry.npmjs.org'
+          cache: 'npm'
+
+      # ── 3. Install dev dependencies (husky, markdownlint, etc.) ─────────────
+      - name: Install dependencies
+        run: npm ci --ignore-scripts
+
+      # ── 4. Verify the bin wrapper is executable ───────────────────────────────
+      - name: Make bin executable
+        run: chmod +x bin/clean-code-skill.js
+
+      # ── 5. Dry run: pack only ────────────────────────────────────────────────
+      - name: Pack (dry run)
+        if: ${{ inputs.dry_run == true }}
+        run: |
+          npm pack --dry-run
+          echo "Dry run complete — package not published."
+
+      # ── 6. Publish to npm ────────────────────────────────────────────────────
+      - name: Publish to npm
+        if: ${{ inputs.dry_run != true }}
+        run: npm publish --access public
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}

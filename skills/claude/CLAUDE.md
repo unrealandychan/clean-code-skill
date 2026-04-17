@@ -34,6 +34,22 @@ Steps:
 
 ---
 
+## Task Summary
+
+When asked to summarize a completed session or extract a reusable skill, apply the analyst role defined in @skills/shared/task-summary-prompt.md.
+
+Trigger: user says "summarize this session as a skill", "capture this task as a recipe", "make this reusable", "extract a skill from this session", "document what we just did", or "turn this into a prompt".
+
+Steps:
+1. Read the task description, step list, or session transcript the user provides.
+2. Identify the goal, approach, outcome, and any edge cases or surprises.
+3. Write the Task Summary (problem → approach → outcome → gotchas).
+4. Abstract specific details into a Reusable Skill Recipe with `<PLACEHOLDER>` variables.
+5. Output both parts in exactly the format defined in @skills/shared/task-summary-prompt.md.
+6. Save to `skills/extracted/<YYYY-MM-DD>-<kebab-title>.md` unless the user specifies a different path.
+
+---
+
 ## Commit Hygiene Enforcement
 
 Also apply all rules defined in @skills/shared/husky-rules.md.
