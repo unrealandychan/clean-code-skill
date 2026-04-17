@@ -80,6 +80,7 @@ When interacting with package.json, .husky/, commitlint.config.cjs, or any git c
 ## Task → Skill
 
 Full prompt: skills/shared/task-summary-prompt.md
+Note: In migrated projects, if `skills/shared/task-summary-prompt.md` is missing, manually copy it (and any required shared adapters it references) from the source repo into `skills/shared/` before using this workflow.
 
 When the user says "summarize this session as a skill", "capture this task as a recipe", "make this reusable", "extract a skill from this session", "document what we just did", or "turn this into a prompt":
 1. Read the task description, step list, or session transcript.
