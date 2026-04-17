@@ -1,0 +1,72 @@
+[build-system]
+requires = ["setuptools>=70", "wheel"]
+build-backend = "setuptools.backends.legacy:build"
+
+[project]
+name = "clean-code-skill-kit"
+version = "1.0.0"
+description = "Plug-and-play AI skill adapters, linting configs, and pre-commit hooks for Clean Code + DDD"
+readme = "README.md"
+license = { text = "MIT" }
+requires-python = ">=3.9"
+keywords = [
+  "clean-code",
+  "ddd",
+  "ai",
+  "copilot",
+  "claude",
+  "cursor",
+  "linting",
+  "code-review",
+]
+classifiers = [
+  "Development Status :: 5 - Production/Stable",
+  "Intended Audience :: Developers",
+  "License :: OSI Approved :: MIT License",
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3.9",
+  "Programming Language :: Python :: 3.10",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+  "Programming Language :: Python :: 3.13",
+  "Topic :: Software Development :: Quality Assurance",
+]
+
+[project.urls]
+Homepage = "https://github.com/unrealandychan/clean-code-skill"
+Repository = "https://github.com/unrealandychan/clean-code-skill"
+"Bug Tracker" = "https://github.com/unrealandychan/clean-code-skill/issues"
+
+[project.scripts]
+clean-code-skill = "clean_code_skill_kit.cli:main"
+
+# ── Package discovery ──────────────────────────────────────────────────────────
+[tool.setuptools]
+package-dir = { "" = "src" }
+packages = ["clean_code_skill_kit"]
+
+# Kit files (scripts/, skills/, linting/) live next to cli.py via symlinks.
+# setuptools follows symlinks when resolving package-data glob patterns.
+[tool.setuptools.package-data]
+"clean_code_skill_kit" = [
+  # Shell scripts
+  "scripts/*.sh",
+  # Skill adapters (shared rules, tool-specific files)
+  "skills/shared/*",
+  "skills/copilot/*",
+  "skills/claude/*",
+  "skills/cursor/.cursor/rules/*",
+  "skills/opencode/*",
+  "skills/windsurf/*",
+  "skills/generic/*",
+  "skills/extracted/*",
+  # Linting configs
+  "linting/python/*",
+  "linting/typescript/*",
+  "linting/go/*",
+  "linting/java/*",
+  "linting/csharp/*",
+  "linting/shared/*",
+  # Misc
+  "COMMIT-GUIDE.md",
+]

@@ -1,0 +1,109 @@
+name: Publish to PyPI
+
+# Triggers:
+#   1. Automatically when a version tag is pushed (v*)
+#   2. Manually via workflow_dispatch for testing
+#
+# Authentication — choose ONE of the two options below:
+#
+# Option A — Trusted Publishing (recommended, no token needed):
+#   1. Go to https://pypi.org/manage/account/publishing/
+#   2. Add a new "pending publisher":
+#        - Package name : clean-code-skill-kit
+#        - Owner        : unrealandychan
+#        - Repository   : clean-code-skill
+#        - Workflow     : publish-pypi.yml
+#        - Environment  : pypi
+#   3. Create an environment named "pypi" in this repository
+#      (Settings → Environments → New environment → name: pypi).
+#   This workflow will then use OIDC to authenticate — no secret required.
+#
+# Option B — API token:
+#   1. Generate a PyPI API token at https://pypi.org/manage/account/token/
+#   2. Add it as a repository secret named PYPI_TOKEN.
+#   3. Replace the pypa/gh-action-pypi-publish step below with:
+#        uses: pypa/gh-action-pypi-publish@release/v1
+#        with:
+#          password: ${{ secrets.PYPI_TOKEN }}
+#          skip-existing: true
+on:
+  push:
+    tags:
+      - 'v[0-9]*'
+  workflow_dispatch:
+    inputs:
+      dry_run:
+        description: 'Dry run — build without publishing'
+        required: false
+        default: false
+        type: boolean
+
+permissions:
+  contents: read
+  id-token: write # Required for OIDC trusted publishing (Option A)
+
+jobs:
+  build:
+    name: Build distribution
+    runs-on: ubuntu-latest
+
+    steps:
+      # ── 1. Checkout ──────────────────────────────────────────────────────────
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      # ── 2. Set up Python ─────────────────────────────────────────────────────
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      # ── 3. Install build tools ────────────────────────────────────────────────
+      - name: Install build tools
+        run: pip install build
+
+      # ── 4. Build wheel + sdist ────────────────────────────────────────────────
+      - name: Build
+        run: python -m build
+
+      # ── 5. Inspect what was packaged (always — good for debugging) ───────────
+      - name: Inspect wheel contents
+        run: |
+          pip install wheel
+          python -m zipfile -l dist/*.whl
+
+      # ── 6. Dry run: stop here ────────────────────────────────────────────────
+      - name: Dry run complete
+        if: ${{ inputs.dry_run == true }}
+        run: echo "Dry run complete — packages not published."
+
+      # ── 7. Upload artifact so the publish job can use it ─────────────────────
+      - name: Upload dist artifacts
+        if: ${{ inputs.dry_run != true }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: dist
+          path: dist/
+
+  publish:
+    name: Publish to PyPI
+    runs-on: ubuntu-latest
+    needs: build
+    if: ${{ inputs.dry_run != true }}
+    environment:
+      name: pypi
+      url: https://pypi.org/project/clean-code-skill-kit/
+
+    steps:
+      # ── 1. Download built artifacts ───────────────────────────────────────────
+      - name: Download dist artifacts
+        uses: actions/download-artifact@v4
+        with:
+          name: dist
+          path: dist/
+
+      # ── 2. Publish using OIDC trusted publishing ─────────────────────────────
+      - name: Publish to PyPI
+        uses: pypa/gh-action-pypi-publish@release/v1
+        with:
+          skip-existing: true

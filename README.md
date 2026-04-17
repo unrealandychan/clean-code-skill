@@ -96,9 +96,21 @@ To change a rule, update `shared/rules.md` and propagate to the adapters.
 │   ├── generate-release-notes.sh               ← call LLM to generate a RELEASE-NOTES entry
 │   └── migrate.sh                              ← interactive wizard to copy kit files into a project
 │
+├── bin/
+│   └── clean-code-skill.js                     ← npx entry point (calls migrate.sh)
+│
+├── src/
+│   └── clean_code_skill_kit/                   ← uvx / pip Python package
+│       ├── __init__.py
+│       └── cli.py                              ← Python entry point (calls migrate.sh)
+│
+├── pyproject.toml                              ← Python package metadata (for uvx / pip publish)
+│
 ├── .github/
 │   └── workflows/
-│       └── release-notes.yml                   ← auto-generate release notes on tag push
+│       ├── release-notes.yml                   ← auto-generate release notes on tag push
+│       ├── publish-npm.yml                     ← publish to npm on tag push
+│       └── publish-pypi.yml                    ← publish to PyPI on tag push
 │
 ├── linting/
 │   ├── python/
@@ -122,6 +134,32 @@ To change a rule, update `shared/rules.md` and propagate to the adapters.
 ├── LICENSE
 └── README.md
 ```
+
+---
+
+## Install (one-liner, no clone needed)
+
+If you don't want to clone the repo, run the migration wizard directly via npm or uv:
+
+```bash
+# via npm / npx  (requires Node ≥ 20)
+npx clean-code-skill-kit
+
+# via uv / uvx  (requires Python ≥ 3.9 and uv installed)
+uvx clean-code-skill-kit
+```
+
+Both commands download the kit, launch the interactive wizard, copy the files you choose into your project, and then exit — nothing is permanently installed in your global environment.
+
+Pass any flag the wizard accepts:
+
+```bash
+npx clean-code-skill-kit --tool copilot --lang typescript ../my-project --yes
+uvx clean-code-skill-kit --tool claude --lang python --dry-run .
+```
+
+> **Publishing the package yourself?**  
+> See `.github/workflows/publish-npm.yml` and `.github/workflows/publish-pypi.yml` for the automated release workflows and the one-time setup steps documented inside each file.
 
 ---
 
