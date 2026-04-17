@@ -101,6 +101,27 @@ Also invoke this agent when a developer pastes raw linting output (Ruff, ESLint,
 
 ---
 
+## Task → Skill
+
+Full prompt: `skills/shared/task-summary-prompt.md`
+
+Also invoke this agent when a developer says:
+- "summarize this session as a skill"
+- "capture this task as a recipe"
+- "make this reusable"
+- "extract a skill from this session"
+- "document what we just did"
+- "turn this into a prompt"
+
+1. Read the task description, step list, or session transcript the user provides.
+2. Identify goal, approach, outcome, and edge cases.
+3. Write the Task Summary (problem → approach → outcome → gotchas).
+4. Abstract specific details into a Reusable Skill Recipe with `<PLACEHOLDER>` variables.
+5. Return both parts as a single Markdown document in the format defined in `skills/shared/task-summary-prompt.md`.
+6. Save to `skills/extracted/<YYYY-MM-DD>-<kebab-title>.md` unless the user specifies a different path.
+
+---
+
 ## This agent vs. static analysis
 
 | Tool | Handles |

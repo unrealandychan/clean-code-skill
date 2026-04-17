@@ -76,3 +76,14 @@ When interacting with package.json, .husky/, commitlint.config.cjs, or any git c
 - Types: feat fix docs style refactor perf test chore revert release
 - Never suggest --no-verify — fix the root cause instead
 - Guide: COMMIT-GUIDE.md
+
+## Task → Skill
+
+Full prompt: skills/shared/task-summary-prompt.md
+
+When the user says "summarize this session as a skill", "capture this task as a recipe", "make this reusable", "extract a skill from this session", "document what we just did", or "turn this into a prompt":
+1. Read the task description, step list, or session transcript.
+2. Write a Task Summary (problem → approach → outcome → gotchas).
+3. Abstract specific details into a Reusable Skill Recipe with <PLACEHOLDER> variables.
+4. Return both parts as a single Markdown document in the format defined in skills/shared/task-summary-prompt.md.
+5. Save to skills/extracted/<YYYY-MM-DD>-<kebab-title>.md unless the user specifies a different path.

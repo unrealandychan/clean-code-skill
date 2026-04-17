@@ -27,17 +27,20 @@ skills/
     rules.md                          ← canonical rules (edit here first)
     lint-report-prompt.md             ← canonical lint-report prompt (edit here first)
     release-notes-prompt.md           ← canonical release notes prompt (edit here first)
+    task-summary-prompt.md            ← canonical task-summary & skill-extraction prompt (edit here first)
     husky-rules.md                    ← canonical commit hygiene rules
   copilot/
     _rules.instructions.md            ← shared rules in Copilot format
     clean-code-review.instructions.md ← Copilot code review adapter
     lint-report.instructions.md       ← Copilot lint report adapter
+    task-summary.instructions.md      ← Copilot task-summary adapter
     husky-enforcement.instructions.md ← Copilot commit hygiene adapter
   claude/
     CLAUDE.md                         ← thin adapter; imports @skills/shared/*.md
   cursor/
     .cursor/rules/
       clean-code-review.mdc           ← self-contained adapter with frontmatter globs
+      task-summary.mdc                ← task-summary adapter with frontmatter globs
   opencode/
     AGENTS.md                         ← self-contained adapter
   windsurf/
@@ -45,11 +48,13 @@ skills/
   generic/
     system-prompt.txt                 ← raw code review prompt for any AI tool or API
     lint-report-system-prompt.txt     ← raw lint report prompt for any AI tool or API
+    task-summary-system-prompt.txt    ← raw task-summary prompt for any AI tool or API
 ```
 
 Each tool adapter is a **thin wrapper**: persona declaration + compact rule table + output format.  
 The full annotated rules live in `skills/shared/rules.md`.  
 The lint report prompt lives in `skills/shared/lint-report-prompt.md`.  
+The task summary prompt lives in `skills/shared/task-summary-prompt.md`.  
 To change a rule, update `shared/rules.md` and propagate to the adapters.
 
 ---
@@ -63,24 +68,28 @@ To change a rule, update `shared/rules.md` and propagate to the adapters.
 │   │   ├── rules.md                            ← single source of truth for all rules
 │   │   ├── lint-report-prompt.md               ← canonical prompt: lint output → AI report
 │   │   ├── release-notes-prompt.md             ← canonical prompt: commits → release notes entry
+│   │   ├── task-summary-prompt.md              ← canonical prompt: session → task summary + skill recipe
 │   │   └── husky-rules.md                      ← canonical commit hygiene rules
 │   ├── copilot/
 │   │   ├── _rules.instructions.md              ← shared rules (Copilot picks up both files)
 │   │   ├── clean-code-review.instructions.md   ← persona adapter
 │   │   ├── lint-report.instructions.md         ← lint report adapter
+│   │   ├── task-summary.instructions.md        ← task-summary & skill-extraction adapter
 │   │   └── husky-enforcement.instructions.md   ← commit hygiene adapter
 │   ├── claude/
 │   │   └── CLAUDE.md                           ← thin adapter (@file imports)
 │   ├── cursor/
 │   │   └── .cursor/rules/
-│   │       └── clean-code-review.mdc           ← self-contained adapter
+│   │       ├── clean-code-review.mdc           ← self-contained adapter
+│   │       └── task-summary.mdc                ← task-summary & skill-extraction adapter
 │   ├── opencode/
 │   │   └── AGENTS.md                           ← self-contained adapter
 │   ├── windsurf/
 │   │   └── .windsurfrules                      ← self-contained adapter
 │   └── generic/
 │       ├── system-prompt.txt                   ← raw code review prompt for any tool or API
-│       └── lint-report-system-prompt.txt       ← raw lint report prompt for any tool or API
+│       ├── lint-report-system-prompt.txt       ← raw lint report prompt for any tool or API
+│       └── task-summary-system-prompt.txt      ← raw task-summary prompt for any tool or API
 │
 ├── scripts/
 │   ├── lint-and-report.sh                      ← run linting + print LLM feed instructions
@@ -396,6 +405,92 @@ Severity: **high** = fix before merge · **medium** = fix this sprint · **low**
 | **AI skill (code review)** | Readability, naming clarity, responsibility boundaries, DDD alignment, refactor suggestions |
 | **AI skill (lint report)** | Translates raw linter output into plain English, groups by severity, maps to Clean Code rules, produces a prioritised action plan |
 | **AI skill (release notes)** | Reads conventional commits since last tag, generates a Keep a Changelog entry, opens a PR for human review |
+| **AI skill (task summary)** | After any AI session, produces a plain-English recap and a reusable fill-in-the-blanks prompt recipe |
+
+---
+
+## Task → Skill Summarizer
+
+After an AI coding session finishes a task, trigger this skill to capture **what was done** and produce a **reusable prompt recipe** your team can use to repeat the same type of work on any project — without rediscovering the process.
+
+### Trigger phrases
+
+Say any of the following to your AI tool after completing a task:
+
+- `"summarize this session as a skill"`
+- `"capture this task as a recipe"`
+- `"make this reusable"`
+- `"extract a skill from this session"`
+- `"document what we just did"`
+- `"turn this into a prompt"`
+
+### What you get
+
+The skill always produces **two sections** in a single Markdown document:
+
+**1 — Task Summary** (≤ 1 page)
+
+| Field | Content |
+|---|---|
+| **Problem** | One sentence: what was broken, missing, or needed |
+| **Approach** | 3–5 bullets — key decisions and the reasoning behind them |
+| **Outcome** | What was delivered, specific and measurable |
+| **Gotchas / Lessons** | Edge cases hit or surprises worth noting (omitted if none) |
+
+**2 — Reusable Skill Recipe**
+
+A self-contained, fill-in-the-blanks prompt template. Every project-specific name is replaced with a `<PLACEHOLDER>` variable so anyone on any project can use it immediately.
+
+```
+## Reusable Skill Recipe: <TITLE>
+
+> Copy this prompt into your AI tool to repeat this process on any similar project.
+
+### Context
+You are working on a project where: <DESCRIBE_PROJECT>
+
+### Task
+<DESCRIBE_TASK>
+
+### Steps
+1. …
+
+### Output
+<What the AI should produce>
+
+### Guardrails
+- …
+```
+
+### Setup
+
+**Claude Code**
+
+```bash
+cp skills/claude/CLAUDE.md .
+cp -r skills/shared .
+```
+
+**GitHub Copilot**
+
+```bash
+cp skills/copilot/task-summary.instructions.md .github/
+```
+
+**Any other tool (ChatGPT, API, custom agent)**
+
+Copy the content of `skills/generic/task-summary-system-prompt.txt` into the **system prompt** field of your AI tool.
+
+### Output location
+
+Saved to `skills/extracted/<YYYY-MM-DD>-<kebab-title>.md` by default.  
+Pass a custom path in your trigger message to override, e.g. `"summarize this session as a skill and save to docs/recipes/add-adapter.md"`.
+
+### Customising the prompt
+
+The prompt that defines the output format and guardrails lives in [skills/shared/task-summary-prompt.md](skills/shared/task-summary-prompt.md).  
+Edit it to change the recipe structure, writing style, or placeholder naming convention.  
+All tool adapters reference this file — no other files need updating.
 
 ---
 
@@ -473,6 +568,7 @@ The workflow and the local script both read this file at runtime — no other fi
 | AI output format or persona | Tool adapter in `skills/<tool>/` |
 | Lint report format or severity mapping | `skills/shared/lint-report-prompt.md` → propagate to tool adapters |
 | Release notes writing style or sections | `skills/shared/release-notes-prompt.md` |
+| Task summary structure or recipe format | `skills/shared/task-summary-prompt.md` → propagate to tool adapters |
 | Python linting | `linting/python/pyproject.toml` |
 | TypeScript rules or DDD import boundaries | `linting/typescript/.eslintrc.json` |
 | Go lint rules | `linting/go/.golangci.yml` |
