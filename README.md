@@ -19,6 +19,18 @@ A single set of Clean Code + DDD rules, expressed in every format your AI tools 
 
 ---
 
+## The Problem
+
+AI coding assistants are powerful — but left unchecked, they exhibit consistent failure modes observed by practitioners including Andrej Karpathy:
+
+- **Wrong assumptions, run with silently.** Models pick an interpretation and implement it without flagging ambiguity or asking for clarification.
+- **Overengineered output.** They overcomplicate code, bloat abstractions, and don't clean up the dead code they leave behind.
+- **Unintended side effects.** They sometimes change or remove code they don't sufficiently understand, breaking behaviour that wasn't part of the task.
+
+This skill kit exists to catch exactly these failure modes — before they reach a pull request.
+
+---
+
 ## How the Rules Are Organized
 
 ```
