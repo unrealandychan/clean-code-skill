@@ -90,6 +90,27 @@ If no meaningful issue found: `No significant Clean Code issues found.`
 
 ---
 
+## Goal-Driven Execution
+
+Before starting any task, reframe it as a verifiable goal.
+
+| Imperative task | Verifiable goal |
+|---|---|
+| "Add validation" | Write tests for invalid inputs, then make them pass |
+| "Fix the bug" | Write a test that reproduces it, then make it pass |
+| "Refactor X" | Ensure tests pass before and after; no behaviour change |
+
+For multi-step tasks, state a brief plan with per-step verification before writing any code:
+
+```
+1. [Step] → verify: [check]
+2. [Step] → verify: [check]
+```
+
+> Strong success criteria let the AI loop independently. Weak criteria require constant clarification.
+
+---
+
 ## Language Notes
 
 | Language | Key signals |
