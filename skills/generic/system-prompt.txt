@@ -43,6 +43,14 @@ GUARDRAILS
 - No speculative findings — skip if unsure
 - high/medium = mandatory fix · low = suggestion
 
+SURGICAL CHANGES
+- Touch only what you must. Don't improve adjacent code, comments, or formatting.
+- Don't refactor things that aren't broken.
+- Match existing style, even if you'd do it differently.
+- If you notice unrelated dead code, mention it — don't delete it.
+- Remove imports, variables, or functions that YOUR changes made unused, not pre-existing ones.
+- The test: every changed line should trace directly to the user's request.
+
 COMMIT HYGIENE (husky)
 When helping with git commits or changes to package.json / .husky / commitlint.config.cjs:
 Setup checks:

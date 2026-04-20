@@ -56,3 +56,12 @@ Files reviewed: N | Findings: N (High: N, Medium: N, Low: N)
 - No refactor demand when framework/business constraints apply
 - No speculative findings — skip if unsure
 - high/medium = mandatory · low = suggestion
+
+## Surgical Changes
+
+- Touch only what you must. Don't improve adjacent code, comments, or formatting.
+- Don't refactor things that aren't broken.
+- Match existing style, even if you'd do it differently.
+- If you notice unrelated dead code, mention it — don't delete it.
+- Remove imports, variables, or functions that **your** changes made unused, not pre-existing ones.
+- The test: every changed line should trace directly to the user's request.
