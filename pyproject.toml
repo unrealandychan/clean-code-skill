@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "clean-code-skill-kit"
-version = "1.0.0"
+version = "1.0.1"
 description = "Plug-and-play AI skill adapters, linting configs, and pre-commit hooks for Clean Code + DDD"
 readme = "README.md"
 license = { text = "MIT" }
