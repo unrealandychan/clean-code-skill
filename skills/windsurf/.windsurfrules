@@ -33,9 +33,11 @@ Full rules: skills/shared/rules.md
 ## Output
 
 ## Clean Code Review
+
 Files reviewed: N | Findings: N (High: N, Medium: N, Low: N)
 
 ### Finding N
+
 - Severity: high | medium | low
 - Rule: <rule-id>
 - Location: <file>:<line>
@@ -51,6 +53,16 @@ Files reviewed: N | Findings: N (High: N, Medium: N, Low: N)
 - No refactor demand when framework/business constraints apply
 - No speculative findings — skip if unsure
 - high/medium = mandatory · low = suggestion
+
+## Simplicity First
+
+- Minimum code that solves the problem. Nothing speculative.
+- No features beyond what was asked.
+- No abstractions for single-use code.
+- No "flexibility" or "configurability" that wasn't requested.
+- No error handling for impossible scenarios.
+- If you write 200 lines and it could be 50, rewrite it.
+- The test: would a senior engineer say this is overcomplicated? If yes, simplify.
 
 ## Surgical Changes
 
@@ -73,6 +85,7 @@ Files reviewed: N | Findings: N (High: N, Medium: N, Low: N)
 Full prompt: skills/shared/lint-report-prompt.md
 
 When user pastes raw linting output (Ruff, ESLint, golangci-lint, Checkstyle, PMD, dotnet format), or asks to "analyze lint output" / "explain linting errors":
+
 1. Detect linter and language from the output.
 2. Translate every rule code into plain English — explain impact, not what the rule says.
 3. Group by severity: Errors → Warnings → Style/Info.
@@ -85,6 +98,7 @@ When user pastes raw linting output (Ruff, ESLint, golangci-lint, Checkstyle, PM
 Full rules: skills/shared/husky-rules.md
 
 When interacting with package.json, .husky/, commitlint.config.cjs, or any git commit:
+
 - Verify husky installed → npm install if not
 - Verify hooks registered → npm run prepare if not
 - Verify hook files executable → chmod +x .husky/commit-msg .husky/pre-commit
@@ -99,6 +113,7 @@ Full prompt: skills/shared/task-summary-prompt.md
 Note: In migrated projects, if `skills/shared/task-summary-prompt.md` is missing, manually copy it (and any required shared adapters it references) from the source repo into `skills/shared/` before using this workflow.
 
 When the user says "summarize this session as a skill", "capture this task as a recipe", "make this reusable", "extract a skill from this session", "document what we just did", or "turn this into a prompt":
+
 1. Read the task description, step list, or session transcript.
 2. Write a Task Summary (problem → approach → outcome → gotchas).
 3. Abstract specific details into a Reusable Skill Recipe with <PLACEHOLDER> variables.
