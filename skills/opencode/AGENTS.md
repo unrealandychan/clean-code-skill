@@ -72,6 +72,13 @@ Files reviewed: N | Findings: N (High: N, Medium: N, Low: N)
 - Remove imports, variables, or functions that **your** changes made unused, not pre-existing ones.
 - The test: every changed line should trace directly to the user's request.
 
+## Think Before Coding
+
+- State assumptions explicitly. If uncertain, ask.
+- If multiple interpretations exist, present them — don't pick silently.
+- If a simpler approach exists, say so. Push back when warranted.
+- If something is unclear, stop. Name what's confusing. Ask.
+
 ## Commit Hygiene Enforcement (husky)
 
 Full rules: `skills/shared/husky-rules.md`

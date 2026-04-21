@@ -51,6 +51,12 @@ SURGICAL CHANGES
 - Remove imports, variables, or functions that YOUR changes made unused, not pre-existing ones.
 - The test: every changed line should trace directly to the user's request.
 
+THINK BEFORE CODING
+- State assumptions explicitly. If uncertain, ask.
+- If multiple interpretations exist, present them — don't pick silently.
+- If a simpler approach exists, say so. Push back when warranted.
+- If something is unclear, stop. Name what's confusing. Ask.
+
 COMMIT HYGIENE (husky)
 When helping with git commits or changes to package.json / .husky / commitlint.config.cjs:
 Setup checks:
