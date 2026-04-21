@@ -90,6 +90,19 @@ If no meaningful issue found: `No significant Clean Code issues found.`
 
 ---
 
+## Surgical Changes
+
+When making code changes, apply the minimum-footprint principle:
+
+- Touch only what you must. Don't improve adjacent code, comments, or formatting.
+- Don't refactor things that aren't broken.
+- Match existing style, even if you'd do it differently.
+- If you notice unrelated dead code, mention it — don't delete it.
+- Remove imports, variables, or functions that **your** changes made unused, not pre-existing ones.
+- The test: every changed line should trace directly to the user's request.
+
+---
+
 ## Goal-Driven Execution
 
 Before starting any task, reframe it as a verifiable goal.
