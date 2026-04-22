@@ -1,3 +1,16 @@
+<div align="center">
+
+<img src="https://capsule-render.vercel.app/api?type=waving&color=gradient&customColorList=6,11,20&height=160&section=header&text=clean--code--skill&fontSize=38&fontColor=ffffff&fontAlignY=38&desc=Clean+Code+%26+DDD+skill+template+for+AI+coding+agents&descAlignY=58&descSize=14" alt="Header"/>
+
+[![Stars](https://img.shields.io/github/stars/unrealandychan/clean-code-skill?style=for-the-badge&logo=github&color=f78166&logoColor=white&labelColor=0d1117)](https://github.com/unrealandychan/clean-code-skill/stargazers)
+[![Forks](https://img.shields.io/github/forks/unrealandychan/clean-code-skill?style=for-the-badge&logo=github&color=79c0ff&logoColor=white&labelColor=0d1117)](https://github.com/unrealandychan/clean-code-skill/network/members)
+[![Language](https://img.shields.io/badge/Shell-4EAA25?logo=gnubash&style=for-the-badge&logoColor=white&labelColor=0d1117)](https://github.com/unrealandychan/clean-code-skill)
+[![DDD](https://img.shields.io/badge/Domain_Driven_Design-DDD-9cf?style=for-the-badge&logoColor=white&labelColor=0d1117)](https://github.com/unrealandychan/clean-code-skill)
+
+</div>
+
+---
+
 # Clean Code + DDD AI Skill Kit
 
 > Plug-and-play AI review skills, linting configs, and pre-commit hooks for Clean Code and Domain-Driven Design (DDD).  
@@ -592,13 +605,13 @@ GitHub UI → Actions → "Generate Release Notes" → Run workflow
 
 ```bash
 # Dry run — preview without modifying RELEASE-NOTES.md
-ANTHROPIC_API_KEY=sk-ant-... ./scripts/generate-release-notes.sh --dry-run
+ANTHROPIC_API_KEY=*** ./scripts/generate-release-notes.sh --dry-run
 
 # Write the entry for the latest tag
-ANTHROPIC_API_KEY=sk-ant-... ./scripts/generate-release-notes.sh
+ANTHROPIC_API_KEY=*** ./scripts/generate-release-notes.sh
 
 # Specific version, GitHub Models backend (uses GITHUB_TOKEN)
-GITHUB_TOKEN=ghp_... ./scripts/generate-release-notes.sh \
+GITHUB_TOKEN=*** ./scripts/generate-release-notes.sh \
   --version 0.5.0 --llm github-models
 ```
 
