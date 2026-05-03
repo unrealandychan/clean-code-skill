@@ -88,6 +88,15 @@ When the user pastes raw linting output (Ruff, ESLint, golangci-lint, Checkstyle
 5. Deduplicate — for rules that fire 10+ times, list only 3 worst offenders.
 6. Return the structured report defined in `skills/shared/lint-report-prompt.md`.
 
+## Harness Engineering
+
+Full rules: `skills/shared/harness-rules.md`
+
+When the user asks about tests, logging, deployment safety:
+- **Test quality / testability** → apply Testability Rules + `skills/shared/test-review-prompt.md`
+- **Observability / logging / metrics** → apply Observability Rules + `skills/shared/observability-report-prompt.md`
+- **Feature flags / canary / circuit breakers** → apply Progressive Delivery Rules; reference `pipelines/` templates
+
 ## Commit Hygiene (husky)
 
 Full rules: `skills/shared/husky-rules.md`

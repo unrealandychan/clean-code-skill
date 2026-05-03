@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# migrate.sh — Copy Clean Code + DDD skill files into a target project.
+# migrate.sh — Copy Clean Code + DDD + Harness Engineering skill files into a target project.
 #
 # Run with no arguments for interactive mode (asks questions before touching anything).
 # Pass flags to skip the questionnaire — useful for CI and scripting.
@@ -15,6 +15,7 @@
 #   --lang       python | typescript | go | java | csharp | all
 #   --no-lint    Skip linting configs
 #   --no-hooks   Skip pre-commit hook config
+#   --harness    Copy Harness Engineering skill files (testability, observability, pipelines)
 #   --dry-run    Print what would be copied without touching the filesystem
 #   --yes        Skip confirmation prompt (non-interactive)
 #   --help       Show this help
@@ -28,6 +29,9 @@
 #
 #   # Claude + Python, dry-run first
 #   ./scripts/migrate.sh --tool claude --lang python --dry-run ../my-project
+#
+#   # Full install including Harness Engineering rules + pipeline templates
+#   ./scripts/migrate.sh --harness --yes
 #
 #   # Monorepo: just skills, no linting
 #   ./scripts/migrate.sh --no-lint --no-hooks ../my-monorepo --yes
@@ -46,15 +50,17 @@ DRY_RUN=false
 YES=false
 TARGET_DIR=""
 INTERACTIVE=false   # set to true when questionnaire runs
+COPY_HARNESS=""     # harness engineering files
 
 # ── Argument parsing ──────────────────────────────────────────────────────────
 while [[ $# -gt 0 ]]; do
   case "$1" in
     --tool)     TOOL="$2";       shift 2 ;;
     --lang)     LANG="$2";       shift 2 ;;
-    --no-lint)  SKIP_LINT=true;  shift ;;
-    --no-hooks) SKIP_HOOKS=true; shift ;;
-    --dry-run)  DRY_RUN=true;    shift ;;
+    --no-lint)  SKIP_LINT=true;     shift ;;
+    --no-hooks) SKIP_HOOKS=true;    shift ;;
+    --harness)  COPY_HARNESS=true;  shift ;;
+    --dry-run)  DRY_RUN=true;       shift ;;
     --yes|-y)   YES=true;        shift ;;
     --help)
       sed -n '2,31p' "${BASH_SOURCE[0]}" | sed 's/^# \{0,1\}//'
@@ -74,11 +80,12 @@ done
 # ── Interactive wizard (runs when no flags were passed) ───────────────────────
 # Detect whether we need to ask questions: any of the key choices is still unset.
 _needs_wizard=false
-[[ -z "$TOOL" ]]       && _needs_wizard=true
-[[ -z "$LANG" ]]       && _needs_wizard=true
-[[ -z "$SKIP_LINT" ]]  && _needs_wizard=true
-[[ -z "$SKIP_HOOKS" ]] && _needs_wizard=true
-[[ -z "$TARGET_DIR" ]] && _needs_wizard=true
+[[ -z "$TOOL" ]]         && _needs_wizard=true
+[[ -z "$LANG" ]]         && _needs_wizard=true
+[[ -z "$SKIP_LINT" ]]    && _needs_wizard=true
+[[ -z "$SKIP_HOOKS" ]]   && _needs_wizard=true
+[[ -z "$COPY_HARNESS" ]] && _needs_wizard=true
+[[ -z "$TARGET_DIR" ]]   && _needs_wizard=true
 
 if [[ "$_needs_wizard" == true ]] && [[ "$YES" == false ]] && [[ -t 0 ]]; then
   INTERACTIVE=true
@@ -185,10 +192,23 @@ if [[ "$_needs_wizard" == true ]] && [[ "$YES" == false ]] && [[ -t 0 ]]; then
     esac
   fi
 
+  # ── Harness Engineering ──────────────────────────────────────────────────────
+  if [[ -z "$COPY_HARNESS" ]]; then
+    echo ""
+    echo "6. Copy Harness Engineering files (testability + observability rules, pipeline templates)?"
+    echo "   Includes: skills/shared/harness-rules.md, test-review-prompt.md,"
+    echo "             observability-report-prompt.md, skills/harness/, pipelines/"
+    read -r -p "   [y]: " _input
+    case "${_input:-y}" in
+      [nN]*) COPY_HARNESS=false ;;
+      *)     COPY_HARNESS=true ;;
+    esac
+  fi
+
   # ── Dry-run ──────────────────────────────────────────────────────────────────
   if [[ "$DRY_RUN" == false ]]; then
     echo ""
-    echo "6. Do a dry run first (preview what would be copied without writing files)?"
+    echo "7. Do a dry run first (preview what would be copied without writing files)?"
     read -r -p "   [y]: " _input
     case "${_input:-y}" in
       [nN]*) DRY_RUN=false ;;
@@ -200,11 +220,12 @@ if [[ "$_needs_wizard" == true ]] && [[ "$YES" == false ]] && [[ -t 0 ]]; then
 fi
 
 # Fill defaults for anything still unset after the wizard / flag parsing
-[[ -z "$TOOL" ]]       && TOOL="all"
-[[ -z "$LANG" ]]       && LANG="all"
-[[ -z "$SKIP_LINT" ]]  && SKIP_LINT=false
-[[ -z "$SKIP_HOOKS" ]] && SKIP_HOOKS=false
-[[ -z "$TARGET_DIR" ]] && TARGET_DIR="$PWD"
+[[ -z "$TOOL" ]]         && TOOL="all"
+[[ -z "$LANG" ]]         && LANG="all"
+[[ -z "$SKIP_LINT" ]]    && SKIP_LINT=false
+[[ -z "$SKIP_HOOKS" ]]   && SKIP_HOOKS=false
+[[ -z "$COPY_HARNESS" ]] && COPY_HARNESS=false
+[[ -z "$TARGET_DIR" ]]   && TARGET_DIR="$PWD"
 
 # ── Resolve target path ───────────────────────────────────────────────────────
 TARGET_DIR="${TARGET_DIR:-$PWD}"
@@ -279,6 +300,7 @@ echo "  Tool(s) : $TOOL"
 echo "  Lang(s) : $([ "$SKIP_LINT" == true ] && echo "— (linting skipped)" || echo "$LANG")"
 echo "  Linting : $([ "$SKIP_LINT" == true ] && echo skip || echo yes)"
 echo "  Hooks   : $([ "$SKIP_HOOKS" == true ] && echo skip || echo yes)"
+echo "  Harness : $([ "$COPY_HARNESS" == true ] && echo yes || echo skip)"
 [[ "$DRY_RUN" == true ]] && echo "  Mode    : DRY RUN — no files will be written"
 echo ""
 
@@ -300,9 +322,12 @@ section "AI Skills"
 
 copy_shared_skills() {
   # shared rules are needed by most adapters
-  copy_file "$KIT_ROOT/skills/shared/rules.md"              "$TARGET_DIR/skills/shared/rules.md"
-  copy_file "$KIT_ROOT/skills/shared/lint-report-prompt.md" "$TARGET_DIR/skills/shared/lint-report-prompt.md"
-  copy_file "$KIT_ROOT/skills/shared/husky-rules.md"        "$TARGET_DIR/skills/shared/husky-rules.md"
+  copy_file "$KIT_ROOT/skills/shared/rules.md"                       "$TARGET_DIR/skills/shared/rules.md"
+  copy_file "$KIT_ROOT/skills/shared/lint-report-prompt.md"          "$TARGET_DIR/skills/shared/lint-report-prompt.md"
+  copy_file "$KIT_ROOT/skills/shared/husky-rules.md"                 "$TARGET_DIR/skills/shared/husky-rules.md"
+  copy_file "$KIT_ROOT/skills/shared/harness-rules.md"               "$TARGET_DIR/skills/shared/harness-rules.md"
+  copy_file "$KIT_ROOT/skills/shared/test-review-prompt.md"          "$TARGET_DIR/skills/shared/test-review-prompt.md"
+  copy_file "$KIT_ROOT/skills/shared/observability-report-prompt.md" "$TARGET_DIR/skills/shared/observability-report-prompt.md"
 }
 
 install_tool() {
@@ -417,6 +442,17 @@ if [[ "$SKIP_HOOKS" == false ]]; then
   echo "  NOTE  Activate: pip install pre-commit && pre-commit install"
 fi
 
+# ── Harness Engineering files ─────────────────────────────────────────────────
+if [[ "$COPY_HARNESS" == true ]]; then
+  section "Harness Engineering"
+  copy_file "$KIT_ROOT/skills/shared/harness-rules.md"               "$TARGET_DIR/skills/shared/harness-rules.md"
+  copy_file "$KIT_ROOT/skills/shared/test-review-prompt.md"          "$TARGET_DIR/skills/shared/test-review-prompt.md"
+  copy_file "$KIT_ROOT/skills/shared/observability-report-prompt.md" "$TARGET_DIR/skills/shared/observability-report-prompt.md"
+  copy_dir  "$KIT_ROOT/skills/harness"                                "$TARGET_DIR/skills/harness"
+  copy_dir  "$KIT_ROOT/pipelines"                                     "$TARGET_DIR/pipelines"
+  echo "  NOTE  Edit pipelines/*.yaml — replace <CONNECTOR_ID>, <SERVICE_ID>, <ENV_ID> placeholders."
+fi
+
 # ── lint-and-report script ────────────────────────────────────────────────────
 section "Lint → AI report script"
 mkdir -p "$TARGET_DIR/scripts"
@@ -444,4 +480,5 @@ echo " Next steps:"
 echo "   1. Run your linter:   ./scripts/lint-and-report.sh"
 echo "   2. Feed output to AI: see instructions printed by the script above"
 echo "   3. Commit:            git add . && git commit -m 'chore: add clean-code skill kit'"
+echo "   4. Review harness:   reki ask \"Is this code production-ready?\" (if rekipedia installed)"
 echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"

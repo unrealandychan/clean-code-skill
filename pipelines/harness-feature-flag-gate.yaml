@@ -1,0 +1,145 @@
+# Harness Feature Flag Gate Pipeline Template
+# Pauses deployment until a feature flag is enabled in the target environment.
+# Enables zero-risk dark launch: ship code to production, enable flag when ready.
+#
+# Usage:
+#   1. Import in Harness Project → Pipelines → Import
+#   2. Replace placeholders: <CONNECTOR_ID>, <SERVICE_ID>, <ENV_ID>, <FF_PROJECT_ID>
+#   3. Set variable FF_IDENTIFIER to your feature flag name (e.g. "new_checkout_flow")
+#
+# Flow:
+#   Deploy (dark) → Wait for FF gate → Verify metrics → Full rollout
+#   If metrics fail → auto-rollback + disable flag
+
+pipeline:
+  name: CD — Feature Flag Gated Rollout
+  identifier: cd_ff_gated_rollout
+  projectIdentifier: <YOUR_PROJECT>
+  orgIdentifier: default
+  tags:
+    harness-engineering: "true"
+    deployment-strategy: feature-flag-gate
+
+  stages:
+    - stage:
+        name: Dark Deploy (flag OFF)
+        identifier: dark_deploy
+        type: Deployment
+        spec:
+          serviceConfig:
+            serviceRef: <SERVICE_ID>
+            serviceDefinition:
+              type: Kubernetes
+              spec:
+                artifacts:
+                  primary:
+                    spec:
+                      connectorRef: <CONNECTOR_ID>
+                      imagePath: <+pipeline.variables.IMAGE_NAME>
+                      tag: <+pipeline.variables.IMAGE_TAG>
+                    type: DockerRegistry
+
+          infrastructure:
+            environmentRef: <ENV_ID>
+            infrastructureDefinition:
+              type: KubernetesDirect
+              spec:
+                connectorRef: <CONNECTOR_ID>
+                namespace: production
+                releaseName: release-<+INFRA_KEY>
+
+          execution:
+            steps:
+              - step:
+                  name: Rolling Deploy (dark)
+                  identifier: dark_rolling
+                  type: K8sRollingDeploy
+                  spec:
+                    skipDryRun: false
+
+    - stage:
+        name: Feature Flag Gate
+        identifier: ff_gate
+        type: FeatureFlag
+        spec:
+          execution:
+            steps:
+              - step:
+                  name: Wait — Enable Flag to Proceed
+                  identifier: ff_wait
+                  type: FlagConfiguration
+                  spec:
+                    feature: <+pipeline.variables.FF_IDENTIFIER>
+                    instructions:
+                      - identifier: SetFeatureFlagStateYaml
+                        type: SetFeatureFlagState
+                        spec:
+                          state: on
+                  timeout: 7d  # pipeline parks here up to 7 days waiting for flag enable
+                  description: |
+                    Code is deployed but behind the feature flag.
+                    Enable the flag "<+pipeline.variables.FF_IDENTIFIER>" in the Harness FF console
+                    when you are ready to expose this feature to users.
+
+    - stage:
+        name: Verify & Promote
+        identifier: verify_promote
+        type: Deployment
+        spec:
+          serviceConfig:
+            useFromStage:
+              stage: dark_deploy
+          infrastructure:
+            useFromStage:
+              stage: dark_deploy
+
+          execution:
+            steps:
+              - step:
+                  name: Verify Post-Flag Enable
+                  identifier: verify_post_ff
+                  type: Verify
+                  spec:
+                    type: Rolling
+                    monitoredService:
+                      type: Default
+                    spec:
+                      sensitivity: HIGH
+                      duration: 10m
+                      deploymentTag: <+artifacts.primary.tag>
+                  failureStrategies:
+                    - onFailure:
+                        errors:
+                          - Verification
+                        action:
+                          type: StageRollback
+
+            rollbackSteps:
+              - step:
+                  name: Rollback Deployment
+                  identifier: rollback_deploy
+                  type: K8sRollingRollback
+                  spec: {}
+              - step:
+                  name: Disable Feature Flag
+                  identifier: disable_ff_on_rollback
+                  type: FlagConfiguration
+                  spec:
+                    feature: <+pipeline.variables.FF_IDENTIFIER>
+                    instructions:
+                      - identifier: DisableFlag
+                        type: SetFeatureFlagState
+                        spec:
+                          state: off
+
+  variables:
+    - name: IMAGE_NAME
+      type: String
+      value: <+input>
+    - name: IMAGE_TAG
+      type: String
+      value: <+input>
+    - name: FF_IDENTIFIER
+      type: String
+      value: <+input>
+      description: "Harness Feature Flag identifier to gate this rollout"

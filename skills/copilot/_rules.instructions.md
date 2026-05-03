@@ -33,6 +33,21 @@ No finding → reply: "No significant Clean Code issues found."
 | `missing-repository-abstraction` | medium   | Domain code calls ORM/SQL/HTTP directly                 |
 | `missing-domain-event`           | low      | State transition side effects via direct calls          |
 
+## Harness Engineering (apply when reviewing tests, logging, or deployment config)
+
+| Rule | Severity | Flag when |
+| ---- | -------- | --------- |
+| `missing-dependency-injection` | high | Hard-wired dependencies with no seam for test doubles |
+| `no-seam-for-testing` | high | External calls (HTTP, DB, clock, filesystem) not behind an abstraction |
+| `clock-dependency` | medium | `time.Now()` / `Date.now()` / `datetime.now()` called directly |
+| `silent-error-swallowing` | high | `except: pass`, `catch (e) {}`, `_ = err` — error discarded silently |
+| `missing-structured-logging` | high | `print()` / `console.log()` / `fmt.Println()` used for app events |
+| `no-correlation-id` | high | HTTP handler does not extract/propagate trace or correlation ID |
+| `config-hardcoded` | high | Env-specific URLs, ports, credentials as literals in source |
+| `missing-graceful-degradation` | medium | External call has no timeout, retry, or fallback |
+| `feature-flag-missing` | medium | New feature shipped directly with no flag to disable without redeploy |
+| `test-logic-in-production` | high | `if os.getenv("TEST")` or `NODE_ENV === "test"` in production paths |
+
 ## Output
 
 ```

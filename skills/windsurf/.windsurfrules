@@ -107,6 +107,18 @@ When interacting with package.json, .husky/, commitlint.config.cjs, or any git c
 - Never suggest --no-verify — fix the root cause instead
 - Guide: COMMIT-GUIDE.md
 
+## Harness Engineering
+
+Full rules: skills/shared/harness-rules.md
+
+Apply when the user asks about:
+- Test quality, testability, DI seams → Testability Rules + skills/shared/test-review-prompt.md
+- Logging, metrics, tracing, production readiness → Observability Rules + skills/shared/observability-report-prompt.md
+- Feature flags, circuit breakers, canary deploys, hardcoded config → Progressive Delivery Rules
+- Harness.io pipeline setup → pipelines/ templates
+
+---
+
 ## Task → Skill
 
 Full prompt: skills/shared/task-summary-prompt.md

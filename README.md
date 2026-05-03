@@ -1,29 +1,32 @@
 <div align="center">
 
-<img src="https://capsule-render.vercel.app/api?type=waving&color=gradient&customColorList=6,11,20&height=160&section=header&text=clean--code--skill&fontSize=38&fontColor=ffffff&fontAlignY=38&desc=Clean+Code+%26+DDD+skill+template+for+AI+coding+agents&descAlignY=58&descSize=14" alt="Header"/>
+<img src="https://capsule-render.vercel.app/api?type=waving&color=gradient&customColorList=6,11,20&height=160&section=header&text=clean--code--skill&fontSize=38&fontColor=ffffff&fontAlignY=38&desc=Clean+Code+%26+DDD+%26+Harness+Engineering+skill+template+for+AI+coding+agents&descAlignY=58&descSize=14" alt="Header"/>
 
 [![Stars](https://img.shields.io/github/stars/unrealandychan/clean-code-skill?style=for-the-badge&logo=github&color=f78166&logoColor=white&labelColor=0d1117)](https://github.com/unrealandychan/clean-code-skill/stargazers)
 [![Forks](https://img.shields.io/github/forks/unrealandychan/clean-code-skill?style=for-the-badge&logo=github&color=79c0ff&logoColor=white&labelColor=0d1117)](https://github.com/unrealandychan/clean-code-skill/network/members)
 [![Language](https://img.shields.io/badge/Shell-4EAA25?logo=gnubash&style=for-the-badge&logoColor=white&labelColor=0d1117)](https://github.com/unrealandychan/clean-code-skill)
 [![DDD](https://img.shields.io/badge/Domain_Driven_Design-DDD-9cf?style=for-the-badge&logoColor=white&labelColor=0d1117)](https://github.com/unrealandychan/clean-code-skill)
+[![Harness](https://img.shields.io/badge/Harness_Engineering-testability%20%7C%20observability%20%7C%20delivery-blueviolet?style=for-the-badge&logoColor=white&labelColor=0d1117)](https://github.com/unrealandychan/clean-code-skill)
 
 </div>
 
 ---
 
-# Clean Code + DDD AI Skill Kit
+# Clean Code + DDD + Harness Engineering AI Skill Kit
 
-> Plug-and-play AI review skills, linting configs, and pre-commit hooks for Clean Code and Domain-Driven Design (DDD).  
+> Plug-and-play AI review skills, linting configs, and pre-commit hooks for Clean Code, Domain-Driven Design (DDD), and Harness Engineering.  
 > Works with GitHub Copilot, Claude Code, Cursor, OpenCode, Windsurf, and any other AI assistant or API.
 
 ---
 
 ## What Is This?
 
-A single set of Clean Code + DDD rules, expressed in every format your AI tools and linters can consume:
+A single set of Clean Code + DDD + Harness Engineering rules, expressed in every format your AI tools and linters can consume:
 
 - **AI skill adapters** — one file per tool, drop into your project and start reviewing immediately
 - **Shared rule definitions** — one canonical source of truth; all adapters reference the same rules
+- **Harness Engineering rules** — testability, observability, and progressive delivery checks
+- **Harness.io pipeline templates** — canary deploy, feature flag gating, CI with DORA metrics
 - **Linter configurations** — per-language static analysis aligned to the same rule IDs
 - **Pre-commit hooks** — enforce rules before code reaches a pull request
 - **Shared EditorConfig** — universal formatting baseline for all editors
@@ -50,12 +53,15 @@ This skill kit exists to catch exactly these failure modes — before they reach
 skills/
   shared/
     rules.md                          ← canonical rules (edit here first)
-    lint-report-prompt.md             ← canonical lint-report prompt (edit here first)
-    release-notes-prompt.md           ← canonical release notes prompt (edit here first)
-    task-summary-prompt.md            ← canonical task-summary & skill-extraction prompt (edit here first)
+    lint-report-prompt.md             ← canonical lint-report prompt
+    release-notes-prompt.md           ← canonical release notes prompt
+    task-summary-prompt.md            ← canonical task-summary prompt
     husky-rules.md                    ← canonical commit hygiene rules
+    harness-rules.md                  ← NEW: testability + observability + progressive delivery rules
+    test-review-prompt.md             ← NEW: test quality analyst prompt
+    observability-report-prompt.md    ← NEW: observability analyst prompt
   copilot/
-    _rules.instructions.md            ← shared rules in Copilot format
+    _rules.instructions.md            ← shared rules (Clean Code + DDD + Harness) in Copilot format
     clean-code-review.instructions.md ← Copilot code review adapter
     lint-report.instructions.md       ← Copilot lint report adapter
     task-summary.instructions.md      ← Copilot task-summary adapter
@@ -71,9 +77,17 @@ skills/
   windsurf/
     .windsurfrules                    ← self-contained adapter
   generic/
-    system-prompt.txt                 ← raw code review prompt for any AI tool or API
-    lint-report-system-prompt.txt     ← raw lint report prompt for any AI tool or API
-    task-summary-system-prompt.txt    ← raw task-summary prompt for any AI tool or API
+    system-prompt.txt                 ← raw prompt for any AI tool or API
+    lint-report-system-prompt.txt     ← raw lint report prompt
+    task-summary-system-prompt.txt    ← raw task-summary prompt
+  harness/                            ← NEW: Harness Engineering adapters
+    testability.md                    ← testability review assistant
+    observability.md                  ← observability review assistant
+    progressive-delivery.md           ← feature flags + canary + circuit breakers
+pipelines/                            ← NEW: Harness.io pipeline templates
+  harness-ci.yaml                     ← CI: build + test + DORA metrics
+  harness-canary.yaml                 ← CD: canary deploy with auto-rollback
+  harness-feature-flag-gate.yaml      ← CD: feature flag gated rollout
 ```
 
 Each tool adapter is a **thin wrapper**: persona declaration + compact rule table + output format.  
@@ -94,7 +108,10 @@ To change a rule, update `shared/rules.md` and propagate to the adapters.
 │   │   ├── lint-report-prompt.md               ← canonical prompt: lint output → AI report
 │   │   ├── release-notes-prompt.md             ← canonical prompt: commits → release notes entry
 │   │   ├── task-summary-prompt.md              ← canonical prompt: session → task summary + skill recipe
-│   │   └── husky-rules.md                      ← canonical commit hygiene rules
+│   │   ├── husky-rules.md                      ← canonical commit hygiene rules
+│   │   ├── harness-rules.md                    ← NEW: testability + observability + delivery rules
+│   │   ├── test-review-prompt.md               ← NEW: test quality analyst prompt
+│   │   └── observability-report-prompt.md      ← NEW: observability analyst prompt
 │   ├── copilot/
 │   │   ├── _rules.instructions.md              ← shared rules (Copilot picks up both files)
 │   │   ├── clean-code-review.instructions.md   ← persona adapter
@@ -115,6 +132,16 @@ To change a rule, update `shared/rules.md` and propagate to the adapters.
 │       ├── system-prompt.txt                   ← raw code review prompt for any tool or API
 │       ├── lint-report-system-prompt.txt       ← raw lint report prompt for any tool or API
 │       └── task-summary-system-prompt.txt      ← raw task-summary prompt for any tool or API
+│
+├── skills/harness/                             ← NEW: Harness Engineering adapters
+│   ├── testability.md                          ← testability review assistant
+│   ├── observability.md                        ← observability review assistant
+│   └── progressive-delivery.md                ← feature flags + canary + circuit breakers
+│
+├── pipelines/                                  ← NEW: Harness.io pipeline templates
+│   ├── harness-ci.yaml                         ← CI with DORA metrics
+│   ├── harness-canary.yaml                     ← canary deploy with auto-rollback
+│   └── harness-feature-flag-gate.yaml          ← feature flag gated rollout
 │
 ├── scripts/
 │   ├── lint-and-report.sh                      ← run linting + print LLM feed instructions
@@ -448,10 +475,17 @@ See [skills/shared/lint-report-prompt.md](skills/shared/lint-report-prompt.md) f
 ## What the Skills Check
 
 See [skills/shared/rules.md](skills/shared/rules.md) for the full annotated rule set.
+See [skills/shared/harness-rules.md](skills/shared/harness-rules.md) for Harness Engineering rules.
 
 **Clean Code rules** — `meaningful-names`, `single-responsibility`, `minimize-duplication`, `avoid-deep-nesting`, `small-interfaces`, `named-constants`, `comment-why-not-what`, `clear-error-handling`
 
 **DDD rules** — `ubiquitous-language`, `bounded-context-violation`, `aggregate-integrity-bypass`, `value-object-mutability`, `domain-logic-in-adapters`, `missing-acl`, `missing-repository-abstraction`, `missing-domain-event`
+
+**Harness Engineering — Testability** — `missing-dependency-injection`, `no-seam-for-testing`, `clock-dependency`, `random-dependency`, `test-pyramid-violation`, `test-logic-in-production`, `assertion-roulette`
+
+**Harness Engineering — Observability** — `missing-structured-logging`, `no-correlation-id`, `missing-metrics-instrumentation`, `silent-error-swallowing`, `log-without-context`, `missing-health-endpoint`
+
+**Harness Engineering — Progressive Delivery** — `feature-flag-missing`, `config-hardcoded`, `missing-graceful-degradation`, `missing-circuit-breaker`, `deploy-coupled-to-release`
 
 Severity: **high** = fix before merge · **medium** = fix this sprint · **low** = suggestion
 
@@ -466,6 +500,9 @@ Severity: **high** = fix before merge · **medium** = fix this sprint · **low**
 | **Ruff / ESLint / golangci-lint / Checkstyle + PMD** | Style, naming, complexity, magic numbers, unused code, security |
 | **pre-commit** | Runs all of the above before every commit |
 | **AI skill (code review)** | Readability, naming clarity, responsibility boundaries, DDD alignment, refactor suggestions |
+| **AI skill (harness — testability)** | Missing DI seams, clock/random dependencies, test pyramid health, test-in-production code |
+| **AI skill (harness — observability)** | Structured logging gaps, missing correlation IDs, unmonitored critical paths, swallowed errors |
+| **AI skill (harness — delivery)** | Hardcoded config, missing feature flags, no circuit breaker, deploy-coupled releases |
 | **AI skill (lint report)** | Translates raw linter output into plain English, groups by severity, maps to Clean Code rules, produces a prioritised action plan |
 | **AI skill (release notes)** | Reads conventional commits since last tag, generates a Keep a Changelog entry, opens a PR for human review |
 | **AI skill (task summary)** | After any AI session, produces a plain-English recap and a reusable fill-in-the-blanks prompt recipe |

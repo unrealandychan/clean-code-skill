@@ -90,6 +90,16 @@ Files reviewed: N | Findings: N (High: N, Medium: N, Low: N)
 - If a simpler approach exists, say so. Push back when warranted.
 - If something is unclear, stop. Name what's confusing. Ask.
 
+## Harness Engineering
+
+Full rules: `skills/shared/harness-rules.md`
+
+Invoke this agent when the user asks about:
+- Test quality, testability, seams, or DI — apply Testability Rules + `skills/shared/test-review-prompt.md`
+- Logging, metrics, tracing, or production readiness — apply Observability Rules + `skills/shared/observability-report-prompt.md`
+- Feature flags, circuit breakers, canary deployments, or hardcoded config — apply Progressive Delivery Rules
+- Harness.io pipeline setup — reference `pipelines/` templates
+
 ## Commit Hygiene Enforcement (husky)
 
 Full rules: `skills/shared/husky-rules.md`

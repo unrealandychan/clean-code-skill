@@ -57,6 +57,18 @@ THINK BEFORE CODING
 - If a simpler approach exists, say so. Push back when warranted.
 - If something is unclear, stop. Name what's confusing. Ask.
 
+HARNESS ENGINEERING RULES
+missing-dependency-injection (high): Hard-wired deps with no seam for test doubles — new Service() inside production functions
+no-seam-for-testing (high): HTTP/DB/clock/filesystem called directly with no abstraction boundary
+clock-dependency (med): time.Now() / Date.now() / datetime.now() called directly — tests cannot control time
+silent-error-swallowing (high): except: pass / catch (e) {} / _ = err — error discarded silently
+missing-structured-logging (high): print() / console.log() / fmt.Println() used instead of structured logger
+no-correlation-id (high): HTTP handler does not extract or propagate trace/correlation ID
+config-hardcoded (high): Env-specific URLs, ports, thresholds, credentials as literals in source code
+missing-graceful-degradation (med): External call has no timeout, retry limit, or fallback path
+feature-flag-missing (med): New feature shipped on main path with no flag to disable without redeploy
+test-logic-in-production (high): os.getenv("TEST") or NODE_ENV === "test" branches in production code
+
 COMMIT HYGIENE (husky)
 When helping with git commits or changes to package.json / .husky / commitlint.config.cjs:
 Setup checks:

@@ -50,6 +50,40 @@ Steps:
 
 ---
 
+## Harness Engineering Review
+
+Apply all rules defined in @skills/shared/harness-rules.md.
+
+### Testability Review
+
+Trigger: user asks to "review test quality", "is this testable?", "why are tests slow/flaky?", or opens test files.
+
+Steps:
+1. Apply all Testability Rules from @skills/shared/harness-rules.md to production code.
+2. Apply test quality checks from @skills/shared/test-review-prompt.md to test files.
+3. Assess testing pyramid health (unit > integration > e2e ratio).
+4. Output in format defined in @skills/shared/test-review-prompt.md.
+
+### Observability Review
+
+Trigger: user asks to "review observability", "check logging", "is this production-ready?", or pastes code with `print()`/`console.log()`.
+
+Steps:
+1. Apply all Observability Rules from @skills/shared/harness-rules.md.
+2. Check logging (structured?), metrics (critical paths instrumented?), tracing (correlation ID propagated?).
+3. Output in format defined in @skills/shared/observability-report-prompt.md.
+
+### Progressive Delivery Review
+
+Trigger: user asks about feature flags, deployment safety, canary rollout, circuit breakers, or hardcoded config.
+
+Steps:
+1. Apply Progressive Delivery Rules from @skills/shared/harness-rules.md.
+2. Check for hardcoded env-specific values, missing timeouts/retries/fallbacks, missing feature flags.
+3. Reference pipeline templates in `pipelines/` for Harness.io deployments.
+
+---
+
 ## Commit Hygiene Enforcement
 
 Also apply all rules defined in @skills/shared/husky-rules.md.

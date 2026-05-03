@@ -5,6 +5,51 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ---
 
+## [1.1.0] — 2026-05-02
+
+### Feature: Harness Engineering — Testability, Observability & Progressive Delivery
+
+#### Added
+
+**Harness Engineering rules** — new canonical rule set in `skills/shared/harness-rules.md`:
+
+- **Testability Rules** (8 rules): `missing-dependency-injection`, `no-seam-for-testing`, `clock-dependency`, `random-dependency`, `test-pyramid-violation`, `missing-test-data-builder`, `assertion-roulette`, `test-logic-in-production`
+- **Observability Rules** (6 rules): `missing-structured-logging`, `no-correlation-id`, `missing-metrics-instrumentation`, `silent-error-swallowing`, `log-without-context`, `missing-health-endpoint`
+- **Progressive Delivery Rules** (5 rules): `feature-flag-missing`, `config-hardcoded`, `missing-graceful-degradation`, `missing-circuit-breaker`, `deploy-coupled-to-release`
+- Per-language seam patterns and recommended libraries for each category
+
+**New analyst prompts:**
+
+- `skills/shared/test-review-prompt.md` — 6-step test quality review: classify type (unit/integration/e2e), assess pyramid health, apply testability rules, check test quality patterns (over-mocking, assertion roulette, flaky time dependency, naming), summarise coverage gaps
+- `skills/shared/observability-report-prompt.md` — 7-step observability review: logging structure, metrics coverage, correlation ID propagation, error handling, incident readiness score
+
+**Harness Engineering adapter files** (`skills/harness/`):
+
+- `testability.md` — when to activate, DI patterns by language, seam references
+- `observability.md` — when to activate, structured logging recommendations per language
+- `progressive-delivery.md` — feature flag + circuit breaker library table by language; Harness.io pipeline integration notes
+
+**Harness.io pipeline templates** (`pipelines/`):
+
+- `harness-ci.yaml` — CI pipeline: Install → Lint → Unit Tests → Integration Tests → Build & Push Docker; JUnit report collection; DORA metrics tracking
+- `harness-canary.yaml` — Canary deployment: 10% → verify 5m → 50% → verify 5m → 100% promote; auto-rollback on verify failure with `K8sCanaryDelete` + `K8sRollingRollback`
+- `harness-feature-flag-gate.yaml` — Dark launch pipeline: deploy (flag OFF) → park up to 7 days → enable flag → verify 10m → promote; auto-disables flag on rollback
+
+#### Changed
+
+- `scripts/migrate.sh` — added `--harness` flag and wizard question 6: copies `harness-rules.md`, `test-review-prompt.md`, `observability-report-prompt.md`, `skills/harness/`, `pipelines/` to target project
+- `scripts/migrate.sh` — wizard upgraded from 6 questions to 7; `--help` text updated
+- `skills/shared/rules.md` — `copy_shared_skills()` function in migrate.sh now always copies the 3 new shared harness prompts alongside the existing files
+- `skills/claude/CLAUDE.md` — added `## Harness Engineering Review` section with testability, observability, and progressive delivery trigger phrases and steps
+- `skills/copilot/_rules.instructions.md` — added Harness Engineering rules table (10 rules) inline
+- `skills/cursor/.cursor/rules/clean-code-review.mdc` — added `## Harness Engineering` section
+- `skills/opencode/AGENTS.md` — added `## Harness Engineering` section
+- `skills/windsurf/.windsurfrules` — added `## Harness Engineering` section
+- `skills/generic/system-prompt.txt` — added `HARNESS ENGINEERING RULES` block (10 rules in plain text)
+- `README.md` — updated title, header badge, What Is This, How Rules Are Organized, Project Structure tree, What the Skills Check (added 3 Harness rule groups), How AI and Linting Work Together (added 3 Harness AI skill rows)
+
+---
+
 ## [1.0.0] — 2026-04-17
 
 ### Release: first stable release — complete AI-assisted development workflow

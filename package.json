@@ -1,6 +1,6 @@
 {
   "name": "clean-code-skill-kit",
-  "version": "1.0.2",
+  "version": "1.1.0",
   "description": "Plug-and-play AI skill adapters, linting configs, and pre-commit hooks for Clean Code + DDD",
   "license": "MIT",
   "bin": {
@@ -10,6 +10,7 @@
     "bin/",
     "scripts/",
     "skills/",
+    "pipelines/",
     "linting/",
     "COMMIT-GUIDE.md",
     "README.md"
@@ -32,6 +33,7 @@
     "migrate": "bash scripts/migrate.sh",
     "migrate:dry": "bash scripts/migrate.sh --dry-run",
     "migrate:yes": "bash scripts/migrate.sh --yes",
+    "migrate:harness": "bash scripts/migrate.sh --harness",
     "lint:report": "bash scripts/lint-and-report.sh",
     "lint:report:monorepo": "bash scripts/lint-and-report.sh --monorepo",
     "release:notes": "bash scripts/generate-release-notes.sh",

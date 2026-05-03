@@ -1,0 +1,149 @@
+# Harness Canary Deployment Pipeline Template
+# Deploys to 10% of instances → runs health/metrics verification → promotes or auto-rolls back.
+#
+# Usage:
+#   1. Import in Harness Project → Pipelines → Import
+#   2. Replace placeholders: <CONNECTOR_ID>, <IMAGE_NAME>, <SERVICE_ID>, <ENV_ID>
+#   3. Configure verify step with your APM connector (Prometheus, Datadog, AppDynamics, etc.)
+#
+# Canary strategy:
+#   Phase 1: 10% traffic → verify 5 min → promote to 50%
+#   Phase 2: 50% traffic → verify 5 min → promote to 100%
+#   On any verify failure: auto-rollback to previous version
+
+pipeline:
+  name: CD — Canary Deploy with Auto-Rollback
+  identifier: cd_canary_deploy
+  projectIdentifier: <YOUR_PROJECT>
+  orgIdentifier: default
+  tags:
+    harness-engineering: "true"
+    deployment-strategy: canary
+
+  stages:
+    - stage:
+        name: Deploy Canary
+        identifier: deploy_canary
+        type: Deployment
+        spec:
+          serviceConfig:
+            serviceRef: <SERVICE_ID>
+            serviceDefinition:
+              type: Kubernetes
+              spec:
+                artifacts:
+                  primary:
+                    spec:
+                      connectorRef: <CONNECTOR_ID>
+                      imagePath: <IMAGE_NAME>
+                      tag: <+pipeline.variables.IMAGE_TAG>
+                    type: DockerRegistry
+
+          infrastructure:
+            environmentRef: <ENV_ID>
+            infrastructureDefinition:
+              type: KubernetesDirect
+              spec:
+                connectorRef: <CONNECTOR_ID>
+                namespace: production
+                releaseName: release-<+INFRA_KEY>
+
+          execution:
+            steps:
+              - stepGroup:
+                  name: Canary Phase 1 — 10%
+                  identifier: canary_phase_1
+                  steps:
+                    - step:
+                        name: Canary Deployment (10%)
+                        identifier: canary_10
+                        type: K8sCanaryDeploy
+                        spec:
+                          instanceSelection:
+                            type: Percentage
+                            spec:
+                              percentage: 10
+                          skipDryRun: false
+
+                    - step:
+                        name: Verify Canary (10%)
+                        identifier: verify_10
+                        type: Verify
+                        spec:
+                          type: Canary
+                          monitoredService:
+                            type: Default
+                          spec:
+                            sensitivity: HIGH
+                            duration: 5m
+                            deploymentTag: <+artifacts.primary.tag>
+                        failureStrategies:
+                          - onFailure:
+                              errors:
+                                - Verification
+                              action:
+                                type: StageRollback
+
+              - stepGroup:
+                  name: Canary Phase 2 — 50%
+                  identifier: canary_phase_2
+                  steps:
+                    - step:
+                        name: Canary Deployment (50%)
+                        identifier: canary_50
+                        type: K8sCanaryDeploy
+                        spec:
+                          instanceSelection:
+                            type: Percentage
+                            spec:
+                              percentage: 50
+
+                    - step:
+                        name: Verify Canary (50%)
+                        identifier: verify_50
+                        type: Verify
+                        spec:
+                          type: Canary
+                          monitoredService:
+                            type: Default
+                          spec:
+                            sensitivity: MEDIUM
+                            duration: 5m
+                            deploymentTag: <+artifacts.primary.tag>
+                        failureStrategies:
+                          - onFailure:
+                              errors:
+                                - Verification
+                              action:
+                                type: StageRollback
+
+              - step:
+                  name: Promote to 100%
+                  identifier: promote_full
+                  type: K8sCanaryDelete
+                  spec: {}
+
+              - step:
+                  name: Full Rollout
+                  identifier: rolling_deploy
+                  type: K8sRollingDeploy
+                  spec:
+                    skipDryRun: false
+
+            rollbackSteps:
+              - step:
+                  name: Canary Rollback
+                  identifier: canary_rollback
+                  type: K8sCanaryDelete
+                  spec: {}
+              - step:
+                  name: Rolling Rollback
+                  identifier: rolling_rollback
+                  type: K8sRollingRollback
+                  spec: {}
+
+  variables:
+    - name: IMAGE_TAG
+      type: String
+      value: <+input>
+      description: "Docker image tag to deploy (e.g. pipeline sequence ID or git SHA)"
