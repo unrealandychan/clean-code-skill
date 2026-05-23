@@ -40,7 +40,6 @@ on:
 
 permissions:
   contents: read
-  id-token: write # Required for OIDC trusted publishing (Option A)
 
 jobs:
   build:
@@ -102,8 +101,9 @@ jobs:
           name: dist
           path: dist/
 
-      # ── 2. Publish using OIDC trusted publishing ─────────────────────────────
+      # ── 2. Publish using API token ───────────────────────────────────────────
       - name: Publish to PyPI
         uses: pypa/gh-action-pypi-publish@release/v1
         with:
+          password: ${{ secrets.PYPI_TOKEN }}
           skip-existing: true
