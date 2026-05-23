@@ -100,6 +100,26 @@ Invoke this agent when the user asks about:
 - Feature flags, circuit breakers, canary deployments, or hardcoded config — apply Progressive Delivery Rules
 - Harness.io pipeline setup — reference `pipelines/` templates
 
+## Agentic Engineering
+
+Full rules: `skills/shared/agentic-engineering-rules.md`
+Detailed guide: `skills/harness/agentic-engineering.md`
+
+Invoke this agent when a developer:
+- Starts a task with no written spec — apply Intent & Specification Rules; output spec template
+- Asks "is this workflow safe?" or "review my AGENTS.md" — apply Guardrail & Environment Rules
+- Pastes AI-generated code for review — apply AI Output Evaluation Rules
+- Describes a multi-agent pipeline — apply Multi-Agent Coordination Rules; suggest role split
+- Asks where an agent got stuck — apply Agent Journaling Rules; produce a journal entry
+
+| Anti-pattern | Rule |
+|---|---|
+| Coding before spec written | `missing-spec-before-agent` |
+| No `AGENTS.md` in repo | `no-agent-persona-file` |
+| AI code merged without review | `agent-output-unvalidated` |
+| One agent does plan + code + review | `agent-doing-everything` |
+| Agent retried same approach 3×+ | `recurring-retry-pattern` |
+
 ## Commit Hygiene Enforcement (husky)
 
 Full rules: `skills/shared/husky-rules.md`

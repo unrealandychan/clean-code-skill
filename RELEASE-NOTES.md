@@ -5,6 +5,38 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ---
 
+## [1.2.0] — 2026-05-23
+
+### Feature: Agentic Engineering — Spec Hygiene, Guardrails, AI Output Evaluation & Multi-Agent Coordination
+
+Inspired by Google for Developers — *"Build core skills to thrive as an AI-era developer"*.
+
+#### Added
+
+**Agentic Engineering rules** — new canonical rule set in `skills/shared/agentic-engineering-rules.md`:
+- 6 **Intent & Specification** rules — catch missing specs, vague intent, and undocumented decisions before implementation starts
+- 5 **Guardrail & Environment** rules — enforce agent persona files, green test baselines, and linter configs
+- 5 **AI Output Evaluation** rules — prevent accepting AI code that isn't understood, tested, or validated
+- 4 **Multi-Agent Coordination** rules — detect single-agent overload, missing context handoffs, and parallel conflicts
+- 3 **Agent Journaling** rules — surface recurring friction and unpatched skill gaps
+
+**Agentic Engineering workflow guide** — `skills/harness/agentic-engineering.md`:
+- Spec-driven development template (Goal → Acceptance Criteria → Constraints → Edge Cases)
+- Guardrail setup checklist
+- Anti-vibe-coding: AI output evaluation techniques (reimplementation, walkthrough, coverage check)
+- Multi-agent role split (Planner / Researcher / Implementer / Reviewer / Orchestrator)
+- Context handoff contract template
+- Agent journaling format and usage guide
+- T-Shaped Developer quality gates checklist
+
+#### Updated
+- `skills/claude/CLAUDE.md` — added Agentic Engineering Review section with 4 trigger patterns
+- `skills/opencode/AGENTS.md` — added Agentic Engineering section with anti-pattern table
+- `skills/generic/system-prompt.txt` — added full Agentic Engineering rules in compact format
+- `README.md` — added Agentic Engineering to rule categories and file structure
+
+---
+
 ## [1.1.0] — 2026-05-02
 
 ### Feature: Harness Engineering — Testability, Observability & Progressive Delivery

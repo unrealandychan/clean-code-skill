@@ -57,9 +57,10 @@ skills/
     release-notes-prompt.md           ← canonical release notes prompt
     task-summary-prompt.md            ← canonical task-summary prompt
     husky-rules.md                    ← canonical commit hygiene rules
-    harness-rules.md                  ← NEW: testability + observability + progressive delivery rules
-    test-review-prompt.md             ← NEW: test quality analyst prompt
-    observability-report-prompt.md    ← NEW: observability analyst prompt
+    harness-rules.md                  ← testability + observability + progressive delivery rules
+    test-review-prompt.md             ← test quality analyst prompt
+    observability-report-prompt.md    ← observability analyst prompt
+    agentic-engineering-rules.md      ← NEW: spec hygiene + guardrails + AI output eval + multi-agent
   copilot/
     _rules.instructions.md            ← shared rules (Clean Code + DDD + Harness) in Copilot format
     clean-code-review.instructions.md ← Copilot code review adapter
@@ -80,10 +81,11 @@ skills/
     system-prompt.txt                 ← raw prompt for any AI tool or API
     lint-report-system-prompt.txt     ← raw lint report prompt
     task-summary-system-prompt.txt    ← raw task-summary prompt
-  harness/                            ← NEW: Harness Engineering adapters
+  harness/                            ← Harness Engineering adapters
     testability.md                    ← testability review assistant
     observability.md                  ← observability review assistant
     progressive-delivery.md           ← feature flags + canary + circuit breakers
+    agentic-engineering.md            ← NEW: spec-driven dev + guardrails + multi-agent guide
 pipelines/                            ← NEW: Harness.io pipeline templates
   harness-ci.yaml                     ← CI: build + test + DORA metrics
   harness-canary.yaml                 ← CD: canary deploy with auto-rollback
@@ -465,6 +467,9 @@ the configured threshold, making them hard to test and reason about in isolation
 
 ### Top Recurring Violations     ← deduplicated, counted
 ### Prioritised Action Plan      ← numbered, ordered by impact
+### Agentic Engineering
+`missing-spec-before-agent` · `vague-intent` · `missing-acceptance-criteria` · `missing-edge-cases` · `spec-not-updated` · `why-not-documented` · `no-agent-persona-file` · `missing-test-baseline` · `agent-output-unvalidated` · `guardrail-too-broad` · `ai-code-not-understood` · `hallucinated-dependency` · `single-solution-accepted` · `eval-missing` · `agent-doing-everything` · `no-context-handoff` · `parallel-agents-conflict` · `missing-orchestrator` · `no-friction-log` · `skill-not-updated` · `recurring-retry-pattern`
+
 ### Clean Code Rule Mapping      ← links lint codes to project rule IDs
 ```
 

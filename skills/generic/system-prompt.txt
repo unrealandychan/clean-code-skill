@@ -82,3 +82,42 @@ Commit format: type(scope): subject
   - valid:   feat(skill): add husky enforcement rules
   - invalid: Added husky enforcement, Update stuff
 Never suggest --no-verify — fix the root cause instead.
+
+AGENTIC ENGINEERING RULES
+Full rules: skills/shared/agentic-engineering-rules.md
+Trigger: no written spec before agent task · AI code accepted without review · no AGENTS.md · single agent doing plan+code+review · agent retried same approach 3+ times
+INTENT & SPEC (apply when starting any agentic task)
+missing-spec-before-agent (high): Agent task started with no spec, acceptance criteria, or constraints
+vague-intent (high): Task description is ambiguous — two engineers would implement it differently
+missing-acceptance-criteria (high): No observable, verifiable outcomes defined before implementation
+missing-edge-cases (med): Spec omits error states, empty inputs, or external-failure scenarios
+spec-not-updated (med): Code diverged from spec and neither was updated
+why-not-documented (low): Decision or trade-off made without recorded rationale
+GUARDRAILS (apply when reviewing agent setup)
+no-agent-persona-file (high): No AGENTS.md / CLAUDE.md defining conventions for AI agents
+missing-test-baseline (high): Agent task launched with broken or non-existent test suite
+agent-output-unvalidated (high): AI-generated code merged without review, test run, or linter pass
+no-lint-baseline (med): No linter configured — AI output cannot be validated mechanically
+guardrail-too-broad (med): Agent file gives generic instructions only; missing project-specific rules
+AI OUTPUT EVALUATION (apply when reviewing AI-generated code)
+ai-code-not-understood (high): Engineer cannot explain AI-generated code at the call-site level
+hallucinated-dependency (high): AI output references a library, API, or module that does not exist
+single-solution-accepted (med): First AI solution accepted without alternatives or trade-off comparison
+test-coverage-not-verified (med): AI wrote tests but coverage of new logic was not checked
+eval-missing (med): AI output evaluated only by "looks right" — no test, benchmark, or checklist
+MULTI-AGENT COORDINATION
+agent-doing-everything (med): Single prompt spans planning, research, implementation, and review
+no-context-handoff (high): Context passed between agents relies on implicit assumptions, no contract
+parallel-agents-conflict (high): Two concurrent agents write to the same file or resource
+missing-orchestrator (med): Complex multi-step task delegated without a coordinator agent
+OUTPUT FORMAT
+## Agentic Engineering Review
+Files / artefacts reviewed: N | Findings: N (High: N, Medium: N, Low: N)
+### Finding N
+Severity: high | medium | low
+Rule: <rule-id>
+Location: <file>:<line> or <workflow step>
+Problem: <description>
+Why it matters: <explanation>
+Suggested fix: <action>
+If clean: No significant Agentic Engineering issues found.

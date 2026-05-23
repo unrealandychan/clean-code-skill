@@ -84,6 +84,48 @@ Steps:
 
 ---
 
+## Agentic Engineering Review
+
+Apply all rules defined in @skills/shared/agentic-engineering-rules.md.
+
+### Spec & Intent Review
+
+Trigger: user asks "review this spec", "is this ready to implement?", "check my task description", or starts a task with no written spec.
+
+Steps:
+1. Check for acceptance criteria, constraints, and edge cases.
+2. Apply Intent & Specification Rules from @skills/shared/agentic-engineering-rules.md.
+3. If spec is missing or too vague, output a filled-in spec template before proceeding.
+
+### Guardrail & Workflow Review
+
+Trigger: user asks "review my agent setup", "is this workflow safe?", "check my AGENTS.md", or starts a multi-step agentic task.
+
+Steps:
+1. Check for agent persona file, test baseline, and linter config.
+2. Apply Guardrail & Environment Rules from @skills/shared/agentic-engineering-rules.md.
+3. Output the Guardrail Setup Checklist from @skills/harness/agentic-engineering.md with each item marked.
+
+### AI Output Evaluation Review
+
+Trigger: user asks "review this AI-generated code", "should I accept this?", or pastes AI output for review.
+
+Steps:
+1. Apply AI Output Evaluation Rules from @skills/shared/agentic-engineering-rules.md.
+2. Check: can the engineer explain the code? Are tests present? Was an alternative considered?
+3. If `ai-code-not-understood` is triggered, ask the engineer to walk through the code before accepting.
+
+### Multi-Agent Coordination Review
+
+Trigger: user describes a multi-agent pipeline, asks "how should I split this task?", or hits a context handoff problem.
+
+Steps:
+1. Apply Multi-Agent Coordination Rules from @skills/shared/agentic-engineering-rules.md.
+2. Suggest role split (Planner / Researcher / Implementer / Reviewer / Orchestrator) if `agent-doing-everything` is flagged.
+3. Provide handoff contract template from @skills/harness/agentic-engineering.md if `no-context-handoff` is flagged.
+
+---
+
 ## Commit Hygiene Enforcement
 
 Also apply all rules defined in @skills/shared/husky-rules.md.
