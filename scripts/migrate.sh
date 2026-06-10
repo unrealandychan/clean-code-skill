@@ -11,7 +11,7 @@
 #   TARGET_DIR   Destination project root (default: asked interactively, or cwd)
 #
 # Options:
-#   --tool       copilot | claude | cursor | opencode | windsurf | generic | all
+#   --tool       copilot | claude | cursor | opencode | windsurf | hermes | codex | aider | generic | all
 #   --lang       python | typescript | go | java | csharp | all
 #   --no-lint    Skip linting configs
 #   --no-hooks   Skip pre-commit hook config
@@ -111,7 +111,10 @@ if [[ "$_needs_wizard" == true ]] && [[ "$YES" == false ]] && [[ -t 0 ]]; then
     echo "   [3] cursor     — Cursor (.mdc rules)"
     echo "   [4] opencode   — OpenCode (AGENTS.md)"
     echo "   [5] windsurf   — Windsurf / Cascade"
-    echo "   [6] generic    — Generic system prompts (any LLM API)"
+    echo "   [6] hermes     — Hermes Agent (SKILL.md)"
+    echo "   [7] codex      — OpenAI Codex CLI (.codex/instructions.md)"
+    echo "   [8] aider      — Aider (CONVENTIONS.md)"
+    echo "   [9] generic    — Generic system prompts (any LLM API)"
     echo "   [a] all        — Install all of the above"
     read -r -p "   Enter numbers/letters separated by commas [a]: " _input
     _input="${_input:-a}"
@@ -128,7 +131,10 @@ if [[ "$_needs_wizard" == true ]] && [[ "$YES" == false ]] && [[ -t 0 ]]; then
           3) TOOL="${TOOL:+$TOOL,}cursor" ;;
           4) TOOL="${TOOL:+$TOOL,}opencode" ;;
           5) TOOL="${TOOL:+$TOOL,}windsurf" ;;
-          6) TOOL="${TOOL:+$TOOL,}generic" ;;
+          6) TOOL="${TOOL:+$TOOL,}hermes" ;;
+          7) TOOL="${TOOL:+$TOOL,}codex" ;;
+          8) TOOL="${TOOL:+$TOOL,}aider" ;;
+          9) TOOL="${TOOL:+$TOOL,}generic" ;;
           *) TOOL="${TOOL:+$TOOL,}$_c" ;;
         esac
       done
@@ -360,15 +366,32 @@ install_tool() {
       copy_file "$KIT_ROOT/skills/generic/system-prompt.txt"             "$TARGET_DIR/skills/generic/system-prompt.txt"
       copy_file "$KIT_ROOT/skills/generic/lint-report-system-prompt.txt" "$TARGET_DIR/skills/generic/lint-report-system-prompt.txt"
       ;;
+    hermes)
+      copy_shared_skills
+      mkdir -p "$TARGET_DIR/skills/hermes"
+      copy_file "$KIT_ROOT/skills/hermes/SKILL.md" "$TARGET_DIR/skills/hermes/SKILL.md"
+      echo "  NOTE  Copy to ~/.hermes/skills/ or load via skill_view() in Hermes Agent."
+      ;;
+    codex)
+      copy_shared_skills
+      mkdir -p "$TARGET_DIR/.codex"
+      copy_file "$KIT_ROOT/skills/codex/.codex/instructions.md" "$TARGET_DIR/.codex/instructions.md"
+      echo "  NOTE  Codex CLI reads .codex/instructions.md automatically."
+      ;;
+    aider)
+      copy_shared_skills
+      copy_file "$KIT_ROOT/skills/aider/CONVENTIONS.md" "$TARGET_DIR/CONVENTIONS.md"
+      echo "  NOTE  Aider reads CONVENTIONS.md from the project root automatically."
+      ;;
     *)
-      echo "  WARN  Unknown tool: $t (valid: copilot claude cursor opencode windsurf generic)"
+      echo "  WARN  Unknown tool: $t (valid: copilot claude cursor opencode windsurf hermes codex aider generic)"
       SKIPPED=$((SKIPPED + 1))
       ;;
   esac
 }
 
 if [[ "$TOOL" == "all" ]]; then
-  for t in copilot claude cursor opencode windsurf generic; do
+  for t in copilot claude cursor opencode windsurf hermes codex aider generic; do
     install_tool "$t"
   done
 else

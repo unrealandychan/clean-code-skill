@@ -19,7 +19,7 @@ Apply all rules defined in `skills/shared/husky-rules.md`.
 <type>(<scope>): <subject in lowercase, max 72 chars>
 ```
 Types: `feat` `fix` `docs` `style` `refactor` `perf` `test` `chore` `revert` `release`
-Scopes: `shared` `copilot` `claude` `cursor` `opencode` `windsurf` `generic` `linting` `python` `typescript` `go` `java` `csharp` `hooks` `deps` `ci` `release`
+Scopes: `shared` `copilot` `claude` `cursor` `opencode` `windsurf` `hermes` `codex` `aider` `generic` `linting` `python` `typescript` `go` `java` `csharp` `hooks` `deps` `ci` `release`
 
 **Never suggest `git commit --no-verify`** — fix the root cause instead.
 

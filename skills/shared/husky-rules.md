@@ -64,7 +64,7 @@ Every commit message must follow Conventional Commits:
 
 ### Scopes (optional but recommended)
 
-AI adapters: `shared` `copilot` `claude` `cursor` `opencode` `windsurf` `generic`  
+AI adapters: `shared` `copilot` `claude` `cursor` `opencode` `windsurf` `hermes` `codex` `aider` `generic`  
 Linting: `linting` `python` `typescript` `go` `java` `csharp`  
 Tooling: `editorconfig` `pre-commit` `hooks` `deps` `ci` `release`
 

@@ -15,7 +15,7 @@
 # Clean Code + DDD + Harness Engineering AI Skill Kit
 
 > Plug-and-play AI review skills, linting configs, and pre-commit hooks for Clean Code, Domain-Driven Design (DDD), and Harness Engineering.  
-> Works with GitHub Copilot, Claude Code, Cursor, OpenCode, Windsurf, and any other AI assistant or API.
+> Works with GitHub Copilot, Claude Code, Cursor, OpenCode, Windsurf, Hermes Agent, Codex, Aider, and any other AI assistant or API.
 
 ---
 
@@ -77,6 +77,12 @@ skills/
     AGENTS.md                         ← self-contained adapter
   windsurf/
     .windsurfrules                    ← self-contained adapter
+  hermes/
+    SKILL.md                          ← Hermes Agent skill (YAML frontmatter + body)
+  codex/
+    .codex/instructions.md            ← OpenAI Codex CLI instructions
+  aider/
+    CONVENTIONS.md                    ← Aider conventions file
   generic/
     system-prompt.txt                 ← raw prompt for any AI tool or API
     lint-report-system-prompt.txt     ← raw lint report prompt
@@ -130,10 +136,16 @@ To change a rule, update `shared/rules.md` and propagate to the adapters.
 │   │   └── AGENTS.md                           ← self-contained adapter
 │   ├── windsurf/
 │   │   └── .windsurfrules                      ← self-contained adapter
+│   ├── hermes/
+│   │   └── SKILL.md                            ← Hermes Agent skill adapter
+│   ├── codex/
+│   │   └── .codex/instructions.md              ← OpenAI Codex CLI adapter
+│   ├── aider/
+│   │   └── CONVENTIONS.md                      ← Aider conventions adapter
 │   └── generic/
 │       ├── system-prompt.txt                   ← raw code review prompt for any tool or API
-│       ├── lint-report-system-prompt.txt       ← raw lint report prompt for any tool or API
-│       └── task-summary-system-prompt.txt      ← raw task-summary prompt for any tool or API
+│       ├── lint-report-system-prompt.txt       ← raw lint report prompt for any AI tool or API
+│       └── task-summary-system-prompt.txt      ← raw task-summary prompt for any AI tool or API
 │
 ├── skills/harness/                             ← NEW: Harness Engineering adapters
 │   ├── testability.md                          ← testability review assistant
@@ -235,11 +247,12 @@ npm run migrate
 | Step | Question | Default |
 |---|---|---|
 | 1 | Target project directory | `.` (current directory) |
-| 2 | Which AI tool(s)? copilot / claude / cursor / opencode / windsurf / generic / all | all |
+| 2 | Which AI tool(s)? copilot / claude / cursor / opencode / windsurf / hermes / codex / aider / generic / all | all |
 | 3 | Copy linting configs? | yes |
 | 4 | Which language(s)? python / typescript / go / java / csharp / all | all |
 | 5 | Copy pre-commit hook config? | yes |
-| 6 | Do a dry run first? | yes |
+| 6 | Copy Harness Engineering files? | yes |
+| 7 | Do a dry run first? | yes |
 
 After the dry run it prints the exact command to re-run with `--yes` to apply the changes.
 
@@ -301,6 +314,31 @@ cp skills/windsurf/.windsurfrules .
 ```
 
 Cascade reads `.windsurfrules` as persistent workspace-level rules.
+
+### Hermes Agent
+
+```bash
+cp skills/hermes/SKILL.md skills/shared .hermes/skills/clean-code-ddd/
+```
+
+Hermes Agent reads `SKILL.md` files from `~/.hermes/skills/` (YAML frontmatter + markdown body). Place the skill in a category folder (e.g., `software-development/clean-code-ddd/`) and load it with `skill_view(name='clean-code-ddd')`.
+
+### OpenAI Codex CLI
+
+```bash
+mkdir -p .codex
+cp skills/codex/.codex/instructions.md .codex/
+```
+
+Codex automatically reads `.codex/instructions.md` from the project root when it starts.
+
+### Aider
+
+```bash
+cp skills/aider/CONVENTIONS.md .
+```
+
+Aider reads `CONVENTIONS.md` from the project root automatically and applies the conventions to every code change.
 
 ### Any other tool (ChatGPT, API, custom agent)
 
