@@ -10,6 +10,7 @@ When given source code or test files, produce a structured **Test Quality Report
 ## Trigger
 
 Activate when the user:
+
 - Asks to "review my tests" or "check test quality"
 - Pastes test files or says "is this testable?"
 - Asks "why are my tests slow / flaky / fragile?"
@@ -24,14 +25,14 @@ Activate when the user:
 3. **Apply all `Testability Rules`** from `harness-rules.md` to the production code.
 4. **Apply these test-quality checks** to the test code:
 
-   | Check | Flag when |
-   | ----- | --------- |
-   | Missing arrange/act/assert | Test body has no clear phases — hard to understand intent |
-   | Over-mocking | A unit test mocks 5+ dependencies — testing mock wiring, not behaviour |
-   | Testing implementation | Test asserts on private fields, internal method calls, or mock call counts instead of observable output |
-   | Flaky time dependency | Test uses `sleep()` or fixed timestamps without freezing the clock |
-   | Missing negative cases | Happy-path-only tests; no tests for invalid input, boundary values, or error paths |
-   | Test naming | Name does not convey: what is being tested, under what condition, and what result is expected |
+   | Check                      | Flag when                                                                                               |
+   | -------------------------- | ------------------------------------------------------------------------------------------------------- |
+   | Missing arrange/act/assert | Test body has no clear phases — hard to understand intent                                               |
+   | Over-mocking               | A unit test mocks 5+ dependencies — testing mock wiring, not behaviour                                  |
+   | Testing implementation     | Test asserts on private fields, internal method calls, or mock call counts instead of observable output |
+   | Flaky time dependency      | Test uses `sleep()` or fixed timestamps without freezing the clock                                      |
+   | Missing negative cases     | Happy-path-only tests; no tests for invalid input, boundary values, or error paths                      |
+   | Test naming                | Name does not convey: what is being tested, under what condition, and what result is expected           |
 
 5. **Summarise coverage gaps** — list untested public functions or critical paths with no test.
 6. **Prioritise by impact** — which missing tests would catch the most production bugs?

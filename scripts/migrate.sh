@@ -51,6 +51,8 @@ YES=false
 TARGET_DIR=""
 INTERACTIVE=false   # set to true when questionnaire runs
 COPY_HARNESS=""     # harness engineering files
+COPY_GRAPH=""       # graph engineering files
+COPY_REVIEW=""      # code review and quality files
 
 # ── Argument parsing ──────────────────────────────────────────────────────────
 while [[ $# -gt 0 ]]; do
@@ -60,6 +62,8 @@ while [[ $# -gt 0 ]]; do
     --no-lint)  SKIP_LINT=true;     shift ;;
     --no-hooks) SKIP_HOOKS=true;    shift ;;
     --harness)  COPY_HARNESS=true;  shift ;;
+    --graph|--graph-engineering) COPY_GRAPH=true; shift ;;
+    --code-review) COPY_REVIEW=true; shift ;;
     --dry-run)  DRY_RUN=true;       shift ;;
     --yes|-y)   YES=true;        shift ;;
     --help)
@@ -211,10 +215,35 @@ if [[ "$_needs_wizard" == true ]] && [[ "$YES" == false ]] && [[ -t 0 ]]; then
     esac
   fi
 
+  # ── Graph Engineering ────────────────────────────────────────────────────────
+  if [[ -z "$COPY_GRAPH" ]]; then
+    echo ""
+    echo "7. Copy Graph Engineering files (Knowledge Graph & Task Graph rules, workflows)?"
+    echo "   Includes: skills/shared/graph-engineering-rules.md, skills/graph-engineering/,"
+    echo "             skills/harness/graph-engineering.md"
+    read -r -p "   [y]: " _input
+    case "${_input:-y}" in
+      [nN]*) COPY_GRAPH=false ;;
+      *)     COPY_GRAPH=true ;;
+    esac
+  fi
+
+  # ── Code Review & Quality ───────────────────────────────────────────────────
+  if [[ -z "$COPY_REVIEW" ]]; then
+    echo ""
+    echo "8. Copy 5-Axis Code Review & Quality files?"
+    echo "   Includes: skills/shared/code-review-quality-rules.md, skills/code-review/"
+    read -r -p "   [y]: " _input
+    case "${_input:-y}" in
+      [nN]*) COPY_REVIEW=false ;;
+      *)     COPY_REVIEW=true ;;
+    esac
+  fi
+
   # ── Dry-run ──────────────────────────────────────────────────────────────────
   if [[ "$DRY_RUN" == false ]]; then
     echo ""
-    echo "7. Do a dry run first (preview what would be copied without writing files)?"
+    echo "9. Do a dry run first (preview what would be copied without writing files)?"
     read -r -p "   [y]: " _input
     case "${_input:-y}" in
       [nN]*) DRY_RUN=false ;;
@@ -231,6 +260,8 @@ fi
 [[ -z "$SKIP_LINT" ]]    && SKIP_LINT=false
 [[ -z "$SKIP_HOOKS" ]]   && SKIP_HOOKS=false
 [[ -z "$COPY_HARNESS" ]] && COPY_HARNESS=false
+[[ -z "$COPY_GRAPH" ]]   && COPY_GRAPH=false
+[[ -z "$COPY_REVIEW" ]]  && COPY_REVIEW=false
 [[ -z "$TARGET_DIR" ]]   && TARGET_DIR="$PWD"
 
 # ── Resolve target path ───────────────────────────────────────────────────────
@@ -474,6 +505,23 @@ if [[ "$COPY_HARNESS" == true ]]; then
   copy_dir  "$KIT_ROOT/skills/harness"                                "$TARGET_DIR/skills/harness"
   copy_dir  "$KIT_ROOT/pipelines"                                     "$TARGET_DIR/pipelines"
   echo "  NOTE  Edit pipelines/*.yaml — replace <CONNECTOR_ID>, <SERVICE_ID>, <ENV_ID> placeholders."
+fi
+
+# ── Graph Engineering files ───────────────────────────────────────────────────
+if [[ "$COPY_GRAPH" == true ]]; then
+  section "Graph Engineering"
+  copy_file "$KIT_ROOT/skills/shared/graph-engineering-rules.md" "$TARGET_DIR/skills/shared/graph-engineering-rules.md"
+  copy_dir  "$KIT_ROOT/skills/graph-engineering"                  "$TARGET_DIR/skills/graph-engineering"
+  copy_file "$KIT_ROOT/skills/harness/graph-engineering.md"      "$TARGET_DIR/skills/harness/graph-engineering.md"
+  echo "  NOTE  Graph Engineering skill & workflows installed to skills/graph-engineering/."
+fi
+
+# ── Code Review & Quality files ───────────────────────────────────────────────
+if [[ "$COPY_REVIEW" == true ]]; then
+  section "Code Review & Quality"
+  copy_file "$KIT_ROOT/skills/shared/code-review-quality-rules.md" "$TARGET_DIR/skills/shared/code-review-quality-rules.md"
+  copy_dir  "$KIT_ROOT/skills/code-review"                          "$TARGET_DIR/skills/code-review"
+  echo "  NOTE  5-Axis Code Review & Quality skill installed to skills/code-review/."
 fi
 
 # ── lint-and-report script ────────────────────────────────────────────────────

@@ -35,18 +35,18 @@ No finding → reply: "No significant Clean Code issues found."
 
 ## Harness Engineering (apply when reviewing tests, logging, or deployment config)
 
-| Rule | Severity | Flag when |
-| ---- | -------- | --------- |
-| `missing-dependency-injection` | high | Hard-wired dependencies with no seam for test doubles |
-| `no-seam-for-testing` | high | External calls (HTTP, DB, clock, filesystem) not behind an abstraction |
-| `clock-dependency` | medium | `time.Now()` / `Date.now()` / `datetime.now()` called directly |
-| `silent-error-swallowing` | high | `except: pass`, `catch (e) {}`, `_ = err` — error discarded silently |
-| `missing-structured-logging` | high | `print()` / `console.log()` / `fmt.Println()` used for app events |
-| `no-correlation-id` | high | HTTP handler does not extract/propagate trace or correlation ID |
-| `config-hardcoded` | high | Env-specific URLs, ports, credentials as literals in source |
-| `missing-graceful-degradation` | medium | External call has no timeout, retry, or fallback |
-| `feature-flag-missing` | medium | New feature shipped directly with no flag to disable without redeploy |
-| `test-logic-in-production` | high | `if os.getenv("TEST")` or `NODE_ENV === "test"` in production paths |
+| Rule                           | Severity | Flag when                                                              |
+| ------------------------------ | -------- | ---------------------------------------------------------------------- |
+| `missing-dependency-injection` | high     | Hard-wired dependencies with no seam for test doubles                  |
+| `no-seam-for-testing`          | high     | External calls (HTTP, DB, clock, filesystem) not behind an abstraction |
+| `clock-dependency`             | medium   | `time.Now()` / `Date.now()` / `datetime.now()` called directly         |
+| `silent-error-swallowing`      | high     | `except: pass`, `catch (e) {}`, `_ = err` — error discarded silently   |
+| `missing-structured-logging`   | high     | `print()` / `console.log()` / `fmt.Println()` used for app events      |
+| `no-correlation-id`            | high     | HTTP handler does not extract/propagate trace or correlation ID        |
+| `config-hardcoded`             | high     | Env-specific URLs, ports, credentials as literals in source            |
+| `missing-graceful-degradation` | medium   | External call has no timeout, retry, or fallback                       |
+| `feature-flag-missing`         | medium   | New feature shipped directly with no flag to disable without redeploy  |
+| `test-logic-in-production`     | high     | `if os.getenv("TEST")` or `NODE_ENV === "test"` in production paths    |
 
 ## Output
 
@@ -72,15 +72,25 @@ Files reviewed: N | Findings: N (High: N, Medium: N, Low: N)
 - No speculative findings — skip if unsure
 - high/medium = mandatory · low = suggestion
 
-## Simplicity First
+## Simplicity First & Ponytail Philosophy
 
+- Apply Ponytail (github.com/dietrichgebert/ponytail): _"The best code is the code you never wrote."_
+- Ponytail Ladder: 1. YAGNI -> 2. Standard library -> 3. Native platform -> 4. Existing deps -> 5. 1 line over 50 lines.
 - Minimum code that solves the problem. Nothing speculative.
 - No features beyond what was asked.
 - No abstractions for single-use code.
 - No "flexibility" or "configurability" that wasn't requested.
 - No error handling for impossible scenarios.
 - If you write 200 lines and it could be 50, rewrite it.
-- The test: would a senior engineer say this is overcomplicated? If yes, simplify.
+
+## Package Manager Defaults & Agent Setup
+
+- Default Package Managers: **`uv`** for Python (`uv add`/`uv run`); **`pnpm`** for JS/TS (`pnpm add`/`pnpm run`).
+- Agent Skills Check: Ensure `mattpocock/skills` and `addyosmani/agent-skills` are installed (`npx skills@latest add mattpocock/skills`, `npx skills@latest add addyosmani/agent-skills`).
+- LLM Agent Framework: Default to **Google Cloud ADK** (`google-adk`), but ask the user if they are using another framework.
+- Google Cloud Skills: Reference `google-antigravity-sdk`, `google-maps-platform`, `google-adk-deployment-playbook`, and Vertex AI / Gemini API.
+- Graph Engineering Skill: Reference `skills/shared/graph-engineering-rules.md` & `skills/graph-engineering/SKILL.md` for Knowledge Graphs (ontology, ER, GraphRAG) and Task Graphs (typed state, deterministic routing, HITL safety).
+- Code Review & Quality: Reference `skills/shared/code-review-quality-rules.md` & `skills/code-review/SKILL.md` for 5-axis review (Correctness, Readability, Architecture, Security, Performance).
 
 ## Surgical Changes
 

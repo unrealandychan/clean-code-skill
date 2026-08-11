@@ -15,9 +15,11 @@ Apply all rules defined in `skills/shared/husky-rules.md`.
    - If not → `chmod +x .husky/commit-msg .husky/pre-commit`
 
 **Commit message format — always enforce:**
+
 ```
 <type>(<scope>): <subject in lowercase, max 72 chars>
 ```
+
 Types: `feat` `fix` `docs` `style` `refactor` `perf` `test` `chore` `revert` `release`
 Scopes: `shared` `copilot` `claude` `cursor` `opencode` `windsurf` `hermes` `codex` `aider` `generic` `linting` `python` `typescript` `go` `java` `csharp` `hooks` `deps` `ci` `release`
 

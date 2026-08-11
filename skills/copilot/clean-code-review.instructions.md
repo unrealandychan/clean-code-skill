@@ -8,6 +8,7 @@ Apply the rules defined in `_rules.instructions.md` in this same folder.
 When asked to review code, automatically trigger a full Clean Code + DDD review.
 
 Language-specific reminders:
+
 - **TypeScript/JS**: no `any` hiding intent; branded types for value objects; domain ≠ UI layer
 - **Python**: explicit exceptions; small modules; dataclasses/pydantic for value objects
 - **Go**: explicit error returns; small functions; struct aggregates with exported methods only

@@ -26,6 +26,12 @@ A single set of Clean Code + DDD + Harness Engineering rules, expressed in every
 - **AI skill adapters** — one file per tool, drop into your project and start reviewing immediately
 - **Shared rule definitions** — one canonical source of truth; all adapters reference the same rules
 - **Harness Engineering rules** — testability, observability, and progressive delivery checks
+- **5-Axis Code Review & Quality Skill** — multi-axis protocol inspired by Addy Osmani's `agent-skills` (Correctness, Readability, Architecture, Security, Performance)
+- **Graph Engineering Skill** — optional Knowledge Graph (data topology) & Task Graph (agent state topology) module
+- **Ponytail Anti-Overengineering** — YAGNI, standard library first, 1-line over 50 lines ("the best code is code you never wrote")
+- **Default Package Managers** — **`uv`** for Python and **`pnpm`** for JavaScript / TypeScript
+- **`mattpocock/skills` & `addyosmani/agent-skills`** — automatic check and installation (`npx skills@latest add mattpocock/skills`, `npx skills@latest add addyosmani/agent-skills`)
+- **Google Cloud ADK & GCP Skills** — **Google Cloud ADK** as default LLM agent framework + GCP ecosystem skill references
 - **Harness.io pipeline templates** — canary deploy, feature flag gating, CI with DORA metrics
 - **Linter configurations** — per-language static analysis aligned to the same rule IDs
 - **Pre-commit hooks** — enforce rules before code reaches a pull request
@@ -244,15 +250,15 @@ npm run migrate
 
 **What the wizard asks**
 
-| Step | Question | Default |
-|---|---|---|
-| 1 | Target project directory | `.` (current directory) |
-| 2 | Which AI tool(s)? copilot / claude / cursor / opencode / windsurf / hermes / codex / aider / generic / all | all |
-| 3 | Copy linting configs? | yes |
-| 4 | Which language(s)? python / typescript / go / java / csharp / all | all |
-| 5 | Copy pre-commit hook config? | yes |
-| 6 | Copy Harness Engineering files? | yes |
-| 7 | Do a dry run first? | yes |
+| Step | Question                                                                                                   | Default                 |
+| ---- | ---------------------------------------------------------------------------------------------------------- | ----------------------- |
+| 1    | Target project directory                                                                                   | `.` (current directory) |
+| 2    | Which AI tool(s)? copilot / claude / cursor / opencode / windsurf / hermes / codex / aider / generic / all | all                     |
+| 3    | Copy linting configs?                                                                                      | yes                     |
+| 4    | Which language(s)? python / typescript / go / java / csharp / all                                          | all                     |
+| 5    | Copy pre-commit hook config?                                                                               | yes                     |
+| 6    | Copy Harness Engineering files?                                                                            | yes                     |
+| 7    | Do a dry run first?                                                                                        | yes                     |
 
 After the dry run it prints the exact command to re-run with `--yes` to apply the changes.
 
@@ -280,7 +286,7 @@ cp -r skills/shared .
 ```
 
 VS Code automatically merges all `.instructions.md` files in `.github/` matching the `applyTo` glob.  
-Ask Copilot: *"Review this file for Clean Code and DDD issues."*
+Ask Copilot: _"Review this file for Clean Code and DDD issues."_
 
 ### Claude Code
 
@@ -536,19 +542,19 @@ Severity: **high** = fix before merge · **medium** = fix this sprint · **low**
 
 ## How AI and Linting Work Together
 
-| Tool | Handles |
-|---|---|
-| **EditorConfig** | Indentation, line endings, encoding |
-| **Prettier / gofmt / dotnet format** | Code formatting |
-| **Ruff / ESLint / golangci-lint / Checkstyle + PMD** | Style, naming, complexity, magic numbers, unused code, security |
-| **pre-commit** | Runs all of the above before every commit |
-| **AI skill (code review)** | Readability, naming clarity, responsibility boundaries, DDD alignment, refactor suggestions |
-| **AI skill (harness — testability)** | Missing DI seams, clock/random dependencies, test pyramid health, test-in-production code |
-| **AI skill (harness — observability)** | Structured logging gaps, missing correlation IDs, unmonitored critical paths, swallowed errors |
-| **AI skill (harness — delivery)** | Hardcoded config, missing feature flags, no circuit breaker, deploy-coupled releases |
-| **AI skill (lint report)** | Translates raw linter output into plain English, groups by severity, maps to Clean Code rules, produces a prioritised action plan |
-| **AI skill (release notes)** | Reads conventional commits since last tag, generates a Keep a Changelog entry, opens a PR for human review |
-| **AI skill (task summary)** | After any AI session, produces a plain-English recap and a reusable fill-in-the-blanks prompt recipe |
+| Tool                                                 | Handles                                                                                                                           |
+| ---------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------- |
+| **EditorConfig**                                     | Indentation, line endings, encoding                                                                                               |
+| **Prettier / gofmt / dotnet format**                 | Code formatting                                                                                                                   |
+| **Ruff / ESLint / golangci-lint / Checkstyle + PMD** | Style, naming, complexity, magic numbers, unused code, security                                                                   |
+| **pre-commit**                                       | Runs all of the above before every commit                                                                                         |
+| **AI skill (code review)**                           | Readability, naming clarity, responsibility boundaries, DDD alignment, refactor suggestions                                       |
+| **AI skill (harness — testability)**                 | Missing DI seams, clock/random dependencies, test pyramid health, test-in-production code                                         |
+| **AI skill (harness — observability)**               | Structured logging gaps, missing correlation IDs, unmonitored critical paths, swallowed errors                                    |
+| **AI skill (harness — delivery)**                    | Hardcoded config, missing feature flags, no circuit breaker, deploy-coupled releases                                              |
+| **AI skill (lint report)**                           | Translates raw linter output into plain English, groups by severity, maps to Clean Code rules, produces a prioritised action plan |
+| **AI skill (release notes)**                         | Reads conventional commits since last tag, generates a Keep a Changelog entry, opens a PR for human review                        |
+| **AI skill (task summary)**                          | After any AI session, produces a plain-English recap and a reusable fill-in-the-blanks prompt recipe                              |
 
 ---
 
@@ -573,11 +579,11 @@ The skill always produces **two sections** in a single Markdown document:
 
 **1 — Task Summary** (≤ 1 page)
 
-| Field | Content |
-|---|---|
-| **Problem** | One sentence: what was broken, missing, or needed |
-| **Approach** | 3–5 bullets — key decisions and the reasoning behind them |
-| **Outcome** | What was delivered, specific and measurable |
+| Field                 | Content                                                    |
+| --------------------- | ---------------------------------------------------------- |
+| **Problem**           | One sentence: what was broken, missing, or needed          |
+| **Approach**          | 3–5 bullets — key decisions and the reasoning behind them  |
+| **Outcome**           | What was delivered, specific and measurable                |
 | **Gotchas / Lessons** | Edge cases hit or surprises worth noting (omitted if none) |
 
 **2 — Reusable Skill Recipe**
@@ -705,19 +711,19 @@ The workflow and the local script both read this file at runtime — no other fi
 
 ## Customising the Rules
 
-| What to change | Where |
-|---|---|
-| Rules content or DDD checks | `skills/shared/rules.md` → propagate to tool adapters |
-| AI output format or persona | Tool adapter in `skills/<tool>/` |
-| Lint report format or severity mapping | `skills/shared/lint-report-prompt.md` → propagate to tool adapters |
-| Release notes writing style or sections | `skills/shared/release-notes-prompt.md` |
-| Task summary structure or recipe format | `skills/shared/task-summary-prompt.md` → propagate to tool adapters |
-| Python linting | `linting/python/pyproject.toml` |
-| TypeScript rules or DDD import boundaries | `linting/typescript/.eslintrc.json` |
-| Go lint rules | `linting/go/.golangci.yml` |
-| Java complexity thresholds | `linting/java/checkstyle.xml` and `pmd-ruleset.xml` |
-| C# naming and Roslyn severities | `linting/csharp/.editorconfig` |
-| Pre-commit hook versions | `linting/shared/.pre-commit-config.yaml` → run `pre-commit autoupdate` |
+| What to change                            | Where                                                                  |
+| ----------------------------------------- | ---------------------------------------------------------------------- |
+| Rules content or DDD checks               | `skills/shared/rules.md` → propagate to tool adapters                  |
+| AI output format or persona               | Tool adapter in `skills/<tool>/`                                       |
+| Lint report format or severity mapping    | `skills/shared/lint-report-prompt.md` → propagate to tool adapters     |
+| Release notes writing style or sections   | `skills/shared/release-notes-prompt.md`                                |
+| Task summary structure or recipe format   | `skills/shared/task-summary-prompt.md` → propagate to tool adapters    |
+| Python linting                            | `linting/python/pyproject.toml`                                        |
+| TypeScript rules or DDD import boundaries | `linting/typescript/.eslintrc.json`                                    |
+| Go lint rules                             | `linting/go/.golangci.yml`                                             |
+| Java complexity thresholds                | `linting/java/checkstyle.xml` and `pmd-ruleset.xml`                    |
+| C# naming and Roslyn severities           | `linting/csharp/.editorconfig`                                         |
+| Pre-commit hook versions                  | `linting/shared/.pre-commit-config.yaml` → run `pre-commit autoupdate` |
 
 ---
 

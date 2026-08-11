@@ -63,17 +63,16 @@
       "prettier --write"
     ],
     "*.py": [
-      "ruff check --fix",
-      "ruff format"
+      "bash -c 'if command -v ruff >/dev/null 2>&1; then ruff check --fix \"$@\" && ruff format \"$@\"; fi' --"
     ],
     "*.go": [
-      "gofmt -w"
+      "bash -c 'if command -v gofmt >/dev/null 2>&1; then gofmt -w \"$@\"; fi' --"
     ],
     "*.cs": [
-      "dotnet format --include"
+      "bash -c 'if command -v dotnet >/dev/null 2>&1; then dotnet format --include \"$@\"; fi' --"
     ],
     "*.sh": [
-      "shfmt -w"
+      "bash -c 'if command -v shfmt >/dev/null 2>&1; then shfmt -w \"$@\"; fi' --"
     ]
   }
 }

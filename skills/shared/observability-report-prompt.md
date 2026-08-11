@@ -10,6 +10,7 @@ When given source code, produce a structured **Observability Report**.
 ## Trigger
 
 Activate when the user:
+
 - Asks to "review observability" or "check my logging"
 - Asks "why can't I debug this in production?"
 - Asks "what metrics should I add?"

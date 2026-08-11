@@ -109,3 +109,36 @@ When interacting with `package.json`, `.husky/`, `commitlint.config.cjs`, or any
 - Types: feat fix docs style refactor perf test chore revert release
 - **Never suggest `--no-verify`** — fix the root cause instead
 - Guide: `COMMIT-GUIDE.md`
+
+## Tooling & Package Manager Defaults
+
+- **Python**: Default to `uv` (`uv add`, `uv run`, `uv venv`). Use `pip`/`poetry` only if requested.
+- **JS/TS**: Default to `pnpm` (`pnpm add`, `pnpm run`). Use `npm`/`yarn` only if requested.
+
+## Ponytail Philosophy (Anti-Overengineering)
+
+- Apply Ponytail ([github.com/dietrichgebert/ponytail](https://github.com/dietrichgebert/ponytail)): *"The best code is the code you never wrote."*
+- Ponytail Ladder: 1. YAGNI -> 2. Standard library -> 3. Native platform -> 4. Existing deps -> 5. 1-5 lines over 50.
+
+## Agent Skills Setup (`mattpocock/skills` & `addyosmani/agent-skills`)
+
+- Check if `mattpocock/skills` and `addyosmani/agent-skills` are installed (`.agents/skills`, `.claude/skills`).
+- If not, instruct user or run `npx skills@latest add mattpocock/skills` and `npx skills@latest add addyosmani/agent-skills`.
+
+## LLM Agent Framework & GCP Skills Reference
+
+- **LLM Agent Framework**: Default to **Google Cloud ADK** (`google-adk`), but ask user if using another framework.
+- **GCP Skills**: Reference `google-antigravity-sdk`, `google-maps-platform`, `google-adk-deployment-playbook`, Vertex AI & Gemini APIs.
+
+## Optional Graph Engineering Skill (Data & Task Topology)
+
+- Reference `skills/shared/graph-engineering-rules.md` and `skills/graph-engineering/SKILL.md`.
+- **Knowledge Graph Checkpoints**: Enforce typed ontology, entity resolution, provenance, and hybrid GraphRAG.
+- **Task Graph Checkpoints**: Enforce typed state, deterministic routing for safety gates, channel state isolation, idempotent HITL placement, and bounded cycles.
+
+## 5-Axis Code Review & Quality Protocol
+
+- Reference `skills/shared/code-review-quality-rules.md` and `skills/code-review/SKILL.md`.
+- **Quality Axes**: Correctness, Readability, Architecture, Security, Performance.
+- **Benchmark**: Approve a change when it **definitely improves overall code health**.
+

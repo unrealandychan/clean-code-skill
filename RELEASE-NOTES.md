@@ -9,11 +9,12 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ### Feature: Agentic Engineering — Spec Hygiene, Guardrails, AI Output Evaluation & Multi-Agent Coordination
 
-Inspired by Google for Developers — *"Build core skills to thrive as an AI-era developer"*.
+Inspired by Google for Developers — _"Build core skills to thrive as an AI-era developer"_.
 
 #### Added
 
 **Agentic Engineering rules** — new canonical rule set in `skills/shared/agentic-engineering-rules.md`:
+
 - 6 **Intent & Specification** rules — catch missing specs, vague intent, and undocumented decisions before implementation starts
 - 5 **Guardrail & Environment** rules — enforce agent persona files, green test baselines, and linter configs
 - 5 **AI Output Evaluation** rules — prevent accepting AI code that isn't understood, tested, or validated
@@ -21,6 +22,7 @@ Inspired by Google for Developers — *"Build core skills to thrive as an AI-era
 - 3 **Agent Journaling** rules — surface recurring friction and unpatched skill gaps
 
 **Agentic Engineering workflow guide** — `skills/harness/agentic-engineering.md`:
+
 - Spec-driven development template (Goal → Acceptance Criteria → Constraints → Edge Cases)
 - Guardrail setup checklist
 - Anti-vibe-coding: AI output evaluation techniques (reimplementation, walkthrough, coverage check)
@@ -30,6 +32,7 @@ Inspired by Google for Developers — *"Build core skills to thrive as an AI-era
 - T-Shaped Developer quality gates checklist
 
 #### Updated
+
 - `skills/claude/CLAUDE.md` — added Agentic Engineering Review section with 4 trigger patterns
 - `skills/opencode/AGENTS.md` — added Agentic Engineering section with anti-pattern table
 - `skills/generic/system-prompt.txt` — added full Agentic Engineering rules in compact format
@@ -87,6 +90,7 @@ Inspired by Google for Developers — *"Build core skills to thrive as an AI-era
 ### Release: first stable release — complete AI-assisted development workflow
 
 #### Added
+
 - **`skills/shared/lint-report-prompt.md`** — canonical lint analyst prompt: role, 7-step analysis process, structured output format (summary table, top issues, code-snippet examples, Clean Code mapping, action plan), lint-code → rule mapping table, and guardrails.
 - **`skills/shared/release-notes-prompt.md`** — canonical release notes prompt: commit-type → section mapping, writing rules, exact Keep-a-Changelog output format, and guardrails.
 - **`skills/copilot/lint-report.instructions.md`** — Copilot adapter for lint report; trigger phrases, Copilot-specific output notes.
@@ -101,6 +105,7 @@ Inspired by Google for Developers — *"Build core skills to thrive as an AI-era
 - **`npm run migrate:yes`** — non-interactive migration for CI via `scripts/migrate.sh --yes`.
 
 #### Changed
+
 - **`scripts/migrate.sh`** — fully rewritten as an interactive 6-question wizard (target dir, tool(s), linting, language(s), hooks, dry-run). Defaults to dry-run first. `--yes` flag skips all prompts for CI. Post-dry-run prints the exact apply command.
 - **`.husky/pre-commit`** — adds a spinner-style header; captures exit code; prints fix hint and `COMMIT-GUIDE.md` path on failure.
 - **`.husky/commit-msg`** — captures exit code; prints guide path and `npm run commit` hint on rejection.
@@ -112,6 +117,7 @@ Inspired by Google for Developers — *"Build core skills to thrive as an AI-era
 - **`skills/shared/husky-rules.md`** — updated lint-staged table to include `*.sh` → `shfmt -w`; added `COMMIT-GUIDE.md` reference.
 
 #### Removed
+
 - Stale `skills/shared/rules.md.bak.*` backup file left by an earlier migration run.
 
 ---
@@ -121,6 +127,7 @@ Inspired by Google for Developers — *"Build core skills to thrive as an AI-era
 ### Added: Conventional Commit enforcement and Husky enforcement skill
 
 #### Added
+
 - `commitlint.config.cjs` — validates every commit message against Conventional Commits; custom `type-enum` (10 types), `scope-enum` (20 project scopes, severity=warning), `subject-max-length: 72`, `subject-min-length: 10`, `subject-case: lower-case`, full `prompt.questions` for interactive use.
 - `package.json` — Node manifest wiring husky v9, lint-staged v15, markdownlint-cli2, prettier; `"prepare": "husky"` script installs hooks automatically on `npm install`.
 - `.husky/commit-msg` — git hook that runs `npx commitlint --edit "$1"` on every commit; file is executable.
@@ -130,6 +137,7 @@ Inspired by Google for Developers — *"Build core skills to thrive as an AI-era
 - Husky enforcement injected into all remaining tool adapters: `skills/claude/CLAUDE.md`, `skills/cursor/.cursor/rules/clean-code-review.mdc`, `skills/opencode/AGENTS.md`, `skills/windsurf/.windsurfrules`, `skills/generic/system-prompt.txt`.
 
 #### Policy
+
 - `--no-verify` is banned in all skill adapters — fix the root cause instead.
 - Adding a new file type to the project requires a corresponding lint-staged entry in `package.json`.
 
@@ -142,10 +150,12 @@ Inspired by Google for Developers — *"Build core skills to thrive as an AI-era
 **Breaking change for contributors:** rules no longer live inside each tool adapter file. Edit `skills/shared/rules.md` first, then propagate to adapters.
 
 #### Added
+
 - `skills/shared/rules.md` — single canonical source of truth for all 8 Clean Code rules and 8 DDD rules with severity, trigger conditions, output format, and guardrails. All tool adapters reference this file.
 - `skills/copilot/_rules.instructions.md` — shared rule table in Copilot `.instructions.md` format; VS Code merges it with the persona adapter automatically.
 
 #### Changed
+
 - `skills/copilot/clean-code-review.instructions.md` — reduced to a persona adapter (~15 lines). Full rules moved to `_rules.instructions.md`.
 - `skills/claude/CLAUDE.md` — reduced to a thin adapter with `@skills/shared/rules.md` import. Removed ~80 lines of duplicated rule prose.
 - `skills/cursor/.cursor/rules/clean-code-review.mdc` — rewritten as compact self-contained adapter (~55 lines, down from ~110).
@@ -155,6 +165,7 @@ Inspired by Google for Developers — *"Build core skills to thrive as an AI-era
 - `README.md` — updated project structure diagram, Quick Start commands (Claude now includes `cp -r skills/shared .`), "What the Skills Check" section replaced with a pointer to `shared/rules.md` plus inline rule-ID lists. Customisation table updated to direct rule edits at `shared/rules.md`.
 
 #### Why
+
 Every tool adapter previously repeated the same ~100 lines with minor wording variations. A one-rule change required editing 6 files with no guarantee of consistency. The shared source + thin adapter pattern reduces total skill content by ~50%, makes rule propagation explicit, and gives a single place to audit or tighten rules over time.
 
 ---
@@ -166,6 +177,7 @@ Every tool adapter previously repeated the same ~100 lines with minor wording va
 #### Added
 
 **DDD principles** — injected into all 5 tool skill files and the generic system prompt:
+
 - `ubiquitous-language` — flag generic names where a domain term exists (medium)
 - `bounded-context-violation` — flag cross-context imports without ACL (high)
 - `aggregate-integrity-bypass` — flag external mutation bypassing aggregate root (high)
@@ -176,11 +188,13 @@ Every tool adapter previously repeated the same ~100 lines with minor wording va
 - `missing-domain-event` — flag direct imperative side-effects where a domain event would be clearer (low)
 
 **Python** — `linting/python/pyproject.toml`
+
 - Ruff: lint + format, McCabe complexity max 10, pep8-naming, pyflakes, bugbear, simplify, pyupgrade
 - Mypy: strict mode, `disallow_untyped_defs`, `warn_return_any`, `no_implicit_optional`
 - Bandit: security scanning
 
 **TypeScript / JavaScript** — `linting/typescript/.eslintrc.json` + `.prettierrc.json`
+
 - ESLint with `@typescript-eslint/recommended-type-checked`
 - `import/no-restricted-paths` — DDD layer boundary rules (domain must not import infrastructure or application)
 - `import/no-cycle` — circular dependency detection
@@ -190,23 +204,28 @@ Every tool adapter previously repeated the same ~100 lines with minor wording va
 - `eslint-plugin-sonarjs`, `eslint-plugin-unicorn`, `eslint-plugin-import`
 
 **Go** — `linting/go/.golangci.yml`
+
 - golangci-lint: `errcheck`, `staticcheck`, `gocognit` (max 10), `cyclop` (max 10), `funlen` (60 lines / 40 statements), `gomnd`, `revive`, `dupl`, `gosec`, `bodyclose`, `noctx`
 - `depguard` — DDD layer rules: domain packages may not import infrastructure or adapter packages
 
 **Java** — `linting/java/checkstyle.xml` + `pmd-ruleset.xml`
+
 - Checkstyle: `MethodLength` (max 40), `CyclomaticComplexity` (max 10), `NestedIfDepth` (max 3), `ParameterNumber` (max 5), `MagicNumber`, `AbbreviationAsWordInName`, `IllegalCatch`, `EmptyCatchBlock`, `ClassFanOutComplexity` (max 20)
 - PMD: `GodClass`, `TooManyMethods` (max 15), `TooManyFields` (max 10), `CouplingBetweenObjects` (max 15), `AvoidCatchingGenericException`, `AvoidDuplicateLiterals`, `UnusedLocalVariable`, `CollapsibleIfStatements`, `SimplifyBooleanReturns`
 
 **C#** — `linting/csharp/.editorconfig`
+
 - Roslyn: `CA1822`, `CA1062`, `CA2000`, `MA0051` (method too long), `MA0016`, `S1135`
 - EditorConfig naming rules: interfaces `I`-prefix, types PascalCase, private fields `_camelCase`
 - Pattern matching, throw expressions, null checks, primary constructors enabled as suggestions
 
 **Shared tooling:**
+
 - `linting/shared/.editorconfig` — universal per-language EditorConfig for all editors
 - `linting/shared/.pre-commit-config.yaml` — multi-language pre-commit config covering Ruff, Mypy, Bandit, ESLint, Prettier, golangci-lint, Go vet, Checkstyle (Maven), dotnet format, detect-secrets
 
 **Project structure:**
+
 - `LICENSE` — MIT
 - `README.md` — full plug-and-play guide with per-tool install commands, per-language linting quick-starts, rules reference tables, how AI and linting complement each other, customisation guide, contributing guide, and MIT license block
 
@@ -228,6 +247,7 @@ Every tool adapter previously repeated the same ~100 lines with minor wording va
 - `skills/generic/system-prompt.txt` — plain-text system prompt for any AI tool, API, or custom agent.
 
 **Clean Code rules covered in all adapters:**
+
 - `meaningful-names` (medium)
 - `single-responsibility` (high)
 - `minimize-duplication` (high)
@@ -238,11 +258,13 @@ Every tool adapter previously repeated the same ~100 lines with minor wording va
 - `clear-error-handling` (medium)
 
 **Consistent output format** across all tools:
+
 - Summary header (files reviewed, finding counts by severity)
 - Per-finding: severity, rule ID, location, problem, why it matters, suggested fix, optional refactor example
 - Max 3 findings per file ordered by impact
 
 **Guardrails** applied in all adapters:
+
 - Skip findings when formatting is linter-enforced
 - Every finding must cite a specific file and line
 - No speculative or low-confidence findings

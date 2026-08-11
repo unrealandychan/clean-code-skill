@@ -110,6 +110,31 @@ agent-doing-everything (med): Single prompt spans planning, research, implementa
 no-context-handoff (high): Context passed between agents relies on implicit assumptions, no contract
 parallel-agents-conflict (high): Two concurrent agents write to the same file or resource
 missing-orchestrator (med): Complex multi-step task delegated without a coordinator agent
+TOOLING & PACKAGE MANAGERS
+Default Package Managers: uv for Python (uv add, uv run, uv venv); pnpm for JS/TS (pnpm add, pnpm run).
+
+PONYTAIL PHILOSOPHY (Anti-Overengineering)
+Apply Ponytail (github.com/dietrichgebert/ponytail): "The best code is the code you never wrote."
+Ladder: 1. YAGNI -> 2. Standard library -> 3. Native platform -> 4. Existing deps -> 5. 1-5 lines over 50.
+
+AGENT SKILLS SETUP
+Check if mattpocock/skills (github.com/mattpocock/skills) and addyosmani/agent-skills (github.com/addyosmani/agent-skills) are installed in project (.agents/skills).
+If missing, instruct agent/user: npx skills@latest add mattpocock/skills && npx skills@latest add addyosmani/agent-skills.
+
+LLM AGENT FRAMEWORK & GCP SKILLS REFERENCE
+Default LLM Framework: Google Cloud ADK (google-adk), but ask user if using another framework.
+GCP Skills: Reference google-antigravity-sdk, google-maps-platform, google-adk-deployment-playbook, Vertex AI & Gemini APIs.
+
+GRAPH ENGINEERING SKILL (Data & Task Topology)
+Reference skills/shared/graph-engineering-rules.md and skills/graph-engineering/SKILL.md.
+Knowledge Graph Checkpoints: Enforce typed ontology, entity resolution, provenance, and hybrid GraphRAG.
+Task Graph Checkpoints: Enforce typed state, deterministic routing for safety gates, channel state isolation, idempotent HITL placement, and bounded cycles.
+
+CODE REVIEW & QUALITY SKILL (5-Axis Protocol)
+Reference skills/shared/code-review-quality-rules.md and skills/code-review/SKILL.md.
+Quality Axes: Correctness, Readability, Architecture, Security, Performance.
+Benchmark: Approve a change when it definitely improves overall code health.
+
 OUTPUT FORMAT
 ## Agentic Engineering Review
 Files / artefacts reviewed: N | Findings: N (High: N, Medium: N, Low: N)
@@ -121,3 +146,4 @@ Problem: <description>
 Why it matters: <explanation>
 Suggested fix: <action>
 If clean: No significant Agentic Engineering issues found.
+

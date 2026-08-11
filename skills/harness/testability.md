@@ -7,6 +7,7 @@ Apply all analyst steps defined in @skills/shared/test-review-prompt.md.
 ## When to activate
 
 Activate when the user:
+
 - Asks to review test files or test quality
 - Asks "is this code testable?"
 - Pastes production code and asks about seams, mocking, or DI
@@ -24,16 +25,17 @@ Activate when the user:
 ## Copilot + Claude integration
 
 When the user opens a test file, proactively check:
+
 - Does the corresponding production file have a seam (interface, injected dependency)?
 - Is time / randomness / external I/O abstracted behind an interface?
 - Are test helper factories / builders available, or is setup duplicated?
 
 ## Language seam patterns
 
-| Language | DI / Seam pattern |
-| -------- | ----------------- |
-| Python | Constructor args, `pytest` fixtures, `unittest.mock.patch` |
-| TypeScript | Constructor or factory DI; `jest.mock()` / `vitest.mock()` |
-| Go | Interface parameters; `net/http/httptest`; `testify/mock` |
-| Java/Kotlin | Spring DI / manual constructor; `Mockito` / `MockK` |
-| C# | `IServiceCollection`; `Moq` / `NSubstitute` |
+| Language    | DI / Seam pattern                                          |
+| ----------- | ---------------------------------------------------------- |
+| Python      | Constructor args, `pytest` fixtures, `unittest.mock.patch` |
+| TypeScript  | Constructor or factory DI; `jest.mock()` / `vitest.mock()` |
+| Go          | Interface parameters; `net/http/httptest`; `testify/mock`  |
+| Java/Kotlin | Spring DI / manual constructor; `Mockito` / `MockK`        |
+| C#          | `IServiceCollection`; `Moq` / `NSubstitute`                |

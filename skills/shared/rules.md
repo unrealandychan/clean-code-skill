@@ -149,14 +149,131 @@ Before writing or changing any code:
 
 ---
 
+## Default Package Managers
+
+When managing packages, dependencies, or virtual environments, strictly default to:
+
+| Language Environment        | Default Package Manager | Command Examples                                               | Fallback / Exceptions                                                                    |
+| --------------------------- | ----------------------- | -------------------------------------------------------------- | ---------------------------------------------------------------------------------------- |
+| **Python**                  | **`uv`**                | `uv add <pkg>`, `uv run <cmd>`, `uv sync`, `uv venv`           | Use `pip` / `poetry` only if `uv` is unavailable or explicitly requested by user         |
+| **JavaScript / TypeScript** | **`pnpm`**              | `pnpm add <pkg>`, `pnpm run <cmd>`, `pnpm install`, `pnpm dlx` | Use `npm` / `yarn` / `bun` only if `pnpm` is unavailable or explicitly requested by user |
+
+---
+
+## Ponytail Philosophy & Evaluation Ladder (Anti-Overengineering)
+
+Incorporate the **Ponytail** philosophy ([github.com/dietrichgebert/ponytail](https://github.com/dietrichgebert/ponytail)):
+
+> **"The best code is the code you never wrote."** (Act like the laziest senior dev in the room).
+
+Before writing or changing code, run every request down the **Ponytail Ladder**:
+
+1. **YAGNI (Ruthless Elimination)**: Does this code or feature even need to exist?
+2. **Standard Library First**: Can the language standard library solve this natively without new code or deps?
+3. **Native Platform Primitives**: Can OS or platform capabilities handle it directly?
+4. **Existing Dependencies**: Is there already an installed dependency in the project that does this?
+5. **One Line Over Fifty**: Can it be expressed cleanly in 1–5 lines instead of a 50-line over-engineered abstraction?
+
+### Ponytail Rules
+
+| Rule                       | Severity   | Flag when                                                                                    |
+| -------------------------- | ---------- | -------------------------------------------------------------------------------------------- |
+| `ponytail-overengineering` | **high**   | Code introduces unnecessary wrapper classes, single-use abstractions, or complex boilerplate |
+| `ponytail-stdlib-bypass`   | **medium** | Code installs/imports a heavy library for a task native to the standard library              |
+| `ponytail-yagni-violation` | **high**   | Speculative configurability, "just-in-case" features, or dead-code abstractions added        |
+
+---
+
+## Agent Skills & Workflow Setup (`mattpocock/skills` & `addyosmani/agent-skills`)
+
+When operating in an agentic coding environment or initializing a project workflow:
+
+1. **Check for `mattpocock/skills` & `addyosmani/agent-skills`**:
+   - Check if `mattpocock/skills` ([github.com/mattpocock/skills](https://github.com/mattpocock/skills)) and `addyosmani/agent-skills` ([github.com/addyosmani/agent-skills](https://github.com/addyosmani/agent-skills)) are installed in the project (look for `.agents/skills`, `.claude/skills`, or installed skill recipes).
+
+   - **If NOT installed**, instruct the user or run:
+
+     ```bash
+     npx skills@latest add mattpocock/skills
+
+     npx skills@latest add addyosmani/agent-skills
+     ```
+
+     _(Or for Claude Code: `/plugin marketplace add addyosmani/agent-skills`)_
+
+2. **Leverage Core Workflows**:
+   - `mattpocock/skills`: `setup-matt-pocock-skills`, `grill-with-docs`, `to-spec` / `to-issues`, `implement` (TDD), `improve-codebase-architecture`.
+   - `addyosmani/agent-skills`: `code-review-and-quality` (5-axis review: Correctness, Readability, Architecture, Security, Performance), `interview-me`, `spec-driven-development`, `debugging-and-error-recovery`, `security-and-hardening`.
+
+---
+
+## LLM Agent Framework Standard (Google Cloud ADK)
+
+When building, designing, or refactoring agentic AI applications:
+
+- **Default Framework**: **Google Cloud Agent Development Kit (ADK)** (`google-adk`) for Python and TypeScript.
+- **Interactive Check**: Always default to Google Cloud ADK. However, **ask the user** if they are using or prefer a different LLM agent framework (e.g. LangChain, LlamaIndex, CrewAI, AutoGen, Semantic Kernel, PydanticAI, Vercel AI SDK).
+
+---
+
+## Google Cloud Related Skills Reference
+
+Refer to these specialized Google Cloud and AI platform skills when working with GCP ecosystem tools:
+
+| Skill / Platform                                                                    | Capability & Scope                                                                         | Key Usage                                                                 |
+| ----------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------- |
+| **Google Agent Development Kit (ADK) & Antigravity SDK** (`google-antigravity-sdk`) | Designing, implementing, and debugging autonomous AI agents and multi-agent orchestrations | ADK agent setups, tool definitions, multi-agent workflows                 |
+| **Google Maps Platform** (`google-maps-platform`)                                   | Maps, Places, Geocoding, Routes, 3D/Street View, Air Quality, Solar, Pollen APIs           | Production & prototype mapping code (using demo key or Cloud project key) |
+| **Google Cloud ADK Deployment Playbooks** (`google-adk-deployment-playbook`)        | GCP infrastructure deployment patterns for LLM workloads                                   | Cloud Run, GKE, Vertex AI Agent Builder, Firestore, BigQuery, Terraform   |
+| **Vertex AI & Gemini API Best Practices**                                           | Grounding, structured outputs, function calling schemas, context caching                   | Gemini 1.5/2.0/3.x models integration, enterprise LLM safety              |
+
+---
+
+## Optional Skill Module: Graph Engineering (Data & Task Topology)
+
+When building **Knowledge Graphs** (Data Topology) or **Task Graphs** (Agent Execution Topology):
+
+Full rules: `skills/shared/graph-engineering-rules.md` | Guide: `skills/graph-engineering/SKILL.md`
+
+- **Knowledge Graph Rules**:
+  - `unbounded-ontology-explosion` (**high**): Node/edge extractions must follow a strict typed ontology schema.
+  - `missing-entity-resolution` (**high**): Entity mentions across sources must be deduplicated & fused.
+  - `missing-temporal-provenance` (medium): All graph facts must track timestamp, source document ID, and confidence.
+  - `unoptimized-graphrag-traversal` (**high**): GraphRAG must combine vector seed search + $k$-hop sub-graph pruning.
+  - `graph-pollution-no-quality-gate` (**high**): LLM extractions require validation gates before production DB write.
+
+- **Task Graph & Agent Topology Rules**:
+  - `untyped-graph-state` (**high**): State schemas must use `TypedDict` or `Pydantic` models.
+  - `non-deterministic-control-flow` (**high**): Safety gates & business logic require code logic, not LLM routing.
+  - `unisolated-parallel-fanout` (**high**): Parallel branches must use channel reducers or isolated state.
+  - `un-idempotent-hitl-interrupt` (**high**): Place human-in-the-loop interrupts _before_ non-idempotent side effects.
+  - `unbounded-agent-cycle` (**high**): Feedback loops must enforce max-iteration bounds.
+
+---
+
+## Code Review & Quality Module (5-Axis Protocol)
+
+Inspired by Addy Osmani's `agent-skills` (`code-review-and-quality`):
+
+Full rules: `skills/shared/code-review-quality-rules.md` | Guide: `skills/code-review/SKILL.md`
+
+- **Correctness**: Spec alignment (`spec-mismatch`), unhandled edge cases (`unhandled-edge-case`), silent error swallowing (`silent-error-swallowing`), race conditions (`race-condition-risk`).
+- **Readability**: Vague naming (`vague-naming`), bloated functions (`bloated-function`), nested conditionals (`deep-nesting-chain`).
+- **Architecture**: Bounded context leaks (`bounded-context-leak`), overengineered abstractions (`overengineered-abstraction`), tight coupling (`tight-coupling`).
+- **Security**: Raw input injection (`unvalidated-input-injection`), exposed credentials (`exposed-credentials-secrets`), insecure defaults (`insecure-defaults`).
+- **Performance**: N+1 queries (`n-plus-one-query`), memory leaks (`memory-leak-hazard`), unbounded allocations (`unbounded-memory-allocation`).
+- **Benchmark**: Approve a change when it **definitely improves overall code health**, even if not perfect.
+
+---
+
 ## Language Notes
 
-| Language      | Key signals                                                                                                          |
-| ------------- | -------------------------------------------------------------------------------------------------------------------- |
-| Python        | Explicit exceptions; small modules; no giant utility files; dataclasses or pydantic for value objects                |
-| TypeScript/JS | No `any` hiding intent; branded types or classes for value objects; domain logic ≠ UI effects                        |
-| Go            | Small functions; explicit error returns; no package-level god structs; aggregate = struct with exported methods only |
-| Java/Kotlin   | No bloated service classes; no deep inheritance chains; package-per-bounded-context layout                           |
-| C#            | No static utility bags; thin controllers; record types for value objects; Roslyn-enforced naming                     |
-| Ruby          | Small methods; no meta-programming that obscures intent                                                              |
-| Rust          | Explicit error types; no `.unwrap()` chains where errors propagate                                                   |
+| Language      | Key signals                                                                                                             |
+| ------------- | ----------------------------------------------------------------------------------------------------------------------- |
+| Python        | Default to `uv` for package/venv management; explicit exceptions; small modules; dataclasses/pydantic for value objects |
+| TypeScript/JS | Default to `pnpm` for dependency management; no `any` hiding intent; branded types/classes for value objects            |
+| Go            | Small functions; explicit error returns; no package-level god structs; aggregate = struct with exported methods only    |
+| Java/Kotlin   | No bloated service classes; no deep inheritance chains; package-per-bounded-context layout                              |
+| C#            | No static utility bags; thin controllers; record types for value objects; Roslyn-enforced naming                        |
+| Ruby          | Small methods; no meta-programming that obscures intent                                                                 |
+| Rust          | Explicit error types; no `.unwrap()` chains where errors propagate                                                      |
