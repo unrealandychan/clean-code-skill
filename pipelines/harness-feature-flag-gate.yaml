@@ -75,7 +75,7 @@ pipeline:
                         type: SetFeatureFlagState
                         spec:
                           state: on
-                  timeout: 7d  # pipeline parks here up to 7 days waiting for flag enable
+                  timeout: 7d # pipeline parks here up to 7 days waiting for flag enable
                   description: |
                     Code is deployed but behind the feature flag.
                     Enable the flag "<+pipeline.variables.FF_IDENTIFIER>" in the Harness FF console

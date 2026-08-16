@@ -29,11 +29,11 @@ name: Publish to PyPI
 on:
   push:
     tags:
-      - 'v[0-9]+.[0-9]+.[0-9]*'
+      - "v[0-9]+.[0-9]+.[0-9]*"
   workflow_dispatch:
     inputs:
       dry_run:
-        description: 'Dry run — build without publishing'
+        description: "Dry run — build without publishing"
         required: false
         default: false
         type: boolean
@@ -55,7 +55,7 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
-          python-version: '3.12'
+          python-version: "3.12"
 
       # ── 3. Install build tools ────────────────────────────────────────────────
       - name: Install build tools

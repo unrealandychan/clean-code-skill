@@ -12,11 +12,11 @@ name: Publish to npm
 on:
   push:
     tags:
-      - 'v[0-9]+.[0-9]+.[0-9]*'
+      - "v[0-9]+.[0-9]+.[0-9]*"
   workflow_dispatch:
     inputs:
       dry_run:
-        description: 'Dry run — pack without publishing'
+        description: "Dry run — pack without publishing"
         required: false
         default: false
         type: boolean
@@ -38,9 +38,9 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '20'
-          registry-url: 'https://registry.npmjs.org'
-          cache: 'npm'
+          node-version: "20"
+          registry-url: "https://registry.npmjs.org"
+          cache: "npm"
 
       # ── 3. Install dev dependencies (husky, markdownlint, etc.) ─────────────
       - name: Install dependencies

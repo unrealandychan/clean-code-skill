@@ -6,29 +6,29 @@ name: Generate Release Notes
 on:
   push:
     tags:
-      - 'v[0-9]*'       # v1.0.0, v0.5.0, etc.
+      - "v[0-9]*" # v1.0.0, v0.5.0, etc.
   workflow_dispatch:
     inputs:
       version:
-        description: 'Version to generate notes for (e.g. 0.5.0 or v0.5.0). Defaults to latest tag.'
+        description: "Version to generate notes for (e.g. 0.5.0 or v0.5.0). Defaults to latest tag."
         required: false
-        default: ''
+        default: ""
       llm:
-        description: 'LLM backend to use'
+        description: "LLM backend to use"
         required: false
-        default: 'claude'
+        default: "claude"
         type: choice
         options:
           - claude
           - github-models
       dry_run:
-        description: 'Dry run — print entry without opening a PR'
+        description: "Dry run — print entry without opening a PR"
         required: false
         default: false
         type: boolean
 
 permissions:
-  contents: write      # push the release-notes branch
+  contents: write # push the release-notes branch
   pull-requests: write # open the PR
 
 jobs:
@@ -41,7 +41,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
         with:
-          fetch-depth: 0         # required: we need all tags and commit history
+          fetch-depth: 0 # required: we need all tags and commit history
           token: ${{ secrets.GITHUB_TOKEN }}
 
       # ── 2. Resolve version from input or tag event ──────────────────────────

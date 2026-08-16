@@ -106,7 +106,7 @@ pipeline:
                         errors:
                           - AllErrors
                         action:
-                          type: Ignore  # integration tests are advisory; don't block PR
+                          type: Ignore # integration tests are advisory; don't block PR
 
     - stage:
         name: Publish Image

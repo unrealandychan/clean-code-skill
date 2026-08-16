@@ -24,7 +24,7 @@ linters-settings:
     lines: 60
     statements: 40
 
-  # ── Too many parameters (Clean Code: small interfaces) ───────────────────── 
+  # ── Too many parameters (Clean Code: small interfaces) ─────────────────────
   gocritic:
     enabled-checks:
       - hugeParam
@@ -61,7 +61,7 @@ linters-settings:
   unused:
     field-writes-are-uses: false
 
-  # ── Error handling (Clean Code) ──────────────────────────────────────────── 
+  # ── Error handling (Clean Code) ────────────────────────────────────────────
   errcheck:
     check-type-assertions: true
     check-blank: true
@@ -86,27 +86,27 @@ linters-settings:
 
 linters:
   enable:
-    - errcheck          # check all errors are handled
-    - gosimple          # simplify code
-    - govet             # suspicious constructs
-    - ineffassign       # unused assignments
-    - staticcheck       # comprehensive static analysis
-    - unused            # unused code
-    - gocognit          # cognitive complexity
-    - cyclop            # cyclomatic complexity
-    - funlen            # function length
-    - gomnd             # magic numbers
-    - revive            # naming and style
-    - gocritic          # opinionated code checks
-    - dupl              # code duplication
-    - depguard          # layer import rules (DDD)
-    - godot             # comment formatting
-    - gofmt             # formatting
-    - goimports         # import ordering
-    - misspell          # spelling in comments
-    - noctx             # http requests must use context
-    - bodyclose         # http response body close
-    - gosec             # security checks
+    - errcheck # check all errors are handled
+    - gosimple # simplify code
+    - govet # suspicious constructs
+    - ineffassign # unused assignments
+    - staticcheck # comprehensive static analysis
+    - unused # unused code
+    - gocognit # cognitive complexity
+    - cyclop # cyclomatic complexity
+    - funlen # function length
+    - gomnd # magic numbers
+    - revive # naming and style
+    - gocritic # opinionated code checks
+    - dupl # code duplication
+    - depguard # layer import rules (DDD)
+    - godot # comment formatting
+    - gofmt # formatting
+    - goimports # import ordering
+    - misspell # spelling in comments
+    - noctx # http requests must use context
+    - bodyclose # http response body close
+    - gosec # security checks
 
 issues:
   max-same-issues: 5

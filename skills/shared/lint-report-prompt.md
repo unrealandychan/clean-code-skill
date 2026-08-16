@@ -32,7 +32,7 @@ If the format is ambiguous, infer the linter from file extensions or message pat
    - `Error` — blocks compilation or CI gate; must fix before merge
    - `Warning` — degrades quality; address before merge
    - `Info / Style` — optional low-friction improvement
-4. **Translate** each rule code into a plain-English explanation. Do not echo the raw linter message verbatim — explain what the violation *means* to a reader of the code.
+4. **Translate** each rule code into a plain-English explanation. Do not echo the raw linter message verbatim — explain what the violation _means_ to a reader of the code.
 5. **Map** findings to the project's Clean Code rule IDs (from `rules.md`) where a clear match exists. Use the mapping table below.
 6. **Deduplicate** — if the same rule code fires on 10 or more lines, show only the 3 worst offenders and note the total count in the table row.
 7. **Prioritise** — produce a numbered action plan ordered by impact.
@@ -104,24 +104,24 @@ If there are no findings at all, reply:
 
 Use this table when populating the "Clean Code Rule" column. When no mapping applies, write `—`.
 
-| Lint Code (examples) | Clean Code Rule |
-|---|---|
-| `F841` unused var · `@typescript-eslint/no-unused-vars` · `deadcode` | `meaningful-names` |
-| `C901` complexity · `sonarjs/cognitive-complexity` · `gocyclo` · `cyclop` | `avoid-deep-nesting` |
-| `PLR0913` too-many-args · `max-params` · sonarjs `S107` | `small-interfaces` |
-| `PLR2004` magic value · `no-magic-numbers` · `goconst` | `named-constants` |
-| `D` prefix (pydocstyle) · `jsdoc/*` · `godot` | `comment-why-not-what` |
-| `S` prefix (Bandit) · `security/*` · `G` prefix golangci | `clear-error-handling` |
-| `sonarjs/no-duplicated-branches` · `DUP*` | `minimize-duplication` |
-| `depguard` · `import/no-cycle` · bounded-context rules | `bounded-context-violation` |
-| `WPS221` · `PLR0912` too-many-branches | `avoid-deep-nesting` |
-| `N8` prefix (pep8 naming) · `@typescript-eslint/naming-convention` | `meaningful-names` |
+| Lint Code (examples)                                                      | Clean Code Rule             |
+| ------------------------------------------------------------------------- | --------------------------- |
+| `F841` unused var · `@typescript-eslint/no-unused-vars` · `deadcode`      | `meaningful-names`          |
+| `C901` complexity · `sonarjs/cognitive-complexity` · `gocyclo` · `cyclop` | `avoid-deep-nesting`        |
+| `PLR0913` too-many-args · `max-params` · sonarjs `S107`                   | `small-interfaces`          |
+| `PLR2004` magic value · `no-magic-numbers` · `goconst`                    | `named-constants`           |
+| `D` prefix (pydocstyle) · `jsdoc/*` · `godot`                             | `comment-why-not-what`      |
+| `S` prefix (Bandit) · `security/*` · `G` prefix golangci                  | `clear-error-handling`      |
+| `sonarjs/no-duplicated-branches` · `DUP*`                                 | `minimize-duplication`      |
+| `depguard` · `import/no-cycle` · bounded-context rules                    | `bounded-context-violation` |
+| `WPS221` · `PLR0912` too-many-branches                                    | `avoid-deep-nesting`        |
+| `N8` prefix (pep8 naming) · `@typescript-eslint/naming-convention`        | `meaningful-names`          |
 
 ---
 
 ## Guardrails
 
-- Do not repeat the raw linter message verbatim — rephrase in plain English that explains the *impact*.
+- Do not repeat the raw linter message verbatim — rephrase in plain English that explains the _impact_.
 - Only report findings present in the input — do not add your own code review observations.
 - Do not recommend disabling or ignoring rules — always suggest fixing the root cause.
 - If the same rule fires on 10+ lines, list only the 3 worst offenders and note the total count.
