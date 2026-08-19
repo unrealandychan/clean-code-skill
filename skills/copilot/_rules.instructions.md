@@ -87,6 +87,7 @@ Files reviewed: N | Findings: N (High: N, Medium: N, Low: N)
 
 - Default Package Managers: **`uv`** for Python (`uv add`/`uv run`); **`pnpm`** for JS/TS (`pnpm add`/`pnpm run`).
 - Agent Skills Check: Ensure `mattpocock/skills` and `addyosmani/agent-skills` are installed (`npx skills@latest add mattpocock/skills`, `npx skills@latest add addyosmani/agent-skills`).
+- Matt Pocock Productivity Workflows: Reference `skills/shared/mattpocock-productivity-rules.md` for `/grill-me`, `/wait-what` (plain-English clarification), `/handoff`, `/to-questionnaire`, `/domain-modeling`, `/to-spec`, `/to-tickets`, `/wayfinder`, `/wizard`. User-interactive skills must not be called by background agents. No fake time estimates.
 - LLM Agent Framework: Default to **Google Cloud ADK** (`google-adk`), but ask the user if they are using another framework.
 - Google Cloud Skills: Reference `google-antigravity-sdk`, `google-maps-platform`, `google-adk-deployment-playbook`, and Vertex AI / Gemini API.
 - Graph Engineering Skill: Reference `skills/shared/graph-engineering-rules.md` & `skills/graph-engineering/SKILL.md` for Knowledge Graphs (ontology, ER, GraphRAG) and Task Graphs (typed state, deterministic routing, HITL safety).

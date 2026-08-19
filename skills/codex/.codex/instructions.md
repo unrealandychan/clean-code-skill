@@ -158,6 +158,7 @@ When the user says "summarize this session as a skill", "capture this task as a 
 
 - Check if `mattpocock/skills` and `addyosmani/agent-skills` are installed (`.agents/skills`, `.claude/skills`).
 - If not, instruct user or run `npx skills@latest add mattpocock/skills` and `npx skills@latest add addyosmani/agent-skills`.
+- **Matt Pocock Productivity Workflows**: Reference `skills/shared/mattpocock-productivity-rules.md` for `/grill-me`, `/wait-what` (plain-English clarification), `/handoff`, `/to-questionnaire`, `/domain-modeling`, `/to-spec`, `/to-tickets`, `/wayfinder`, `/wizard`. User-interactive skills must not be called by background agents. No fake time estimates.
 
 ## LLM Agent Framework & GCP Skills Reference
 

@@ -11,11 +11,14 @@
 #   TARGET_DIR   Destination project root (default: asked interactively, or cwd)
 #
 # Options:
-#   --tool       copilot | claude | cursor | opencode | windsurf | hermes | codex | aider | generic | all
+#   --tool       copilot | claude | cursor | opencode | hermes | codex | aider | generic | all
 #   --lang       python | typescript | go | java | csharp | all
 #   --no-lint    Skip linting configs
 #   --no-hooks   Skip pre-commit hook config
 #   --harness    Copy Harness Engineering skill files (testability, observability, pipelines)
+#   --graph      Copy Graph Engineering skill files (knowledge & task graphs)
+#   --code-review Copy 5-Axis Code Review & Quality skill files
+#   --productivity Copy Matt Pocock Productivity & Engineering skill files
 #   --dry-run    Print what would be copied without touching the filesystem
 #   --yes        Skip confirmation prompt (non-interactive)
 #   --help       Show this help
@@ -53,6 +56,7 @@ INTERACTIVE=false   # set to true when questionnaire runs
 COPY_HARNESS=""     # harness engineering files
 COPY_GRAPH=""       # graph engineering files
 COPY_REVIEW=""      # code review and quality files
+COPY_PRODUCTIVITY="" # matt pocock productivity files
 
 # ── Argument parsing ──────────────────────────────────────────────────────────
 while [[ $# -gt 0 ]]; do
@@ -64,6 +68,7 @@ while [[ $# -gt 0 ]]; do
     --harness)  COPY_HARNESS=true;  shift ;;
     --graph|--graph-engineering) COPY_GRAPH=true; shift ;;
     --code-review) COPY_REVIEW=true; shift ;;
+    --productivity|--mattpocock-productivity) COPY_PRODUCTIVITY=true; shift ;;
     --dry-run)  DRY_RUN=true;       shift ;;
     --yes|-y)   YES=true;        shift ;;
     --help)
@@ -114,11 +119,10 @@ if [[ "$_needs_wizard" == true ]] && [[ "$YES" == false ]] && [[ -t 0 ]]; then
     echo "   [2] claude     — Claude Code"
     echo "   [3] cursor     — Cursor (.mdc rules)"
     echo "   [4] opencode   — OpenCode (AGENTS.md)"
-    echo "   [5] windsurf   — Windsurf / Cascade"
-    echo "   [6] hermes     — Hermes Agent (SKILL.md)"
-    echo "   [7] codex      — OpenAI Codex CLI (.codex/instructions.md)"
-    echo "   [8] aider      — Aider (CONVENTIONS.md)"
-    echo "   [9] generic    — Generic system prompts (any LLM API)"
+    echo "   [5] hermes     — Hermes Agent (SKILL.md)"
+    echo "   [6] codex      — OpenAI Codex CLI (.codex/instructions.md)"
+    echo "   [7] aider      — Aider (CONVENTIONS.md)"
+    echo "   [8] generic    — Generic system prompts (any LLM API)"
     echo "   [a] all        — Install all of the above"
     read -r -p "   Enter numbers/letters separated by commas [a]: " _input
     _input="${_input:-a}"
@@ -134,11 +138,10 @@ if [[ "$_needs_wizard" == true ]] && [[ "$YES" == false ]] && [[ -t 0 ]]; then
           2) TOOL="${TOOL:+$TOOL,}claude" ;;
           3) TOOL="${TOOL:+$TOOL,}cursor" ;;
           4) TOOL="${TOOL:+$TOOL,}opencode" ;;
-          5) TOOL="${TOOL:+$TOOL,}windsurf" ;;
-          6) TOOL="${TOOL:+$TOOL,}hermes" ;;
-          7) TOOL="${TOOL:+$TOOL,}codex" ;;
-          8) TOOL="${TOOL:+$TOOL,}aider" ;;
-          9) TOOL="${TOOL:+$TOOL,}generic" ;;
+          5) TOOL="${TOOL:+$TOOL,}hermes" ;;
+          6) TOOL="${TOOL:+$TOOL,}codex" ;;
+          7) TOOL="${TOOL:+$TOOL,}aider" ;;
+          8) TOOL="${TOOL:+$TOOL,}generic" ;;
           *) TOOL="${TOOL:+$TOOL,}$_c" ;;
         esac
       done
@@ -390,9 +393,6 @@ install_tool() {
     opencode)
       copy_file "$KIT_ROOT/skills/opencode/AGENTS.md" "$TARGET_DIR/AGENTS.md"
       ;;
-    windsurf)
-      copy_file "$KIT_ROOT/skills/windsurf/.windsurfrules" "$TARGET_DIR/.windsurfrules"
-      ;;
     generic)
       copy_file "$KIT_ROOT/skills/generic/system-prompt.txt"             "$TARGET_DIR/skills/generic/system-prompt.txt"
       copy_file "$KIT_ROOT/skills/generic/lint-report-system-prompt.txt" "$TARGET_DIR/skills/generic/lint-report-system-prompt.txt"
@@ -415,14 +415,14 @@ install_tool() {
       echo "  NOTE  Aider reads CONVENTIONS.md from the project root automatically."
       ;;
     *)
-      echo "  WARN  Unknown tool: $t (valid: copilot claude cursor opencode windsurf hermes codex aider generic)"
+      echo "  WARN  Unknown tool: $t (valid: copilot claude cursor opencode hermes codex aider generic)"
       SKIPPED=$((SKIPPED + 1))
       ;;
   esac
 }
 
 if [[ "$TOOL" == "all" ]]; then
-  for t in copilot claude cursor opencode windsurf hermes codex aider generic; do
+  for t in copilot claude cursor opencode hermes codex aider generic; do
     install_tool "$t"
   done
 else
@@ -522,6 +522,14 @@ if [[ "$COPY_REVIEW" == true ]]; then
   copy_file "$KIT_ROOT/skills/shared/code-review-quality-rules.md" "$TARGET_DIR/skills/shared/code-review-quality-rules.md"
   copy_dir  "$KIT_ROOT/skills/code-review"                          "$TARGET_DIR/skills/code-review"
   echo "  NOTE  5-Axis Code Review & Quality skill installed to skills/code-review/."
+fi
+
+# ── Matt Pocock Productivity files ───────────────────────────────────────────
+if [[ "$COPY_PRODUCTIVITY" == true ]]; then
+  section "Matt Pocock Productivity & Engineering"
+  copy_file "$KIT_ROOT/skills/shared/mattpocock-productivity-rules.md" "$TARGET_DIR/skills/shared/mattpocock-productivity-rules.md"
+  copy_dir  "$KIT_ROOT/skills/productivity"                             "$TARGET_DIR/skills/productivity"
+  echo "  NOTE  Productivity & Engineering workflows installed to skills/productivity/."
 fi
 
 # ── lint-and-report script ────────────────────────────────────────────────────

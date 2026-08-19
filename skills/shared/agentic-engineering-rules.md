@@ -57,13 +57,18 @@
 
 ### 🛠️ Tooling & Framework Guardrails
 
-| Rule                           | Severity | Trigger                                                                                                                                                                            |
-| ------------------------------ | -------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `missing-mattpocock-skills`    | **high** | Project lacks `mattpocock/skills` setup (`npx skills@latest add mattpocock/skills` / `setup-matt-pocock-skills` missing)                                                           |
-| `ponytail-overengineering`     | **high** | Agent writes over-engineered code, heavy abstractions, or extra deps instead of following the Ponytail ladder ("the best code is the code you never wrote")                        |
-| `non-standard-package-manager` | medium   | Using `pip`/`poetry` or `npm`/`yarn` without checking for default package managers (`uv` for Python, `pnpm` for Node/TS)                                                           |
-| `missing-adk-framework`        | medium   | Agent building LLM agents without defaulting to Google Cloud ADK (`google-adk`) or asking user for framework preference                                                            |
-| `gcp-skill-unreferenced`       | low      | GCP or Gemini AI agent solution developed without referencing specialized Google Cloud skills (`google-antigravity-sdk`, `google-maps-platform`, `google-adk-deployment-playbook`) |
+| Rule                               | Severity | Trigger                                                                                                                                                                            |
+| ---------------------------------- | -------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `missing-mattpocock-skills`        | **high** | Project lacks `mattpocock/skills` setup (`npx skills@latest add mattpocock/skills` / `setup-matt-pocock-skills` missing)                                                           |
+| `user-invoked-skill-boundary`      | **high** | Background sub-agent or automated task invokes a user-interactive skill (e.g. `grill-me`, `to-questionnaire`, `wizard`) instead of keeping execution focused                       |
+| `unclear-explanation-no-wait-what` | **high** | User indicates confusion ("wait what?", "I don't understand") and the agent repeats the same technical monologue instead of re-pitching in plain English using `CONTEXT.md` terms  |
+| `uncompacted-agent-handoff`        | **high** | Agent completes or yields a multi-step task without creating a structured markdown handoff artifact                                                                                |
+| `fictitious-time-estimates`        | **high** | Agent or wizard fabricates arbitrary time estimates ("this will take 2 hours") instead of defining concrete, verifiable test acceptance criteria                                   |
+| `missing-domain-context-map`       | **high** | Multi-module codebase lacks `CONTEXT-MAP.md` or `CONTEXT.md` mapping bounded context vocabulary and linking to ADRs                                                                |
+| `ponytail-overengineering`         | **high** | Agent writes over-engineered code, heavy abstractions, or extra deps instead of following the Ponytail ladder ("the best code is the code you never wrote")                        |
+| `non-standard-package-manager`     | medium   | Using `pip`/`poetry` or `npm`/`yarn` without checking for default package managers (`uv` for Python, `pnpm` for Node/TS)                                                           |
+| `missing-adk-framework`            | medium   | Agent building LLM agents without defaulting to Google Cloud ADK (`google-adk`) or asking user for framework preference                                                            |
+| `gcp-skill-unreferenced`           | low      | GCP or Gemini AI agent solution developed without referencing specialized Google Cloud skills (`google-antigravity-sdk`, `google-maps-platform`, `google-adk-deployment-playbook`) |
 
 ### 📓 Agent Journaling & Learning Rules
 

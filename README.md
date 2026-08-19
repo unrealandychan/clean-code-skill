@@ -14,8 +14,8 @@
 
 # Clean Code + DDD + Harness Engineering AI Skill Kit
 
-> Plug-and-play AI review skills, linting configs, and pre-commit hooks for Clean Code, Domain-Driven Design (DDD), and Harness Engineering.  
-> Works with GitHub Copilot, Claude Code, Cursor, OpenCode, Windsurf, Hermes Agent, Codex, Aider, and any other AI assistant or API.
+> Plug-and-play AI review skills, linting configs, and pre-commit hooks for Clean Code, Domain-Driven Design (DDD), Harness Engineering, and Agentic Workflows.  
+> Works with GitHub Copilot, Claude Code, Cursor, OpenCode, Hermes Agent, Codex, Aider, and any other AI assistant or API.
 
 ---
 
@@ -26,6 +26,7 @@ A single set of Clean Code + DDD + Harness Engineering rules, expressed in every
 - **AI skill adapters** — one file per tool, drop into your project and start reviewing immediately
 - **Shared rule definitions** — one canonical source of truth; all adapters reference the same rules
 - **Harness Engineering rules** — testability, observability, and progressive delivery checks
+- **Productivity & Engineering Skill Suite** — Matt Pocock workflows (`/grill-me`, `/wait-what` plain-English clarification via `CONTEXT.md`, `/handoff` session compaction, `/to-questionnaire`, `/domain-modeling`, `/to-spec`, `/to-tickets`, `/wayfinder`, `/wizard`)
 - **5-Axis Code Review & Quality Skill** — multi-axis protocol inspired by Addy Osmani's `agent-skills` (Correctness, Readability, Architecture, Security, Performance)
 - **Graph Engineering Skill** — optional Knowledge Graph (data topology) & Task Graph (agent state topology) module
 - **Ponytail Anti-Overengineering** — YAGNI, standard library first, 1-line over 50 lines ("the best code is code you never wrote")
@@ -59,16 +60,19 @@ This skill kit exists to catch exactly these failure modes — before they reach
 skills/
   shared/
     rules.md                          ← canonical rules (edit here first)
+    agentic-engineering-rules.md      ← spec hygiene + guardrails + AI output eval + multi-agent
+    code-review-quality-rules.md      ← 5-axis code review rubric
+    graph-engineering-rules.md        ← knowledge graph & task graph rules
+    mattpocock-productivity-rules.md  ← productivity guardrails & workflows
+    harness-rules.md                  ← testability + observability + progressive delivery rules
+    husky-rules.md                    ← canonical commit hygiene rules
     lint-report-prompt.md             ← canonical lint-report prompt
     release-notes-prompt.md           ← canonical release notes prompt
     task-summary-prompt.md            ← canonical task-summary prompt
-    husky-rules.md                    ← canonical commit hygiene rules
-    harness-rules.md                  ← testability + observability + progressive delivery rules
     test-review-prompt.md             ← test quality analyst prompt
     observability-report-prompt.md    ← observability analyst prompt
-    agentic-engineering-rules.md      ← NEW: spec hygiene + guardrails + AI output eval + multi-agent
   copilot/
-    _rules.instructions.md            ← shared rules (Clean Code + DDD + Harness) in Copilot format
+    _rules.instructions.md            ← shared rules in Copilot format
     clean-code-review.instructions.md ← Copilot code review adapter
     lint-report.instructions.md       ← Copilot lint report adapter
     task-summary.instructions.md      ← Copilot task-summary adapter
@@ -81,8 +85,6 @@ skills/
       task-summary.mdc                ← task-summary adapter with frontmatter globs
   opencode/
     AGENTS.md                         ← self-contained adapter
-  windsurf/
-    .windsurfrules                    ← self-contained adapter
   hermes/
     SKILL.md                          ← Hermes Agent skill (YAML frontmatter + body)
   codex/
@@ -93,12 +95,23 @@ skills/
     system-prompt.txt                 ← raw prompt for any AI tool or API
     lint-report-system-prompt.txt     ← raw lint report prompt
     task-summary-system-prompt.txt    ← raw task-summary prompt
+  code-review/                        ← 5-Axis Code Review skill & workflows
+    SKILL.md
+    WORKFLOWS.md
+  graph-engineering/                  ← Knowledge & Task Graph skill & workflows
+    SKILL.md
+    WORKFLOWS.md
+    references/
+  productivity/                       ← Matt Pocock Productivity workflows
+    SKILL.md
+    WORKFLOWS.md
   harness/                            ← Harness Engineering adapters
-    testability.md                    ← testability review assistant
-    observability.md                  ← observability review assistant
-    progressive-delivery.md           ← feature flags + canary + circuit breakers
-    agentic-engineering.md            ← NEW: spec-driven dev + guardrails + multi-agent guide
-pipelines/                            ← NEW: Harness.io pipeline templates
+    testability.md
+    observability.md
+    progressive-delivery.md
+    agentic-engineering.md
+    graph-engineering.md
+pipelines/                            ← Harness.io pipeline templates
   harness-ci.yaml                     ← CI: build + test + DORA metrics
   harness-canary.yaml                 ← CD: canary deploy with auto-rollback
   harness-feature-flag-gate.yaml      ← CD: feature flag gated rollout
@@ -119,15 +132,19 @@ To change a rule, update `shared/rules.md` and propagate to the adapters.
 ├── skills/
 │   ├── shared/
 │   │   ├── rules.md                            ← single source of truth for all rules
+│   │   ├── agentic-engineering-rules.md        ← spec hygiene + guardrails + AI output eval + multi-agent
+│   │   ├── code-review-quality-rules.md        ← 5-axis code review rubric
+│   │   ├── graph-engineering-rules.md          ← knowledge graph & task graph rules
+│   │   ├── mattpocock-productivity-rules.md    ← productivity guardrails & workflows
+│   │   ├── harness-rules.md                    ← testability + observability + delivery rules
+│   │   ├── husky-rules.md                      ← canonical commit hygiene rules
 │   │   ├── lint-report-prompt.md               ← canonical prompt: lint output → AI report
 │   │   ├── release-notes-prompt.md             ← canonical prompt: commits → release notes entry
 │   │   ├── task-summary-prompt.md              ← canonical prompt: session → task summary + skill recipe
-│   │   ├── husky-rules.md                      ← canonical commit hygiene rules
-│   │   ├── harness-rules.md                    ← NEW: testability + observability + delivery rules
-│   │   ├── test-review-prompt.md               ← NEW: test quality analyst prompt
-│   │   └── observability-report-prompt.md      ← NEW: observability analyst prompt
+│   │   ├── test-review-prompt.md               ← test quality analyst prompt
+│   │   └── observability-report-prompt.md      ← observability analyst prompt
 │   ├── copilot/
-│   │   ├── _rules.instructions.md              ← shared rules (Copilot picks up both files)
+│   │   ├── _rules.instructions.md              ← shared rules in Copilot format
 │   │   ├── clean-code-review.instructions.md   ← persona adapter
 │   │   ├── lint-report.instructions.md         ← lint report adapter
 │   │   ├── task-summary.instructions.md        ← task-summary & skill-extraction adapter
@@ -140,25 +157,34 @@ To change a rule, update `shared/rules.md` and propagate to the adapters.
 │   │       └── task-summary.mdc                ← task-summary & skill-extraction adapter
 │   ├── opencode/
 │   │   └── AGENTS.md                           ← self-contained adapter
-│   ├── windsurf/
-│   │   └── .windsurfrules                      ← self-contained adapter
 │   ├── hermes/
 │   │   └── SKILL.md                            ← Hermes Agent skill adapter
 │   ├── codex/
 │   │   └── .codex/instructions.md              ← OpenAI Codex CLI adapter
 │   ├── aider/
 │   │   └── CONVENTIONS.md                      ← Aider conventions adapter
-│   └── generic/
-│       ├── system-prompt.txt                   ← raw code review prompt for any tool or API
-│       ├── lint-report-system-prompt.txt       ← raw lint report prompt for any AI tool or API
-│       └── task-summary-system-prompt.txt      ← raw task-summary prompt for any AI tool or API
+│   ├── generic/
+│   │   ├── system-prompt.txt                   ← raw code review prompt for any tool or API
+│   │   ├── lint-report-system-prompt.txt       ← raw lint report prompt for any AI tool or API
+│   │   └── task-summary-system-prompt.txt      ← raw task-summary prompt for any AI tool or API
+│   ├── code-review/                            ← 5-Axis Code Review skill & workflows
+│   │   ├── SKILL.md
+│   │   └── WORKFLOWS.md
+│   ├── graph-engineering/                      ← Knowledge & Task Graph skill & workflows
+│   │   ├── SKILL.md
+│   │   ├── WORKFLOWS.md
+│   │   └── references/
+│   ├── productivity/                           ← Matt Pocock Productivity workflows
+│   │   ├── SKILL.md
+│   │   └── WORKFLOWS.md
+│   └── harness/                                ← Harness Engineering adapters
+│       ├── testability.md                      ← testability review assistant
+│       ├── observability.md                    ← observability review assistant
+│       ├── progressive-delivery.md             ← feature flags + canary + circuit breakers
+│       ├── agentic-engineering.md              ← spec-driven dev + guardrails + multi-agent guide
+│       └── graph-engineering.md                ← knowledge graph & task graph checklist
 │
-├── skills/harness/                             ← NEW: Harness Engineering adapters
-│   ├── testability.md                          ← testability review assistant
-│   ├── observability.md                        ← observability review assistant
-│   └── progressive-delivery.md                ← feature flags + canary + circuit breakers
-│
-├── pipelines/                                  ← NEW: Harness.io pipeline templates
+├── pipelines/                                  ← Harness.io pipeline templates
 │   ├── harness-ci.yaml                         ← CI with DORA metrics
 │   ├── harness-canary.yaml                     ← canary deploy with auto-rollback
 │   └── harness-feature-flag-gate.yaml          ← feature flag gated rollout
@@ -250,15 +276,15 @@ npm run migrate
 
 **What the wizard asks**
 
-| Step | Question                                                                                                   | Default                 |
-| ---- | ---------------------------------------------------------------------------------------------------------- | ----------------------- |
-| 1    | Target project directory                                                                                   | `.` (current directory) |
-| 2    | Which AI tool(s)? copilot / claude / cursor / opencode / windsurf / hermes / codex / aider / generic / all | all                     |
-| 3    | Copy linting configs?                                                                                      | yes                     |
-| 4    | Which language(s)? python / typescript / go / java / csharp / all                                          | all                     |
-| 5    | Copy pre-commit hook config?                                                                               | yes                     |
-| 6    | Copy Harness Engineering files?                                                                            | yes                     |
-| 7    | Do a dry run first?                                                                                        | yes                     |
+| Step | Question                                                                                        | Default                 |
+| ---- | ----------------------------------------------------------------------------------------------- | ----------------------- |
+| 1    | Target project directory                                                                        | `.` (current directory) |
+| 2    | Which AI tool(s)? copilot / claude / cursor / opencode / hermes / codex / aider / generic / all | all                     |
+| 3    | Copy linting configs?                                                                           | yes                     |
+| 4    | Which language(s)? python / typescript / go / java / csharp / all                               | all                     |
+| 5    | Copy pre-commit hook config?                                                                    | yes                     |
+| 6    | Copy Harness Engineering files?                                                                 | yes                     |
+| 7    | Do a dry run first?                                                                             | yes                     |
 
 After the dry run it prints the exact command to re-run with `--yes` to apply the changes.
 
@@ -312,14 +338,6 @@ cp skills/opencode/AGENTS.md .
 ```
 
 OpenCode reads `AGENTS.md` from the project root as agent context.
-
-### Windsurf (Cascade)
-
-```bash
-cp skills/windsurf/.windsurfrules .
-```
-
-Cascade reads `.windsurfrules` as persistent workspace-level rules.
 
 ### Hermes Agent
 

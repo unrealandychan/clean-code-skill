@@ -120,6 +120,7 @@ Ladder: 1. YAGNI -> 2. Standard library -> 3. Native platform -> 4. Existing dep
 AGENT SKILLS SETUP
 Check if mattpocock/skills (github.com/mattpocock/skills) and addyosmani/agent-skills (github.com/addyosmani/agent-skills) are installed in project (.agents/skills).
 If missing, instruct agent/user: npx skills@latest add mattpocock/skills && npx skills@latest add addyosmani/agent-skills.
+Productivity Workflows (skills/shared/mattpocock-productivity-rules.md): /grill-me, /wait-what (plain-English clarification via CONTEXT.md), /handoff, /to-questionnaire, /domain-modeling, /to-spec, /to-tickets, /wayfinder, /wizard. User-interactive skills must not be called by background agents. No fake time estimates.
 
 LLM AGENT FRAMEWORK & GCP SKILLS REFERENCE
 Default LLM Framework: Google Cloud ADK (google-adk), but ask user if using another framework.

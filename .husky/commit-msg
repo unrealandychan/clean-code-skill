@@ -10,7 +10,8 @@
 #   feat fix docs style refactor perf test chore revert release
 #
 # Quick reference — scopes (optional):
-#   shared | copilot | claude | cursor | opencode | windsurf | generic
+#   shared | copilot | claude | cursor | opencode | hermes | codex | aider | generic
+#   code-review | graph-engineering | productivity | harness
 #   linting | python | typescript | go | java | csharp
 #   editorconfig | pre-commit | hooks | deps | release | ci
 #

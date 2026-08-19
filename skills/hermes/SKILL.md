@@ -256,9 +256,12 @@ When initializing an agentic project workflow:
 
 1. Check if `mattpocock/skills` ([github.com/mattpocock/skills](https://github.com/mattpocock/skills)) and `addyosmani/agent-skills` ([github.com/addyosmani/agent-skills](https://github.com/addyosmani/agent-skills)) are installed in the repository (`.agents/skills`, `.claude/skills`).
 2. If **NOT present**, instruct the user or run: `npx skills@latest add mattpocock/skills` and `npx skills@latest add addyosmani/agent-skills`.
-3. Leverage core workflows:
-   - `mattpocock/skills`: `setup-matt-pocock-skills`, `grill-with-docs`, `to-spec` / `to-issues`, `implement` (TDD), `improve-codebase-architecture`.
-   - `addyosmani/agent-skills`: `code-review-and-quality` (5-axis code review: Correctness, Readability, Architecture, Security, Performance), `interview-me`, `spec-driven-development`, `debugging-and-error-recovery`, `security-and-hardening`.
+3. Leverage core Matt Pocock workflows (`skills/shared/mattpocock-productivity-rules.md`):
+   - `/grill-me` (relentless plan grilling), `/wait-what` (plain-English clarification via `CONTEXT.md`), `/handoff` (session state compaction), `/to-questionnaire` (async decision form), `/domain-modeling` (ubiquitous language dictionary & ADR linking), `/to-spec` / `/to-tickets`, `/wayfinder`, `/wizard`.
+   - **Boundary rule**: User-interactive skills have `disable-model-invocation: true`. Background tasks and sub-skills must never call user-interactive skills directly.
+   - **No fake time estimates**: State concrete automated tests per milestone instead of estimated hours.
+4. Leverage Addy Osmani quality workflows (`skills/shared/code-review-quality-rules.md`):
+   - `code-review-and-quality` (5-axis code review: Correctness, Readability, Architecture, Security, Performance), `interview-me`, `spec-driven-development`, `debugging-and-error-recovery`, `security-and-hardening`.
 
 ## LLM Agent Framework Standard (Google Cloud ADK)
 

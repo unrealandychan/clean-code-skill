@@ -1,7 +1,7 @@
 # Clean Code + DDD Rules — Canonical Reference
 
 > This is the single source of truth for all AI skill adapters in this project.
-> Tool-specific files (CLAUDE.md, .windsurfrules, AGENTS.md, etc.) are thin wrappers that apply these rules.
+> Tool-specific files (CLAUDE.md, AGENTS.md, .cursorrules, etc.) are thin wrappers that apply these rules.
 > Edit rules here first, then propagate to tool adapters.
 
 ---
@@ -190,20 +190,33 @@ When operating in an agentic coding environment or initializing a project workfl
 
 1. **Check for `mattpocock/skills` & `addyosmani/agent-skills`**:
    - Check if `mattpocock/skills` ([github.com/mattpocock/skills](https://github.com/mattpocock/skills)) and `addyosmani/agent-skills` ([github.com/addyosmani/agent-skills](https://github.com/addyosmani/agent-skills)) are installed in the project (look for `.agents/skills`, `.claude/skills`, or installed skill recipes).
-
    - **If NOT installed**, instruct the user or run:
 
      ```bash
      npx skills@latest add mattpocock/skills
-
      npx skills@latest add addyosmani/agent-skills
      ```
 
      _(Or for Claude Code: `/plugin marketplace add addyosmani/agent-skills`)_
 
-2. **Leverage Core Workflows**:
-   - `mattpocock/skills`: `setup-matt-pocock-skills`, `grill-with-docs`, `to-spec` / `to-issues`, `implement` (TDD), `improve-codebase-architecture`.
-   - `addyosmani/agent-skills`: `code-review-and-quality` (5-axis review: Correctness, Readability, Architecture, Security, Performance), `interview-me`, `spec-driven-development`, `debugging-and-error-recovery`, `security-and-hardening`.
+2. **Leverage Core Matt Pocock Workflows (`skills/shared/mattpocock-productivity-rules.md`)**:
+   - `/grill-me` & `grilling`: Relentlessly interview the user/agent about a proposed plan or design until every branch of the decision tree is resolved.
+   - `/wait-what`: When an explanation fails to land, immediately pivot to a 2-3 paragraph plain-English re-pitch grounded in `CONTEXT.md` domain vocabulary.
+   - `/handoff`: Compact conversation context into a structured markdown handoff document for the next session or agent.
+   - `/to-questionnaire`: Turn architectural or product deadlocks into a clean Markdown questionnaire with explicit options, trade-offs, and recommendations.
+   - `/domain-modeling`: Maintain `CONTEXT.md` files mapped by `CONTEXT-MAP.md` linked to Architecture Decision Records (ADRs).
+   - `/to-spec` & `/to-tickets`: Convert proposals into formal specs and single-step verifiable tickets.
+   - `/wayfinder` & `/wizard`: Goal-driven architectural exploration and implementation.
+
+3. **Skill Invocations & Prompt Standards**:
+   - **User-Invoked Skill Boundaries**: Interactive conversational skills (`grill-me`, `to-questionnaire`, `wizard`) must have `disable-model-invocation: true`. Sub-agents and background tasks must never call user-interactive skills directly.
+   - **Explicit Multi-Skill Tool Calls**: Standardize cross-skill calls with `call Skill tool with "<name>"`.
+   - **Zero Fake Time Estimates**: Never generate speculative time estimates ("this will take 2 hours"). State concrete automated verification checks per step (`Step N -> Verify: <cmd>`).
+   - **Prompt Cleanliness**: Avoid em-dashes in agent instructions; quote YAML frontmatter descriptions with colons.
+
+4. **Leverage Addy Osmani Quality Workflows (`skills/shared/code-review-quality-rules.md`)**:
+   - `code-review-and-quality`: 5-axis review (Correctness, Readability, Architecture, Security, Performance).
+   - `interview-me`, `spec-driven-development`, `debugging-and-error-recovery`, `security-and-hardening`.
 
 ---
 

@@ -5,6 +5,41 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ---
 
+## [1.5.0] — 2026-08-19
+
+### Feature: Matt Pocock Productivity Suite, 5-Axis Code Review, Graph Engineering & Modern Tooling
+
+Inspired by Matt Pocock (`mattpocock/skills`) and Addy Osmani (`addyosmani/agent-skills`).
+
+#### Added
+
+- **Matt Pocock Productivity Rules** — `skills/shared/mattpocock-productivity-rules.md`:
+  - `user-invoked-skill-boundary` & `unclear-cross-skill-call` — guards interactive skill execution boundaries and requires explicit `call Skill tool with "<name>"` invocation syntax.
+  - `unclear-explanation-no-wait-what` — rapid plain-English clarification protocol using `CONTEXT.md` vocabulary.
+  - `uncompacted-agent-handoff` & `lossy-context-transfer` — structured session handoff compaction.
+  - `fictitious-time-estimates` — replaces hallucinated time estimates with automated verification commands per milestone.
+  - `missing-domain-context-map` — grounds ubiquitous language dictionaries in `CONTEXT-MAP.md` linked to ADRs.
+- **Productivity & Engineering Skill Module** — `skills/productivity/SKILL.md` & `WORKFLOWS.md`:
+  - `/grill-me` (relentless plan stress-testing)
+  - `/wait-what` (plain-English clarification)
+  - `/handoff` (session state compaction)
+  - `/to-questionnaire` (async decision form)
+  - `/domain-modeling` (context map and vocabulary synchronization)
+  - `/to-spec` & `/to-tickets` (RFC to formal spec and discrete tickets)
+  - `/wayfinder` & `/wizard` (goal-driven exploration and implementation)
+- **5-Axis Code Review & Quality Protocol** (`skills/code-review/` & `skills/shared/code-review-quality-rules.md`): Correctness, Readability, Architecture, Security, and Performance.
+- **Graph Engineering Skill Module** (`skills/graph-engineering/` & `skills/shared/graph-engineering-rules.md`): Knowledge Graphs (typed ontology, ER, GraphRAG) and Task Graphs (typed state, deterministic routing, HITL safety).
+- **Default Package Managers**: `uv` for Python and `pnpm` for JavaScript/TypeScript.
+- **Ponytail Anti-Overengineering Philosophy**: 5-step evaluation ladder ("the best code is the code you never wrote").
+- **LLM Agent Framework Standard**: Google Cloud ADK (`google-adk`) as default, with interactive query for alternatives.
+- **Pre-commit Linter Resilience**: Defensive wrappers (`command -v`) in `package.json` and updated Prettier / markdownlint configurations.
+
+#### Removed
+
+- **Windsurf Adapter & Support**: Removed deprecated `skills/windsurf/.windsurfrules` and references across CLI migration wizard, package metadata, and guides.
+
+---
+
 ## [1.2.0] — 2026-05-23
 
 ### Feature: Agentic Engineering — Spec Hygiene, Guardrails, AI Output Evaluation & Multi-Agent Coordination

@@ -13,14 +13,14 @@ module.exports = {
       2, // error
       "always",
       [
-        "feat",   // new skill, new linting config, new tool support
-        "fix",    // correct a wrong rule, broken config, typo in prompt
-        "docs",   // README, RELEASE-NOTES, ai-clean-code-skill-guide
-        "style",  // whitespace, formatting inside config files (no logic change)
+        "feat", // new skill, new linting config, new tool support
+        "fix", // correct a wrong rule, broken config, typo in prompt
+        "docs", // README, RELEASE-NOTES, ai-clean-code-skill-guide
+        "style", // whitespace, formatting inside config files (no logic change)
         "refactor", // restructure without behaviour change (e.g. shared rules split)
-        "perf",   // make a hook/lint step faster
-        "test",   // add or fix test cases for configs
-        "chore",  // dependency bumps, tooling, CI
+        "perf", // make a hook/lint step faster
+        "test", // add or fix test cases for configs
+        "chore", // dependency bumps, tooling, CI
         "revert", // revert a previous commit
         "release", // version bump commits
       ],
@@ -35,32 +35,38 @@ module.exports = {
       "always",
       [
         // AI skill adapters
-        "skills",          // change affects multiple adapters
-        "shared",          // skills/shared/rules.md
-        "copilot",         // skills/copilot/
-        "claude",          // skills/claude/
-        "cursor",          // skills/cursor/
-        "opencode",        // skills/opencode/
-        "windsurf",        // skills/windsurf/
-        "generic",         // skills/generic/
+        "skills", // change affects multiple adapters
+        "shared", // skills/shared/rules.md
+        "copilot", // skills/copilot/
+        "claude", // skills/claude/
+        "cursor", // skills/cursor/
+        "opencode", // skills/opencode/
+        "hermes", // skills/hermes/
+        "codex", // skills/codex/
+        "aider", // skills/aider/
+        "generic", // skills/generic/
+        "code-review", // skills/code-review/
+        "graph-engineering", // skills/graph-engineering/
+        "productivity", // skills/productivity/
+        "harness", // skills/harness/
 
         // Linting
-        "linting",         // change affects multiple linting configs
-        "python",          // linting/python/
-        "typescript",      // linting/typescript/
-        "go",              // linting/go/
-        "java",            // linting/java/
-        "csharp",          // linting/csharp/
+        "linting", // change affects multiple linting configs
+        "python", // linting/python/
+        "typescript", // linting/typescript/
+        "go", // linting/go/
+        "java", // linting/java/
+        "csharp", // linting/csharp/
 
         // Shared tooling
-        "editorconfig",    // linting/shared/.editorconfig
-        "pre-commit",      // linting/shared/.pre-commit-config.yaml
-        "hooks",           // .husky/ or commitlint
+        "editorconfig", // linting/shared/.editorconfig
+        "pre-commit", // linting/shared/.pre-commit-config.yaml
+        "hooks", // .husky/ or commitlint
 
         // Project meta
-        "deps",            // package.json dependency updates
-        "release",         // RELEASE-NOTES.md, version tags
-        "ci",              // CI/CD pipeline config
+        "deps", // package.json dependency updates
+        "release", // RELEASE-NOTES.md, version tags
+        "ci", // CI/CD pipeline config
       ],
     ],
     "scope-case": [2, "always", "lower-case"],
@@ -104,16 +110,56 @@ module.exports = {
       type: {
         description: "What type of change is this commit?",
         enum: {
-          feat:     { description: "New skill, rule, linting config, or tool support", title: "feat",     emoji: "✨" },
-          fix:      { description: "Correct a wrong rule, broken config, bad prompt",  title: "fix",      emoji: "🐛" },
-          docs:     { description: "README, RELEASE-NOTES, guide updates",             title: "docs",     emoji: "📝" },
-          style:    { description: "Whitespace or formatting, no logic change",        title: "style",    emoji: "💄" },
-          refactor: { description: "Restructure without behaviour change",             title: "refactor", emoji: "♻️"  },
-          perf:     { description: "Improve hook or lint performance",                 title: "perf",     emoji: "⚡️" },
-          test:     { description: "Add or fix config tests",                          title: "test",     emoji: "✅" },
-          chore:    { description: "Dependency bumps, tooling, CI",                   title: "chore",    emoji: "🔧" },
-          revert:   { description: "Revert a previous commit",                        title: "revert",   emoji: "⏪️" },
-          release:  { description: "Version bump commit",                             title: "release",  emoji: "🚀" },
+          feat: {
+            description: "New skill, rule, linting config, or tool support",
+            title: "feat",
+            emoji: "✨",
+          },
+          fix: {
+            description: "Correct a wrong rule, broken config, bad prompt",
+            title: "fix",
+            emoji: "🐛",
+          },
+          docs: {
+            description: "README, RELEASE-NOTES, guide updates",
+            title: "docs",
+            emoji: "📝",
+          },
+          style: {
+            description: "Whitespace or formatting, no logic change",
+            title: "style",
+            emoji: "💄",
+          },
+          refactor: {
+            description: "Restructure without behaviour change",
+            title: "refactor",
+            emoji: "♻️",
+          },
+          perf: {
+            description: "Improve hook or lint performance",
+            title: "perf",
+            emoji: "⚡️",
+          },
+          test: {
+            description: "Add or fix config tests",
+            title: "test",
+            emoji: "✅",
+          },
+          chore: {
+            description: "Dependency bumps, tooling, CI",
+            title: "chore",
+            emoji: "🔧",
+          },
+          revert: {
+            description: "Revert a previous commit",
+            title: "revert",
+            emoji: "⏪️",
+          },
+          release: {
+            description: "Version bump commit",
+            title: "release",
+            emoji: "🚀",
+          },
         },
       },
       scope: {
@@ -121,10 +167,12 @@ module.exports = {
           "Which part of the project does this change affect? (e.g. shared, copilot, python, hooks)",
       },
       subject: {
-        description: "Short description — lowercase, no trailing period, max 72 chars",
+        description:
+          "Short description — lowercase, no trailing period, max 72 chars",
       },
       body: {
-        description: "Longer description (optional). Explain what changed and why.",
+        description:
+          "Longer description (optional). Explain what changed and why.",
       },
       isBreaking: {
         description: "Is this a BREAKING CHANGE?",
