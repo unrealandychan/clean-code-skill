@@ -153,11 +153,16 @@ Guide: COMMIT-GUIDE.md
 - **LLM Agent Framework**: Default to **Google Cloud ADK** (`google-adk`), but ask user if using another framework.
 - **GCP Skills**: Reference `google-antigravity-sdk`, `google-maps-platform`, `google-adk-deployment-playbook`, Vertex AI & Gemini APIs.
 
-## Optional Graph Engineering Skill (Data & Task Topology)
+## Uncle Bob's "Extreme Constraints" Vibe Coding Protocol
 
-- Reference `skills/shared/graph-engineering-rules.md` and `skills/graph-engineering/SKILL.md`.
-- **Knowledge Graph Checkpoints**: Enforce typed ontology, entity resolution, provenance, and hybrid GraphRAG.
-- **Task Graph Checkpoints**: Enforce typed state, deterministic routing for safety gates, channel state isolation, idempotent HITL placement, and bounded cycles.
+- Reference `skills/shared/extreme-constraints-rules.md` and `skills/extreme-constraints/SKILL.md`.
+- **The 6 Constraint Pillars**:
+  1. Executable Gherkin Specifications (`missing-gherkin-acceptance-spec`): Given-When-Then behavioral specs upfront.
+  2. Deterministic Test Baselines (`missing-test-baseline`): 100% green test suite, $\ge 90\%$ branch coverage.
+  3. Mutation Testing (`mutant-survival-detected`): Mutant slaughterhouse (Stryker/Mutmut/Pitest) with $\ge 85\%$ mutation score.
+  4. Complexity & CRAP Metrics (`crap-complexity-breach`): Cyclomatic Complexity $M \le 10$, CRAP index $\le 30$.
+  5. Architectural Invariants (`leaky-architectural-invariant`): Domain isolation, immutable Value Objects, aggregate root boundary.
+  6. Automated Static QA (`unsupervised-syntax-trust`): Zero-tolerance linter, type checking, security scan.
 
 ## 5-Axis Code Review & Quality Protocol
 

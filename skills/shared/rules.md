@@ -242,25 +242,22 @@ Refer to these specialized Google Cloud and AI platform skills when working with
 
 ---
 
-## Optional Skill Module: Graph Engineering (Data & Task Topology)
+## Uncle Bob's "Extreme Constraints" Vibe Coding Module
 
-When building **Knowledge Graphs** (Data Topology) or **Task Graphs** (Agent Execution Topology):
+Inspired by Robert C. Martin ("Uncle Bob") — author of _Clean Code_:
 
-Full rules: `skills/shared/graph-engineering-rules.md` | Guide: `skills/graph-engineering/SKILL.md`
+> _"My current strategy is to **not read any of the code written by my agents**. That's the only way I can take advantage of their productivity. What I do instead is to **surround the agents with extreme constraints**."_
 
-- **Knowledge Graph Rules**:
-  - `unbounded-ontology-explosion` (**high**): Node/edge extractions must follow a strict typed ontology schema.
-  - `missing-entity-resolution` (**high**): Entity mentions across sources must be deduplicated & fused.
-  - `missing-temporal-provenance` (medium): All graph facts must track timestamp, source document ID, and confidence.
-  - `unoptimized-graphrag-traversal` (**high**): GraphRAG must combine vector seed search + $k$-hop sub-graph pruning.
-  - `graph-pollution-no-quality-gate` (**high**): LLM extractions require validation gates before production DB write.
+Full rules: `skills/shared/extreme-constraints-rules.md` | Guide: `skills/extreme-constraints/SKILL.md`
 
-- **Task Graph & Agent Topology Rules**:
-  - `untyped-graph-state` (**high**): State schemas must use `TypedDict` or `Pydantic` models.
-  - `non-deterministic-control-flow` (**high**): Safety gates & business logic require code logic, not LLM routing.
-  - `unisolated-parallel-fanout` (**high**): Parallel branches must use channel reducers or isolated state.
-  - `un-idempotent-hitl-interrupt` (**high**): Place human-in-the-loop interrupts _before_ non-idempotent side effects.
-  - `unbounded-agent-cycle` (**high**): Feedback loops must enforce max-iteration bounds.
+- **The 6 Constraint Pillars**:
+  - `missing-gherkin-acceptance-spec` (**high**): All tasks must begin with executable Given-When-Then behavioral specifications before coding.
+  - `missing-test-baseline` (**high**): Agents must operate on a 100% green test suite baseline.
+  - `unexercised-branch-coverage` (**high**): Generated code must maintain $\ge 90\%$ branch test coverage.
+  - `mutant-survival-detected` (**high**): Mutation testing (Stryker, Mutmut, Pitest) must achieve $\ge 85\%$ mutation score (no surviving mutants on new logic).
+  - `crap-complexity-breach` (**high**): Functions must not exceed Cyclomatic Complexity $M \le 10$ or CRAP score $\le 30$.
+  - `leaky-architectural-invariant` (**high**): Domain rules must remain isolated; aggregate roots and immutable Value Objects must not be bypassed.
+  - `unsupervised-syntax-trust` (**high**): Never accept AI-generated code that has not passed the full automated gauntlet.
 
 ---
 

@@ -62,7 +62,7 @@ skills/
     rules.md                          ← canonical rules (edit here first)
     agentic-engineering-rules.md      ← spec hygiene + guardrails + AI output eval + multi-agent
     code-review-quality-rules.md      ← 5-axis code review rubric
-    graph-engineering-rules.md        ← knowledge graph & task graph rules
+    extreme-constraints-rules.md      ← Uncle Bob extreme constraints & vibe coding rules
     mattpocock-productivity-rules.md  ← productivity guardrails & workflows
     harness-rules.md                  ← testability + observability + progressive delivery rules
     husky-rules.md                    ← canonical commit hygiene rules
@@ -98,10 +98,9 @@ skills/
   code-review/                        ← 5-Axis Code Review skill & workflows
     SKILL.md
     WORKFLOWS.md
-  graph-engineering/                  ← Knowledge & Task Graph skill & workflows
+  extreme-constraints/                ← Uncle Bob Extreme Constraints & Vibe Coding skill
     SKILL.md
     WORKFLOWS.md
-    references/
   productivity/                       ← Matt Pocock Productivity workflows
     SKILL.md
     WORKFLOWS.md
@@ -110,7 +109,6 @@ skills/
     observability.md
     progressive-delivery.md
     agentic-engineering.md
-    graph-engineering.md
 pipelines/                            ← Harness.io pipeline templates
   harness-ci.yaml                     ← CI: build + test + DORA metrics
   harness-canary.yaml                 ← CD: canary deploy with auto-rollback
@@ -134,7 +132,7 @@ To change a rule, update `shared/rules.md` and propagate to the adapters.
 │   │   ├── rules.md                            ← single source of truth for all rules
 │   │   ├── agentic-engineering-rules.md        ← spec hygiene + guardrails + AI output eval + multi-agent
 │   │   ├── code-review-quality-rules.md        ← 5-axis code review rubric
-│   │   ├── graph-engineering-rules.md          ← knowledge graph & task graph rules
+│   │   ├── extreme-constraints-rules.md        ← Uncle Bob extreme constraints & vibe coding rules
 │   │   ├── mattpocock-productivity-rules.md    ← productivity guardrails & workflows
 │   │   ├── harness-rules.md                    ← testability + observability + delivery rules
 │   │   ├── husky-rules.md                      ← canonical commit hygiene rules
@@ -170,10 +168,9 @@ To change a rule, update `shared/rules.md` and propagate to the adapters.
 │   ├── code-review/                            ← 5-Axis Code Review skill & workflows
 │   │   ├── SKILL.md
 │   │   └── WORKFLOWS.md
-│   ├── graph-engineering/                      ← Knowledge & Task Graph skill & workflows
+│   ├── extreme-constraints/                    ← Uncle Bob Extreme Constraints & Vibe Coding skill
 │   │   ├── SKILL.md
-│   │   ├── WORKFLOWS.md
-│   │   └── references/
+│   │   └── WORKFLOWS.md
 │   ├── productivity/                           ← Matt Pocock Productivity workflows
 │   │   ├── SKILL.md
 │   │   └── WORKFLOWS.md
@@ -181,8 +178,7 @@ To change a rule, update `shared/rules.md` and propagate to the adapters.
 │       ├── testability.md                      ← testability review assistant
 │       ├── observability.md                    ← observability review assistant
 │       ├── progressive-delivery.md             ← feature flags + canary + circuit breakers
-│       ├── agentic-engineering.md              ← spec-driven dev + guardrails + multi-agent guide
-│       └── graph-engineering.md                ← knowledge graph & task graph checklist
+│       └── agentic-engineering.md              ← spec-driven dev + guardrails + multi-agent guide
 │
 ├── pipelines/                                  ← Harness.io pipeline templates
 │   ├── harness-ci.yaml                         ← CI with DORA metrics
@@ -544,6 +540,8 @@ See [skills/shared/lint-report-prompt.md](skills/shared/lint-report-prompt.md) f
 See [skills/shared/rules.md](skills/shared/rules.md) for the full annotated rule set.
 See [skills/shared/harness-rules.md](skills/shared/harness-rules.md) for Harness Engineering rules.
 
+**Uncle Bob's Extreme Constraints (Vibe Coding)** — `missing-gherkin-acceptance-spec`, `missing-test-baseline`, `unexercised-branch-coverage`, `mutant-survival-detected`, `crap-complexity-breach`, `cyclomatic-complexity-breach`, `leaky-architectural-invariant`, `unsupervised-syntax-trust`, `line-by-line-micromanagement`
+
 **Clean Code rules** — `meaningful-names`, `single-responsibility`, `minimize-duplication`, `avoid-deep-nesting`, `small-interfaces`, `named-constants`, `comment-why-not-what`, `clear-error-handling`
 
 **DDD rules** — `ubiquitous-language`, `bounded-context-violation`, `aggregate-integrity-bypass`, `value-object-mutability`, `domain-logic-in-adapters`, `missing-acl`, `missing-repository-abstraction`, `missing-domain-event`
@@ -566,6 +564,7 @@ Severity: **high** = fix before merge · **medium** = fix this sprint · **low**
 | **Prettier / gofmt / dotnet format**                 | Code formatting                                                                                                                   |
 | **Ruff / ESLint / golangci-lint / Checkstyle + PMD** | Style, naming, complexity, magic numbers, unused code, security                                                                   |
 | **pre-commit**                                       | Runs all of the above before every commit                                                                                         |
+| **AI skill (extreme constraints)**                   | Uncle Bob's 6 pillars: Gherkin specs, green test baselines, mutation testing gauntlet, CRAP bounds, architectural invariants      |
 | **AI skill (code review)**                           | Readability, naming clarity, responsibility boundaries, DDD alignment, refactor suggestions                                       |
 | **AI skill (harness — testability)**                 | Missing DI seams, clock/random dependencies, test pyramid health, test-in-production code                                         |
 | **AI skill (harness — observability)**               | Structured logging gaps, missing correlation IDs, unmonitored critical paths, swallowed errors                                    |

@@ -89,8 +89,7 @@ Files reviewed: N | Findings: N (High: N, Medium: N, Low: N)
 - Agent Skills Check: Ensure `mattpocock/skills` and `addyosmani/agent-skills` are installed (`npx skills@latest add mattpocock/skills`, `npx skills@latest add addyosmani/agent-skills`).
 - Matt Pocock Productivity Workflows: Reference `skills/shared/mattpocock-productivity-rules.md` for `/grill-me`, `/wait-what` (plain-English clarification), `/handoff`, `/to-questionnaire`, `/domain-modeling`, `/to-spec`, `/to-tickets`, `/wayfinder`, `/wizard`. User-interactive skills must not be called by background agents. No fake time estimates.
 - LLM Agent Framework: Default to **Google Cloud ADK** (`google-adk`), but ask the user if they are using another framework.
-- Google Cloud Skills: Reference `google-antigravity-sdk`, `google-maps-platform`, `google-adk-deployment-playbook`, and Vertex AI / Gemini API.
-- Graph Engineering Skill: Reference `skills/shared/graph-engineering-rules.md` & `skills/graph-engineering/SKILL.md` for Knowledge Graphs (ontology, ER, GraphRAG) and Task Graphs (typed state, deterministic routing, HITL safety).
+- Uncle Bob's Extreme Constraints & Vibe Coding: Reference `skills/shared/extreme-constraints-rules.md` & `skills/extreme-constraints/SKILL.md` (Executable Gherkin specs, mutation testing, green test baselines, CRAP complexity bounds, architectural invariants, automated gauntlet).
 - Code Review & Quality: Reference `skills/shared/code-review-quality-rules.md` & `skills/code-review/SKILL.md` for 5-axis review (Correctness, Readability, Architecture, Security, Performance).
 
 ## Surgical Changes

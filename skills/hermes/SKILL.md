@@ -277,14 +277,21 @@ Refer to these Google Cloud skills when building GCP/Gemini solutions:
 - **`google-adk-deployment-playbook`**: GCP deployment patterns for LLM agent workloads (Cloud Run, GKE, Vertex AI Agent Builder, Firestore, BigQuery, Terraform).
 - **Vertex AI & Gemini API Best Practices**: Grounding, structured outputs, tool call schemas, context caching.
 
-## Optional Skill Module: Graph Engineering (Data & Task Topology)
+## Uncle Bob's "Extreme Constraints" Vibe Coding Module
 
-When building Knowledge Graphs or Task Graphs (LangGraph / ADK):
+Inspired by Robert C. Martin ("Uncle Bob") — author of _Clean Code_:
 
-- Full Rules: `skills/shared/graph-engineering-rules.md` | Guide: `skills/graph-engineering/SKILL.md`
-- **Knowledge Graph Checkpoints**: Enforce typed ontology schemas (`unbounded-ontology-explosion`), entity resolution (`missing-entity-resolution`), provenance metadata (`missing-temporal-provenance`), and hybrid GraphRAG retrieval (`unoptimized-graphrag-traversal`).
-- **Task Graph Checkpoints**: Enforce typed state schemas (`untyped-graph-state`), deterministic routing for safety gates (`non-deterministic-control-flow`), channel state isolation (`unisolated-parallel-fanout`), idempotent HITL gate placement (`un-idempotent-hitl-interrupt`), and recursion bounds (`unbounded-agent-cycle`).
-- **Interactive Workflows**: `/kg-tutor`, `/kg-scope`, `/kg-ontology`, `/kg-extract`, `/kg-fusion`, `/kg-rag`, `/task-graph-design`, `/agent-topology`.
+> _"My current strategy is to **not read any of the code written by my agents**. That's the only way I can take advantage of their productivity. What I do instead is to **surround the agents with extreme constraints**."_
+
+- Full Rules: `skills/shared/extreme-constraints-rules.md` | Guide: `skills/extreme-constraints/SKILL.md`
+- **The 6 Constraint Pillars**:
+  1. Executable Specifications (`missing-gherkin-acceptance-spec`): Given-When-Then behavioral specs upfront.
+  2. Deterministic Test Baselines (`missing-test-baseline`): 100% green test suite, $\ge 90\%$ branch coverage.
+  3. Mutation Testing (`mutant-survival-detected`): Mutant slaughterhouse (Stryker/Mutmut/Pitest) with $\ge 85\%$ mutation score.
+  4. Complexity & CRAP Metrics (`crap-complexity-breach`): Cyclomatic Complexity $M \le 10$, CRAP index $\le 30$.
+  5. Architectural Invariants (`leaky-architectural-invariant`): Domain isolation, immutable Value Objects, aggregate root boundary.
+  6. Automated Static QA (`unsupervised-syntax-trust`): Zero-tolerance linter, type checking, security scan.
+- **Interactive Workflows**: `/extreme-constraints`, `/gherkin-spec`, `/mutation-audit`, `/crap-metric`, `/vibe-guard`, `/gauntlet-check`.
 
 ## Code Review & Quality Module (5-Axis Protocol)
 

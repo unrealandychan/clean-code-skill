@@ -363,13 +363,21 @@ Provide explicit references to specialized GCP skills:
 - **`google-adk-deployment-playbook`**: GCP deployment patterns (Cloud Run, GKE, Vertex AI Agent Builder, Firestore, BigQuery, Terraform).
 - **Vertex AI & Gemini API Best Practices**: Grounding, structured outputs, tool call schemas, context caching.
 
-### 6. Graph Engineering Skill (Data & Task Topology)
+### 6. Uncle Bob's "Extreme Constraints" Vibe Coding Skill
 
-An optional, specialized skill module (`skills/graph-engineering/`) for agent systems that use Knowledge Graphs or Graph-based Task Orchestration (e.g. LangGraph):
+A core skill module (`skills/extreme-constraints/`) implementing Robert C. Martin's ("Uncle Bob") philosophy for high-velocity AI pair programming and vibe coding:
 
-- **Knowledge Graph Topology**: 9-stage knowledge pipeline (Scope $\rightarrow$ Representation $\rightarrow$ Ontology $\rightarrow$ Entities $\rightarrow$ Relations $\rightarrow$ Events $\rightarrow$ Quality Gate $\rightarrow$ Fusion $\rightarrow$ Serving via GraphRAG).
-- **Task Graph Topology**: Typed state graphs, deterministic control flow routing, isolated parallel fan-out/fan-in, human-in-the-loop (HITL) safety, and checkpointing.
-- **Interactive Commands**: `/kg-tutor`, `/kg-scope`, `/kg-ontology`, `/kg-extract`, `/kg-fusion`, `/kg-rag`, `/task-graph-design`, `/agent-topology`.
+> _"My current strategy is to not read any of the code written by my agents. That's the only way I can take advantage of their productivity. What I do instead is to surround the agents with extreme constraints. Unit tests, gherkin tests, QA procedures, quality metrics, mutation testing, test coverage, and a plethora of others."_ — Robert C. Martin
+
+- **Shift Human Role One Level Up**: Replace line-by-line syntax reviewing with high-leverage specification, architectural boundaries, and mathematical verification gauntlets.
+- **The 6 Constraint Pillars**:
+  1. **Executable Specifications**: Behavior-Driven Gherkin scenarios defined upfront (`missing-gherkin-acceptance-spec`).
+  2. **Deterministic Test Baselines**: 100% green test suites and $\ge 90\%$ branch coverage (`missing-test-baseline`, `unexercised-branch-coverage`).
+  3. **Mutation Testing Gauntlet**: Automated mutation injection (Stryker, mutmut, Pitest) requiring $\ge 85\%$ mutation kill score (`mutant-survival-detected`).
+  4. **Complexity & CRAP Metric Bounds**: Cyclomatic complexity $M \le 10$ and CRAP score $\le 30$ (`crap-complexity-breach`, `cyclomatic-complexity-breach`).
+  5. **Architectural Invariants**: Pure domain layer isolation, immutable Value Objects, aggregate boundaries (`leaky-architectural-invariant`).
+  6. **Automated Static QA & Linting**: Zero-tolerance type checking, linting, and vulnerability scanning (`unsupervised-syntax-trust`).
+- **Interactive Commands**: `/extreme-constraints`, `/gherkin-spec`, `/mutation-audit`, `/crap-metric`, `/vibe-guard`, `/gauntlet-check`.
 
 ## Practical Advice
 

@@ -16,7 +16,7 @@
 #   --no-lint    Skip linting configs
 #   --no-hooks   Skip pre-commit hook config
 #   --harness    Copy Harness Engineering skill files (testability, observability, pipelines)
-#   --graph      Copy Graph Engineering skill files (knowledge & task graphs)
+#   --extreme-constraints Copy Uncle Bob's Extreme Constraints & Vibe Coding skill files
 #   --code-review Copy 5-Axis Code Review & Quality skill files
 #   --productivity Copy Matt Pocock Productivity & Engineering skill files
 #   --dry-run    Print what would be copied without touching the filesystem
@@ -54,7 +54,7 @@ YES=false
 TARGET_DIR=""
 INTERACTIVE=false   # set to true when questionnaire runs
 COPY_HARNESS=""     # harness engineering files
-COPY_GRAPH=""       # graph engineering files
+COPY_CONSTRAINTS="" # uncle bob extreme constraints files
 COPY_REVIEW=""      # code review and quality files
 COPY_PRODUCTIVITY="" # matt pocock productivity files
 
@@ -66,7 +66,7 @@ while [[ $# -gt 0 ]]; do
     --no-lint)  SKIP_LINT=true;     shift ;;
     --no-hooks) SKIP_HOOKS=true;    shift ;;
     --harness)  COPY_HARNESS=true;  shift ;;
-    --graph|--graph-engineering) COPY_GRAPH=true; shift ;;
+    --extreme-constraints|--constraints|--vibe-constraints) COPY_CONSTRAINTS=true; shift ;;
     --code-review) COPY_REVIEW=true; shift ;;
     --productivity|--mattpocock-productivity) COPY_PRODUCTIVITY=true; shift ;;
     --dry-run)  DRY_RUN=true;       shift ;;
@@ -218,16 +218,15 @@ if [[ "$_needs_wizard" == true ]] && [[ "$YES" == false ]] && [[ -t 0 ]]; then
     esac
   fi
 
-  # ── Graph Engineering ────────────────────────────────────────────────────────
-  if [[ -z "$COPY_GRAPH" ]]; then
+  # ── Uncle Bob's Extreme Constraints ──────────────────────────────────────────
+  if [[ -z "$COPY_CONSTRAINTS" ]]; then
     echo ""
-    echo "7. Copy Graph Engineering files (Knowledge Graph & Task Graph rules, workflows)?"
-    echo "   Includes: skills/shared/graph-engineering-rules.md, skills/graph-engineering/,"
-    echo "             skills/harness/graph-engineering.md"
+    echo "7. Copy Uncle Bob's Extreme Constraints & Vibe Coding skill files?"
+    echo "   Includes: skills/shared/extreme-constraints-rules.md, skills/extreme-constraints/"
     read -r -p "   [y]: " _input
     case "${_input:-y}" in
-      [nN]*) COPY_GRAPH=false ;;
-      *)     COPY_GRAPH=true ;;
+      [nN]*) COPY_CONSTRAINTS=false ;;
+      *)     COPY_CONSTRAINTS=true ;;
     esac
   fi
 
@@ -258,14 +257,14 @@ if [[ "$_needs_wizard" == true ]] && [[ "$YES" == false ]] && [[ -t 0 ]]; then
 fi
 
 # Fill defaults for anything still unset after the wizard / flag parsing
-[[ -z "$TOOL" ]]         && TOOL="all"
-[[ -z "$LANG" ]]         && LANG="all"
-[[ -z "$SKIP_LINT" ]]    && SKIP_LINT=false
-[[ -z "$SKIP_HOOKS" ]]   && SKIP_HOOKS=false
-[[ -z "$COPY_HARNESS" ]] && COPY_HARNESS=false
-[[ -z "$COPY_GRAPH" ]]   && COPY_GRAPH=false
-[[ -z "$COPY_REVIEW" ]]  && COPY_REVIEW=false
-[[ -z "$TARGET_DIR" ]]   && TARGET_DIR="$PWD"
+[[ -z "$TOOL" ]]             && TOOL="all"
+[[ -z "$LANG" ]]             && LANG="all"
+[[ -z "$SKIP_LINT" ]]        && SKIP_LINT=false
+[[ -z "$SKIP_HOOKS" ]]       && SKIP_HOOKS=false
+[[ -z "$COPY_HARNESS" ]]     && COPY_HARNESS=false
+[[ -z "$COPY_CONSTRAINTS" ]] && COPY_CONSTRAINTS=false
+[[ -z "$COPY_REVIEW" ]]      && COPY_REVIEW=false
+[[ -z "$TARGET_DIR" ]]       && TARGET_DIR="$PWD"
 
 # ── Resolve target path ───────────────────────────────────────────────────────
 TARGET_DIR="${TARGET_DIR:-$PWD}"
@@ -341,6 +340,7 @@ echo "  Lang(s) : $([ "$SKIP_LINT" == true ] && echo "— (linting skipped)" || 
 echo "  Linting : $([ "$SKIP_LINT" == true ] && echo skip || echo yes)"
 echo "  Hooks   : $([ "$SKIP_HOOKS" == true ] && echo skip || echo yes)"
 echo "  Harness : $([ "$COPY_HARNESS" == true ] && echo yes || echo skip)"
+echo "  Vibe/EC : $([ "$COPY_CONSTRAINTS" == true ] && echo yes || echo skip)"
 [[ "$DRY_RUN" == true ]] && echo "  Mode    : DRY RUN — no files will be written"
 echo ""
 
@@ -507,13 +507,12 @@ if [[ "$COPY_HARNESS" == true ]]; then
   echo "  NOTE  Edit pipelines/*.yaml — replace <CONNECTOR_ID>, <SERVICE_ID>, <ENV_ID> placeholders."
 fi
 
-# ── Graph Engineering files ───────────────────────────────────────────────────
-if [[ "$COPY_GRAPH" == true ]]; then
-  section "Graph Engineering"
-  copy_file "$KIT_ROOT/skills/shared/graph-engineering-rules.md" "$TARGET_DIR/skills/shared/graph-engineering-rules.md"
-  copy_dir  "$KIT_ROOT/skills/graph-engineering"                  "$TARGET_DIR/skills/graph-engineering"
-  copy_file "$KIT_ROOT/skills/harness/graph-engineering.md"      "$TARGET_DIR/skills/harness/graph-engineering.md"
-  echo "  NOTE  Graph Engineering skill & workflows installed to skills/graph-engineering/."
+# ── Uncle Bob's Extreme Constraints ──────────────────────────────────────────
+if [[ "$COPY_CONSTRAINTS" == true ]]; then
+  section "Uncle Bob's Extreme Constraints"
+  copy_file "$KIT_ROOT/skills/shared/extreme-constraints-rules.md" "$TARGET_DIR/skills/shared/extreme-constraints-rules.md"
+  copy_dir  "$KIT_ROOT/skills/extreme-constraints"                 "$TARGET_DIR/skills/extreme-constraints"
+  echo "  NOTE  Uncle Bob's Extreme Constraints skill & workflows installed to skills/extreme-constraints/."
 fi
 
 # ── Code Review & Quality files ───────────────────────────────────────────────

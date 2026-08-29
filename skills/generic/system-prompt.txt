@@ -126,10 +126,15 @@ LLM AGENT FRAMEWORK & GCP SKILLS REFERENCE
 Default LLM Framework: Google Cloud ADK (google-adk), but ask user if using another framework.
 GCP Skills: Reference google-antigravity-sdk, google-maps-platform, google-adk-deployment-playbook, Vertex AI & Gemini APIs.
 
-GRAPH ENGINEERING SKILL (Data & Task Topology)
-Reference skills/shared/graph-engineering-rules.md and skills/graph-engineering/SKILL.md.
-Knowledge Graph Checkpoints: Enforce typed ontology, entity resolution, provenance, and hybrid GraphRAG.
-Task Graph Checkpoints: Enforce typed state, deterministic routing for safety gates, channel state isolation, idempotent HITL placement, and bounded cycles.
+UNCLE BOB'S EXTREME CONSTRAINTS VIBE CODING PROTOCOL
+Reference skills/shared/extreme-constraints-rules.md and skills/extreme-constraints/SKILL.md.
+6 Constraint Pillars:
+1. Executable Gherkin Specs (missing-gherkin-acceptance-spec): Given-When-Then criteria upfront.
+2. Deterministic Test Baselines (missing-test-baseline): 100% green test suite, >=90% branch coverage.
+3. Mutation Testing (mutant-survival-detected): Mutant slaughterhouse (Stryker/Mutmut/Pitest) with >=85% score.
+4. Complexity & CRAP Gates (crap-complexity-breach): Cyclomatic Complexity M <= 10, CRAP index <= 30.
+5. Architectural Invariants (leaky-architectural-invariant): Domain isolation, immutable Value Objects, aggregate root boundary.
+6. Automated Static QA (unsupervised-syntax-trust): Zero-tolerance linter, type checking, security scan.
 
 CODE REVIEW & QUALITY SKILL (5-Axis Protocol)
 Reference skills/shared/code-review-quality-rules.md and skills/code-review/SKILL.md.

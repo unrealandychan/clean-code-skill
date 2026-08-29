@@ -46,7 +46,7 @@ module.exports = {
         "aider", // skills/aider/
         "generic", // skills/generic/
         "code-review", // skills/code-review/
-        "graph-engineering", // skills/graph-engineering/
+        "extreme-constraints", // skills/extreme-constraints/
         "productivity", // skills/productivity/
         "harness", // skills/harness/
 

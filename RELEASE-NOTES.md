@@ -5,6 +5,42 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ---
 
+## [1.6.0] — 2026-08-29
+
+### Feature: Uncle Bob's "Extreme Constraints" Vibe Coding & Lean Skill Pruning
+
+Inspired by Robert C. Martin ("Uncle Bob") — author of _Clean Code_:
+
+> _"My current strategy is to not read any of the code written by my agents. That's the only way I can take advantage of their productivity. What I do instead is to surround the agents with extreme constraints. Unit tests, gherkin tests, QA procedures, quality metrics, mutation testing, test coverage, and a plethora of others."_
+
+#### Added
+
+- **Uncle Bob's Extreme Constraints Canonical Rules** (`skills/shared/extreme-constraints-rules.md`):
+  - `missing-gherkin-acceptance-spec` — Gherkin Given-When-Then behavioral acceptance specs required before coding.
+  - `missing-test-baseline` & `unexercised-branch-coverage` — 100% green test suite baseline and $\ge 90\%$ branch coverage threshold.
+  - `mutant-survival-detected` — Mutation testing gauntlet (Stryker, mutmut, Pitest, go-mutesting) with $\ge 85\%$ mutation kill score.
+  - `crap-complexity-breach` & `cyclomatic-complexity-breach` — Cyclomatic complexity $M \le 10$ and CRAP score $\le 30$ ($CRAP(m) = comp(m)^2 \cdot (1 - cov(m))^3 + comp(m)$).
+  - `leaky-architectural-invariant` — Enforces pure domain boundaries, immutable Value Objects, and Aggregate root isolation.
+  - `unsupervised-syntax-trust` & `line-by-line-micromanagement` — Replaces line-by-line micro-reading with automated gauntlets and high-leverage constraint specification.
+- **Extreme Constraints Skill & Workflows Module** (`skills/extreme-constraints/SKILL.md` & `WORKFLOWS.md`):
+  - `/extreme-constraints` (full 6-pillar constraint assessment)
+  - `/gherkin-spec` (Given-When-Then spec generation and validation)
+  - `/mutation-audit` (mutation score inspection and test synthesis to kill surviving mutants)
+  - `/crap-metric` (Cyclomatic Complexity + CRAP index evaluation)
+  - `/vibe-guard` (real-time guardrails for AI coding sessions)
+  - `/gauntlet-check` (one-shot automated verification across tests, coverage, mutation, and linters)
+- **Migration & Adapter Integration**:
+  - Added `--extreme-constraints` / `--constraints` / `--vibe-constraints` options to `scripts/migrate.sh`.
+  - Updated all tool adapters (`claude/CLAUDE.md`, `copilot/`, `cursor/`, `opencode/`, `hermes/`, `codex/`, `aider/`, `generic/`).
+  - Added `extreme-constraints` commitlint and husky scope.
+
+#### Removed
+
+- **Graph Engineering & LangGraph Module**:
+  - Pruned out-of-scope Knowledge Graph & Task Graph files (`skills/graph-engineering/`, `skills/shared/graph-engineering-rules.md`, `skills/harness/graph-engineering.md`) to keep the skill kit lean, focused strictly on Clean Code, DDD, Test Harness, and AI developer velocity.
+
+---
+
 ## [1.5.0] — 2026-08-19
 
 ### Feature: Matt Pocock Productivity Suite, 5-Axis Code Review, Graph Engineering & Modern Tooling

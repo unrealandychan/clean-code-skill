@@ -11,7 +11,7 @@
 #
 # Quick reference — scopes (optional):
 #   shared | copilot | claude | cursor | opencode | hermes | codex | aider | generic
-#   code-review | graph-engineering | productivity | harness
+#   code-review | extreme-constraints | productivity | harness
 #   linting | python | typescript | go | java | csharp
 #   editorconfig | pre-commit | hooks | deps | release | ci
 #

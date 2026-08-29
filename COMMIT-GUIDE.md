@@ -48,34 +48,34 @@ feat(shared): add value-object-mutability rule to ddd checks
 
 Scopes are optional but strongly encouraged — they make the git log scannable and drive the release notes grouping.
 
-| Scope               | Covers                                                                      |
-| ------------------- | --------------------------------------------------------------------------- |
-| `shared`            | `skills/shared/` — rules.md, lint-report-prompt.md, release-notes-prompt.md |
-| `copilot`           | `skills/copilot/`                                                           |
-| `claude`            | `skills/claude/`                                                            |
-| `cursor`            | `skills/cursor/`                                                            |
-| `opencode`          | `skills/opencode/`                                                          |
-| `hermes`            | `skills/hermes/`                                                            |
-| `codex`             | `skills/codex/`                                                             |
-| `aider`             | `skills/aider/`                                                             |
-| `generic`           | `skills/generic/`                                                           |
-| `code-review`       | `skills/code-review/`                                                       |
-| `graph-engineering` | `skills/graph-engineering/`                                                 |
-| `productivity`      | `skills/productivity/`                                                      |
-| `harness`           | `skills/harness/`                                                           |
-| `skills`            | Change affects multiple adapters at once                                    |
-| `python`            | `linting/python/`                                                           |
-| `typescript`        | `linting/typescript/`                                                       |
-| `go`                | `linting/go/`                                                               |
-| `java`              | `linting/java/`                                                             |
-| `csharp`            | `linting/csharp/`                                                           |
-| `linting`           | Change affects multiple linting configs                                     |
-| `editorconfig`      | `linting/shared/.editorconfig`                                              |
-| `pre-commit`        | `linting/shared/.pre-commit-config.yaml`                                    |
-| `hooks`             | `.husky/` or `commitlint.config.cjs`                                        |
-| `deps`              | `package.json` dependency updates                                           |
-| `release`           | `RELEASE-NOTES.md`, version tags                                            |
-| `ci`                | `.github/workflows/`                                                        |
+| Scope                 | Covers                                                                      |
+| --------------------- | --------------------------------------------------------------------------- |
+| `shared`              | `skills/shared/` — rules.md, lint-report-prompt.md, release-notes-prompt.md |
+| `copilot`             | `skills/copilot/`                                                           |
+| `claude`              | `skills/claude/`                                                            |
+| `cursor`              | `skills/cursor/`                                                            |
+| `opencode`            | `skills/opencode/`                                                          |
+| `hermes`              | `skills/hermes/`                                                            |
+| `codex`               | `skills/codex/`                                                             |
+| `aider`               | `skills/aider/`                                                             |
+| `generic`             | `skills/generic/`                                                           |
+| `code-review`         | `skills/code-review/`                                                       |
+| `extreme-constraints` | `skills/extreme-constraints/`                                               |
+| `productivity`        | `skills/productivity/`                                                      |
+| `harness`             | `skills/harness/`                                                           |
+| `skills`              | Change affects multiple adapters at once                                    |
+| `python`              | `linting/python/`                                                           |
+| `typescript`          | `linting/typescript/`                                                       |
+| `go`                  | `linting/go/`                                                               |
+| `java`                | `linting/java/`                                                             |
+| `csharp`              | `linting/csharp/`                                                           |
+| `linting`             | Change affects multiple linting configs                                     |
+| `editorconfig`        | `linting/shared/.editorconfig`                                              |
+| `pre-commit`          | `linting/shared/.pre-commit-config.yaml`                                    |
+| `hooks`               | `.husky/` or `commitlint.config.cjs`                                        |
+| `deps`                | `package.json` dependency updates                                           |
+| `release`             | `RELEASE-NOTES.md`, version tags                                            |
+| `ci`                  | `.github/workflows/`                                                        |
 
 ---
 
