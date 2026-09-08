@@ -1,6 +1,6 @@
 ---
 name: productivity-and-engineering
-description: "Productivity, plan grilling, clarification, handoff, and domain modeling workflows inspired by mattpocock/skills."
+description: "Provides high-leverage productivity, plan grilling, session compaction, and domain modeling workflows. Use when stress-testing implementation plans, resolving architectural ambiguity, generating questionnaires, or invoking /grill-me, /wait-what, /handoff, /to-questionnaire, or /wizard."
 disable-model-invocation: true
 ---
 

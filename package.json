@@ -10,6 +10,11 @@
     "bin/",
     "scripts/",
     "skills/",
+    "agents/",
+    "rules/",
+    "hooks/",
+    "contexts/",
+    "manifests/",
     "pipelines/",
     "linting/",
     "COMMIT-GUIDE.md",
@@ -20,11 +25,19 @@
   },
   "scripts": {
     "prepare": "husky",
-    "lint:md": "markdownlint-cli2 \"**/*.md\" \"!node_modules\" \"!src\"",
+    "doctor": "node scripts/doctor.js",
+    "sync:ecc": "node scripts/sync-ecc.js",
+    "verify:ecc": "node scripts/sync-ecc.js --verify",
+    "catalog": "node scripts/catalog.js",
+    "skills:health": "node scripts/skills-health.js",
+    "adapt:agents": "node scripts/adapt-agents.js",
+    "audit:skills": "python3 skills/skill-doctor/scripts/collect_sessions.py",
+    "audit:report": "python3 skills/skill-doctor/scripts/render_report.py",
+    "lint:md": "markdownlint-cli2 \"**/*.md\" \"!node_modules\" \"!src\" \"!skills/ecc/**\" \"!rules/**\" \"!agents/**\" \"!contexts/**\" \"!hooks/**\" \"!.gemini/**\" \"!scripts/lib/**\"",
     "lint:json": "prettier --check --no-error-on-unmatched-pattern \"**/*.json\" \"**/*.jsonc\"",
     "lint:yaml": "prettier --check --no-error-on-unmatched-pattern \"**/*.yml\" \"**/*.yaml\"",
     "lint": "npm run lint:md && npm run lint:json && npm run lint:yaml",
-    "format:md": "prettier --write --no-error-on-unmatched-pattern \"**/*.md\"",
+    "format:md": "prettier --write --no-error-on-unmatched-pattern \"**/*.md\" \"!skills/ecc/**\" \"!rules/**\" \"!agents/**\" \"!contexts/**\" \"!hooks/**\" \"!.gemini/**\" \"!scripts/lib/**\"",
     "format:json": "prettier --write --no-error-on-unmatched-pattern \"**/*.json\" \"**/*.jsonc\"",
     "format:yaml": "prettier --write --no-error-on-unmatched-pattern \"**/*.yml\" \"**/*.yaml\"",
     "format": "npm run format:md && npm run format:json && npm run format:yaml",
@@ -34,6 +47,7 @@
     "migrate:dry": "bash scripts/migrate.sh --dry-run",
     "migrate:yes": "bash scripts/migrate.sh --yes",
     "migrate:harness": "bash scripts/migrate.sh --harness",
+    "migrate:all-ecc": "bash scripts/migrate.sh --all-ecc --dry-run",
     "lint:report": "bash scripts/lint-and-report.sh",
     "lint:report:monorepo": "bash scripts/lint-and-report.sh --monorepo",
     "release:notes": "bash scripts/generate-release-notes.sh",
@@ -47,32 +61,5 @@
     "lint-staged": "^15.2.7",
     "markdownlint-cli2": "^0.13.0",
     "prettier": "^3.3.2"
-  },
-  "lint-staged": {
-    "*.md": [
-      "markdownlint-cli2 --fix",
-      "prettier --write"
-    ],
-    "*.{json,jsonc}": [
-      "prettier --write"
-    ],
-    "*.{yml,yaml}": [
-      "prettier --write"
-    ],
-    "*.{ts,tsx,js,jsx,mjs,cjs}": [
-      "prettier --write"
-    ],
-    "*.py": [
-      "bash -c 'if command -v ruff >/dev/null 2>&1; then ruff check --fix \"$@\" && ruff format \"$@\"; fi' --"
-    ],
-    "*.go": [
-      "bash -c 'if command -v gofmt >/dev/null 2>&1; then gofmt -w \"$@\"; fi' --"
-    ],
-    "*.cs": [
-      "bash -c 'if command -v dotnet >/dev/null 2>&1; then dotnet format --include \"$@\"; fi' --"
-    ],
-    "*.sh": [
-      "bash -c 'if command -v shfmt >/dev/null 2>&1; then shfmt -w \"$@\"; fi' --"
-    ]
   }
 }

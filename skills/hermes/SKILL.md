@@ -1,6 +1,6 @@
 ---
 name: clean-code-ddd-harness
-description: Use when reviewing code for Clean Code, DDD, Harness Engineering, or Agentic Engineering issues. Covers readability, maintainability, testability, observability, and AI-agent guardrails.
+description: Reviews and refactors code for Clean Code, DDD, Harness Engineering, and Agentic Engineering principles. Covers readability, maintainability, testability, observability, and AI-agent guardrails. Use when analyzing code quality, auditing bounded contexts, or evaluating agent safety.
 version: 1.0.0
 author: unrealandychan
 license: MIT

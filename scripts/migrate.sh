@@ -19,6 +19,11 @@
 #   --extreme-constraints Copy Uncle Bob's Extreme Constraints & Vibe Coding skill files
 #   --code-review Copy 5-Axis Code Review & Quality skill files
 #   --productivity Copy Matt Pocock Productivity & Engineering skill files
+#   --agents     Copy 68 specialized ECC subagents to agents/
+#   --ecc-rules  Copy 23 modular language/framework rule packs to rules/
+#   --memory-hooks Copy runtime hooks and memory persistence to hooks/ & contexts/
+#   --ecc-skills Copy 286 curated ECC domain skills to skills/ecc/
+#   --all-ecc    Copy all ECC agents, rules, skills, and memory hooks
 #   --dry-run    Print what would be copied without touching the filesystem
 #   --yes        Skip confirmation prompt (non-interactive)
 #   --help       Show this help
@@ -35,6 +40,9 @@
 #
 #   # Full install including Harness Engineering rules + pipeline templates
 #   ./scripts/migrate.sh --harness --yes
+#
+#   # Full install of Clean Code + ECC agents, rules, skills, and memory hooks
+#   ./scripts/migrate.sh --all-ecc --yes
 #
 #   # Monorepo: just skills, no linting
 #   ./scripts/migrate.sh --no-lint --no-hooks ../my-monorepo --yes
@@ -57,6 +65,10 @@ COPY_HARNESS=""     # harness engineering files
 COPY_CONSTRAINTS="" # uncle bob extreme constraints files
 COPY_REVIEW=""      # code review and quality files
 COPY_PRODUCTIVITY="" # matt pocock productivity files
+COPY_AGENTS=""      # 68 ECC subagents
+COPY_ECC_RULES=""   # 23 ECC language & framework rule packs
+COPY_MEMORY_HOOKS="" # memory persistence hooks & contexts
+COPY_ECC_SKILLS=""  # 286 curated ECC skills
 
 # ── Argument parsing ──────────────────────────────────────────────────────────
 while [[ $# -gt 0 ]]; do
@@ -69,6 +81,21 @@ while [[ $# -gt 0 ]]; do
     --extreme-constraints|--constraints|--vibe-constraints) COPY_CONSTRAINTS=true; shift ;;
     --code-review) COPY_REVIEW=true; shift ;;
     --productivity|--mattpocock-productivity) COPY_PRODUCTIVITY=true; shift ;;
+    --agents)   COPY_AGENTS=true;   shift ;;
+    --ecc-rules|--rules) COPY_ECC_RULES=true; shift ;;
+    --memory-hooks|--hooks) COPY_MEMORY_HOOKS=true; shift ;;
+    --ecc-skills) COPY_ECC_SKILLS=true; shift ;;
+    --all-ecc)
+      COPY_AGENTS=true
+      COPY_ECC_RULES=true
+      COPY_MEMORY_HOOKS=true
+      COPY_ECC_SKILLS=true
+      COPY_HARNESS=true
+      COPY_CONSTRAINTS=true
+      COPY_REVIEW=true
+      COPY_PRODUCTIVITY=true
+      shift
+      ;;
     --dry-run)  DRY_RUN=true;       shift ;;
     --yes|-y)   YES=true;        shift ;;
     --help)
@@ -264,6 +291,11 @@ fi
 [[ -z "$COPY_HARNESS" ]]     && COPY_HARNESS=false
 [[ -z "$COPY_CONSTRAINTS" ]] && COPY_CONSTRAINTS=false
 [[ -z "$COPY_REVIEW" ]]      && COPY_REVIEW=false
+[[ -z "$COPY_PRODUCTIVITY" ]] && COPY_PRODUCTIVITY=false
+[[ -z "$COPY_AGENTS" ]]      && COPY_AGENTS=false
+[[ -z "$COPY_ECC_RULES" ]]   && COPY_ECC_RULES=false
+[[ -z "$COPY_MEMORY_HOOKS" ]] && COPY_MEMORY_HOOKS=false
+[[ -z "$COPY_ECC_SKILLS" ]]  && COPY_ECC_SKILLS=false
 [[ -z "$TARGET_DIR" ]]       && TARGET_DIR="$PWD"
 
 # ── Resolve target path ───────────────────────────────────────────────────────
@@ -341,6 +373,10 @@ echo "  Linting : $([ "$SKIP_LINT" == true ] && echo skip || echo yes)"
 echo "  Hooks   : $([ "$SKIP_HOOKS" == true ] && echo skip || echo yes)"
 echo "  Harness : $([ "$COPY_HARNESS" == true ] && echo yes || echo skip)"
 echo "  Vibe/EC : $([ "$COPY_CONSTRAINTS" == true ] && echo yes || echo skip)"
+echo "  Agents  : $([ "$COPY_AGENTS" == true ] && echo yes || echo skip)"
+echo "  Rules   : $([ "$COPY_ECC_RULES" == true ] && echo yes || echo skip)"
+echo "  MemHooks: $([ "$COPY_MEMORY_HOOKS" == true ] && echo yes || echo skip)"
+echo "  ECC-Sk  : $([ "$COPY_ECC_SKILLS" == true ] && echo yes || echo skip)"
 [[ "$DRY_RUN" == true ]] && echo "  Mode    : DRY RUN — no files will be written"
 echo ""
 
@@ -529,6 +565,35 @@ if [[ "$COPY_PRODUCTIVITY" == true ]]; then
   copy_file "$KIT_ROOT/skills/shared/mattpocock-productivity-rules.md" "$TARGET_DIR/skills/shared/mattpocock-productivity-rules.md"
   copy_dir  "$KIT_ROOT/skills/productivity"                             "$TARGET_DIR/skills/productivity"
   echo "  NOTE  Productivity & Engineering workflows installed to skills/productivity/."
+fi
+
+# ── ECC Subagents ─────────────────────────────────────────────────────────────
+if [[ "$COPY_AGENTS" == true ]]; then
+  section "ECC Subagents (68 Agents)"
+  copy_dir "$KIT_ROOT/agents" "$TARGET_DIR/agents"
+  echo "  NOTE  68 specialized subagents installed to agents/."
+fi
+
+# ── ECC Rules (23 Rule Packs) ─────────────────────────────────────────────────
+if [[ "$COPY_ECC_RULES" == true ]]; then
+  section "ECC Multi-Language Rules (23 Rule Packs)"
+  copy_dir "$KIT_ROOT/rules" "$TARGET_DIR/rules"
+  echo "  NOTE  23 language and framework rule packs installed to rules/."
+fi
+
+# ── Memory Persistence & Contexts ─────────────────────────────────────────────
+if [[ "$COPY_MEMORY_HOOKS" == true ]]; then
+  section "ECC Runtime Hooks & Memory Persistence"
+  copy_dir "$KIT_ROOT/hooks" "$TARGET_DIR/hooks"
+  copy_dir "$KIT_ROOT/contexts" "$TARGET_DIR/contexts"
+  echo "  NOTE  Runtime hooks and memory persistence installed to hooks/ & contexts/."
+fi
+
+# ── ECC Curated Domain Skills ─────────────────────────────────────────────────
+if [[ "$COPY_ECC_SKILLS" == true ]]; then
+  section "ECC Curated Domain Skills (286 Skills)"
+  copy_dir "$KIT_ROOT/skills/ecc" "$TARGET_DIR/skills/ecc"
+  echo "  NOTE  286 curated domain skills installed to skills/ecc/."
 fi
 
 # ── lint-and-report script ────────────────────────────────────────────────────

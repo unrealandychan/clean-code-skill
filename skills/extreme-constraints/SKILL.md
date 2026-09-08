@@ -1,6 +1,6 @@
 ---
 name: extreme-constraints-and-vibe-coding
-description: "Uncle Bob's Extreme Constraints framework for AI vibe coding: shifting human judgment upstream, replacing line-by-line code review with executable Gherkin specs, mutation testing, test baselines, CRAP metrics, and automated gauntlets."
+description: "Enforces Uncle Bob's Extreme Constraints framework for AI vibe coding, replacing manual line-by-line review with executable Gherkin specs, mutation testing, test baselines, CRAP metrics, and automated gauntlets. Use when starting agentic coding tasks, writing specs, running mutation tests, or invoking /extreme-constraints or /vibe-guard."
 version: 1.0.0
 ---
 

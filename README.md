@@ -21,24 +21,25 @@
 
 ## What Is This?
 
-A single set of Clean Code + DDD + Harness Engineering rules, expressed in every format your AI tools and linters can consume:
+A single, unified powerhouse combining **Clean Code + DDD + Harness Engineering** with **ECC (Everything Claude Code / Agent Harness OS)**:
 
-- **AI skill adapters** — one file per tool, drop into your project and start reviewing immediately
-- **Shared rule definitions** — one canonical source of truth; all adapters reference the same rules
-- **Harness Engineering rules** — testability, observability, and progressive delivery checks
-- **Productivity & Engineering Skill Suite** — Matt Pocock workflows (`/grill-me`, `/wait-what` plain-English clarification via `CONTEXT.md`, `/handoff` session compaction, `/to-questionnaire`, `/domain-modeling`, `/to-spec`, `/to-tickets`, `/wayfinder`, `/wizard`)
-- **5-Axis Code Review & Quality Skill** — multi-axis protocol inspired by Addy Osmani's `agent-skills` (Correctness, Readability, Architecture, Security, Performance)
-- **Graph Engineering Skill** — optional Knowledge Graph (data topology) & Task Graph (agent state topology) module
-- **Ponytail Anti-Overengineering** — YAGNI, standard library first, 1-line over 50 lines ("the best code is code you never wrote")
-- **Default Package Managers** — **`uv`** for Python and **`pnpm`** for JavaScript / TypeScript
-- **`mattpocock/skills` & `addyosmani/agent-skills`** — automatic check and installation (`npx skills@latest add mattpocock/skills`, `npx skills@latest add addyosmani/agent-skills`)
-- **Google Cloud ADK & GCP Skills** — **Google Cloud ADK** as default LLM agent framework + GCP ecosystem skill references
-- **Harness.io pipeline templates** — canary deploy, feature flag gating, CI with DORA metrics
-- **Linter configurations** — per-language static analysis aligned to the same rule IDs
-- **Pre-commit hooks** — enforce rules before code reaches a pull request
-- **Shared EditorConfig** — universal formatting baseline for all editors
+- **68 Specialized Subagents** — architecture, review, implementation, build errors, simplification, and security (`agents/`)
+- **286 Curated Domain Skills** — cloud, database, systems, frontend, backend, security, and TDD (`skills/ecc/`)
+- **23 Modular Language & Framework Rule Packs** — TypeScript, Python, Go, Rust, Java, C#, C++, Swift, Kotlin, React, Vue, etc. (`rules/`)
+- **Zero-Latency Memory Persistence** — event hooks (`SessionStart`, `PreCompact`, `SessionEnd`) preserving instincts and context (`hooks/`)
+- **Continuous Learning & Evolution** — execution telemetry (`skill-runs.jsonl`), health monitoring, and failure-driven amendments (`amendify.js`)
+- **AgentShield Prompt Defense Baselines** — bulletproof protection against injection, data leaks, and unsafe tool execution
+- **Dynamic Context Switching** — surgical context profiles (`dev.md`, `review.md`, `research.md`) to prevent context bloat (`contexts/`)
+- **Uncle Bob's Extreme Constraints & Vibe Coding** — strict discipline, YAGNI, standard library first, zero overengineering
+- **Matt Pocock Productivity Workflows** — `/grill-me`, `/wait-what` via `CONTEXT.md`, `/handoff`, `/to-spec`, `/wayfinder`, `/wizard`
+- **5-Axis Code Review & Quality Gates** — Correctness, Readability, Architecture, Security, Performance
+- **Harness.io Enterprise CI/CD Templates** — canary deployment, auto-rollback, feature flag gating, DORA metrics
+- **Empirical Skill Auditing & Grading** — `skill-doctor` (from Warp) scoring actual conversation transcripts against Efficiency & Code Quality rubrics
+- **Standardized Skill Authoring** — `update-skill` enforcing action-oriented descriptions, progressive disclosure, and concise instructions
+- **Universal CLI & Diagnostics** — `clean-code-skill doctor`, `audit`, `sync`, `health`, `catalog`, `adapt`, `migrate`
+- **In-Depth Architectural Analysis** — see [ECC Analysis & Integration Manual](file:///Users/eddiechan/clean-code-skills/docs/ECC-ANALYSIS-AND-INTEGRATION.md)
 
-**One rule set. Every tool. Every language.**
+**One rule set. Every tool. Every language. Complete agent operating system.**
 
 ---
 
@@ -174,11 +175,39 @@ To change a rule, update `shared/rules.md` and propagate to the adapters.
 │   ├── productivity/                           ← Matt Pocock Productivity workflows
 │   │   ├── SKILL.md
 │   │   └── WORKFLOWS.md
-│   └── harness/                                ← Harness Engineering adapters
-│       ├── testability.md                      ← testability review assistant
-│       ├── observability.md                    ← observability review assistant
-│       ├── progressive-delivery.md             ← feature flags + canary + circuit breakers
-│       └── agentic-engineering.md              ← spec-driven dev + guardrails + multi-agent guide
+│   ├── harness/                                ← Harness Engineering skill & adapters
+│   │   ├── SKILL.md                            ← Harness Engineering canonical skill
+│   │   ├── testability.md                      ← testability review assistant
+│   │   ├── observability.md                    ← observability review assistant
+│   │   ├── progressive-delivery.md             ← feature flags + canary + circuit breakers
+│   │   └── agentic-engineering.md              ← spec-driven dev + guardrails + multi-agent guide
+│   ├── skill-doctor/                           ← Empirical skill grading engine (Warp)
+│   │   ├── SKILL.md
+│   │   ├── scorers/                            ← Efficiency & Code Quality rubrics
+│   │   ├── scripts/                            ← Session collector & HTML report renderer
+│   │   └── references/                         ← Supported harnesses & improvement rules
+│   ├── update-skill/                           ← Skill authoring & refinement skill (Warp)
+│   │   ├── SKILL.md
+│   │   └── references/                         ← Best practices & progressive disclosure
+│   └── ecc/                                    ← 286 curated domain skills from ECC
+│
+├── agents/                                     ← 68 specialized subagents (architect, reviewer, etc.)
+│
+├── rules/                                      ← 23 modular language & framework rule packs (122 files)
+│   ├── common/
+│   ├── typescript/
+│   ├── python/
+│   ├── golang/
+│   ├── rust/
+│   └── ... (23 packs)
+│
+├── hooks/                                      ← zero-latency memory persistence & runtime hook configs
+│   ├── hooks.json                              ← SessionStart, PreCompact, SessionEnd
+│   └── memory-persistence/
+│
+├── contexts/                                   ← dynamic system prompt contexts (dev, review, research)
+│
+├── manifests/                                  ← ECC component and profile installation manifests
 │
 ├── pipelines/                                  ← Harness.io pipeline templates
 │   ├── harness-ci.yaml                         ← CI with DORA metrics
@@ -186,12 +215,20 @@ To change a rule, update `shared/rules.md` and propagate to the adapters.
 │   └── harness-feature-flag-gate.yaml          ← feature flag gated rollout
 │
 ├── scripts/
+│   ├── doctor.js                               ← workspace & harness diagnostics
+│   ├── sync-ecc.js                             ← ECC synchronizer and asset importer
+│   ├── catalog.js                              ← component & profile explorer
+│   ├── skills-health.js                        ← skill evolution & telemetry dashboard
+│   ├── adapt-agents.js                         ← cross-harness agent adapter (Gemini, Codex, Cursor)
 │   ├── lint-and-report.sh                      ← run linting + print LLM feed instructions
 │   ├── generate-release-notes.sh               ← call LLM to generate a RELEASE-NOTES entry
-│   └── migrate.sh                              ← interactive wizard to copy kit files into a project
+│   └── migrate.sh                              ← universal project migration wizard & CLI
 │
 ├── bin/
-│   └── clean-code-skill.js                     ← npx entry point (calls migrate.sh)
+│   └── clean-code-skill.js                     ← CLI router (migrate, doctor, sync, catalog, health, adapt)
+│
+├── docs/
+│   └── ECC-ANALYSIS-AND-INTEGRATION.md         ← in-depth ECC architectural analysis and integration guide
 │
 ├── src/
 │   └── clean_code_skill_kit/                   ← uvx / pip Python package
@@ -292,6 +329,60 @@ After the dry run it prints the exact command to re-run with `--yes` to apply th
 ./scripts/migrate.sh --dry-run
 npm run migrate:dry
 ```
+
+---
+
+## Universal CLI Commands
+
+The unified `clean-code-skill` CLI provides diagnostics, synchronization, and multi-harness adaptation alongside project migration:
+
+```bash
+# 1. Diagnostics: check skills, agents, rules, hooks, and linters
+clean-code-skill doctor
+# or via npm
+npm run doctor
+
+# 2. Sync from ECC upstream (Everything Claude Code)
+clean-code-skill sync
+# or verify existing assets
+clean-code-skill sync --verify
+
+# 3. Explore ECC profiles and component catalog
+clean-code-skill catalog profiles
+clean-code-skill catalog components --family language
+
+# 4. Monitor skill evolution, telemetry, and health
+clean-code-skill health
+
+# 5. Adapt subagents for Google Gemini / Antigravity or OpenAI Codex
+clean-code-skill adapt --target gemini
+clean-code-skill adapt --target codex
+
+# 6. Empirical skill audit (grade local Claude Code, Codex, Warp transcripts)
+clean-code-skill audit --harness auto --days 30
+# or
+clean-code-skill skill-doctor
+
+# 7. Migrate full Clean Code + ECC suite into any project
+clean-code-skill migrate --all-ecc /path/to/my-project --yes
+```
+
+---
+
+## ECC Agent Operating System Integration
+
+This repository incorporates the full capability catalog of **[ECC (Everything Claude Code)](https://github.com/affaan-m/ECC)**:
+
+| Component                                    | Quantity / Scope          | Purpose                                                                                                                                                                                                                                            |
+| -------------------------------------------- | ------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Specialized Subagents** (`agents/`)        | 68 Agents                 | Cognitive tiering: Architecture (`architect`, `planner`), Review (`code-reviewer`, `security-reviewer`), Implementation (`tdd-guide`), Error Resolution (`build-error-resolver`), Refactoring (`code-simplifier`), and Exploration (`spec-miner`). |
+| **Curated Domain Skills** (`skills/ecc/`)    | 286 Skills                | Full-stack engineering: TDD workflows, cloud architectures, database patterns, accessibility, performance tuning, and systems design.                                                                                                              |
+| **Modular Rule Packs** (`rules/`)            | 23 Rule Packs (122 files) | Modular coding-style, testing, security, patterns, and hooks for TypeScript, Python, Go, Rust, Java, C#, C++, Swift, Kotlin, React, Vue, etc.                                                                                                      |
+| **Memory Persistence Engine** (`hooks/`)     | Zero-Latency Runtime      | Event-driven state capture (`SessionStart`, `PreCompact`, `SessionEnd`) preserving decisions and instincts without per-prompt token overhead.                                                                                                      |
+| **Dynamic Execution Contexts** (`contexts/`) | 3 System Profiles         | Surgical context switches (`dev.md`, `review.md`, `research.md`) eliminating context clutter.                                                                                                                                                      |
+| **Prompt Defense (AgentShield)**             | Universal Baseline        | Strict protection across all agents against prompt injection, unauthorized shell execution, and secret leaks.                                                                                                                                      |
+
+For full architectural analysis, see **[docs/ECC-ANALYSIS-AND-INTEGRATION.md](file:///Users/eddiechan/clean-code-skills/docs/ECC-ANALYSIS-AND-INTEGRATION.md)**.
 
 ---
 
