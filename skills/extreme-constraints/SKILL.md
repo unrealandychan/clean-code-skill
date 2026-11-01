@@ -64,5 +64,6 @@ Trigger this skill when:
 
 ## Canonical Rules & Workflows
 
-- **Canonical Rules**: [`skills/shared/extreme-constraints-rules.md`](file:///Users/eddiechan/clean-code-skills/skills/shared/extreme-constraints-rules.md)
-- **Executable Workflows & Commands**: [`skills/extreme-constraints/WORKFLOWS.md`](file:///Users/eddiechan/clean-code-skills/skills/extreme-constraints/WORKFLOWS.md)
+- **Canonical Rules**: [`skills/shared/extreme-constraints-rules.md`](../shared/extreme-constraints-rules.md)
+- **Executable Workflows & Commands**: [`skills/extreme-constraints/WORKFLOWS.md`](WORKFLOWS.md)
+- **Prerequisite Spec Gate (Elephant-Goldfish Model)**: Before running `/gherkin-spec` or `/gauntlet-check` on complex features, verify `docs/designs/<feature>.md` passes the **Zero-Decision Rule** via [`skills/elephant-goldfish/SKILL.md`](../elephant-goldfish/SKILL.md) (`/egm-review`).

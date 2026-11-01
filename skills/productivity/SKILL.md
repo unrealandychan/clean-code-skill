@@ -15,15 +15,17 @@ This skill equips agents and developers with high-leverage workflows for plan st
 
 ## Skill Inventory
 
-| Workflow               | Command / Trigger         | Type             | Core Outcome                                                                                  |
-| ---------------------- | ------------------------- | ---------------- | --------------------------------------------------------------------------------------------- |
-| **Grill Me**           | `/grill-me`               | User-Invoked     | Relentlessly interview about a plan until all decision branches and edge cases are resolved.  |
-| **Wait What**          | `/wait-what`              | User-Invoked     | Re-pitch an explanation in plain English grounded in `CONTEXT.md` domain vocabulary.          |
-| **Session Handoff**    | `/handoff`                | User-Invoked     | Compact multi-step conversation context into a structured, portable handoff document.         |
-| **To Questionnaire**   | `/to-questionnaire`       | User-Invoked     | Turn an architectural deadlock into a clean Markdown questionnaire for async alignment.       |
-| **Domain Modeling**    | `/domain-modeling`        | Sub-Skill / Auto | Ground domain concepts in `CONTEXT.md` mapped by `CONTEXT-MAP.md` alongside ADRs.             |
-| **To Spec & Tickets**  | `/to-spec`, `/to-tickets` | Sub-Skill / Auto | Convert product ideas to formal specs and break them into verifiable single-step tickets.     |
-| **Wayfinder & Wizard** | `/wayfinder`, `/wizard`   | User-Invoked     | Goal-driven exploration and implementation with verifiable checks and no fake time estimates. |
+| Workflow                            | Command / Trigger                    | Type             | Core Outcome                                                                                           |
+| ----------------------------------- | ------------------------------------ | ---------------- | ------------------------------------------------------------------------------------------------------ |
+| **Grill Me & Grill With Docs**      | `/grill-me`, `/grill-with-docs`      | User-Invoked     | Relentlessly interview about a plan, grounded in `GLOSSARY.md` and `ADR`s, until zero ambiguity remains.|
+| **Loop Me (Workflow Specs)**        | `/loop-me`                           | User-Invoked     | Specify recurring loops into `workflows/*.md` using `Trigger`, `Checkpoint`, `Push Right`, and `Brief`.|
+| **Improve Codebase Architecture**   | `/improve-codebase-architecture`     | Sub-Skill / Auto | Consolidate shallow agent-generated files into Ousterhout **Deep Modules** (`codebase-design`).        |
+| **Wait What**                       | `/wait-what`                         | User-Invoked     | Re-pitch an explanation in plain English grounded in `CONTEXT.md` / `GLOSSARY.md` domain vocabulary.   |
+| **Session Handoff**                 | `/handoff`                           | User-Invoked     | Compact multi-step conversation context into a structured, portable handoff document.                  |
+| **To Questionnaire**                | `/to-questionnaire`                  | User-Invoked     | Turn an architectural deadlock into a clean Markdown questionnaire for async alignment.                |
+| **Domain Modeling**                 | `/domain-modeling`                   | Sub-Skill / Auto | Ground domain concepts in `GLOSSARY.md` / `CONTEXT.md` mapped by `CONTEXT-MAP.md` alongside ADRs.      |
+| **To Spec, Tickets & TDD**          | `/to-spec`, `/to-tickets`, `/tdd`    | Sub-Skill / Auto | Convert product ideas to formal specs, verifiable single-step tickets, and Red-Green-Refactor loops.   |
+| **Wayfinder, Triage & Wizard**      | `/wayfinder`, `/triage`, `/wizard`   | User-Invoked     | Goal-driven exploration, bug triage, and implementation with verifiable checks and zero time guesses.  |
 
 ---
 
@@ -49,4 +51,6 @@ This skill equips agents and developers with high-leverage workflows for plan st
 
 ## Detailed Prompts & Workflows
 
-See [`WORKFLOWS.md`](file:///Users/eddiechan/clean-code-skills/skills/productivity/WORKFLOWS.md) for full execution prompts and step-by-step instructions.
+- **Canonical Rules**: [`skills/shared/mattpocock-productivity-rules.md`](../shared/mattpocock-productivity-rules.md)
+- **Step-by-Step Prompts**: [`WORKFLOWS.md`](WORKFLOWS.md)
+- **For Multi-Agent Spec Verification (Elephant-Goldfish Model)**: Pair `/grill-me` and `/to-spec` with [`skills/elephant-goldfish/SKILL.md`](../elephant-goldfish/SKILL.md) (`/egm-brainstorm` -> `/egm-draft` -> `/egm-review-loop`).

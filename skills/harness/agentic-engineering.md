@@ -5,11 +5,16 @@
 
 ---
 
-## 1. Spec-Driven Development (Shift Left on Intent)
+## 1. Spec-Driven Development: Google's Elephant-Goldfish Model (Shift Left on Intent)
 
-Write intent **before** handing off to an agent. A vague prompt produces vague code.
+Write intent **before** handing off to an agent. A vague prompt produces vague code, and asking the same conversational agent that brainstormed the plan to critique its own work causes single-session sycophancy.
 
-**Minimal spec template:**
+### The Elephant vs. Goldfish Memory Split (`skills/elephant-goldfish/SKILL.md`)
+
+- **The Elephant (Deep Context, Strict No-Code Policy)**: Runs `/egm-brainstorm` (Heilmeier Catechism -> `concepts_brief.md`), `/egm-draft` (section-by-section compiler -> `docs/designs/<feature>.md`), and `/egm-resolve`. The Elephant never writes production code.
+- **The Goldfish (Zero Context, Stateless Critics)**: Runs `/egm-review` and `/egm-review-loop`. Fresh subagents with **zero access** to the Elephant's conversation history read *only* `docs/designs/<feature>.md` and the repository across a 5-stage pipeline (Initial Zoom-Out -> Comprehension -> Parallel Critic Swarm -> Intermediate Zoom-Out -> Implementation Readiness / Zero-Decision Gate).
+
+**Minimal spec template (for lightweight tasks; use `/egm-draft` for multi-file features):**
 
 ```markdown
 ## Goal
@@ -71,17 +76,18 @@ Don't accept the first solution. Apply at least one of:
 
 ---
 
-## 4. Multi-Agent Coordination
+## 4. Multi-Agent Coordination (Role Split & EGM Hierarchical Dispatch)
 
-Split large tasks by responsibility:
+Split large tasks by responsibility and memory horizon:
 
-| Role             | Responsibility                                               |
-| ---------------- | ------------------------------------------------------------ |
-| **Planner**      | Writes spec, decomposes into tasks, owns acceptance criteria |
-| **Researcher**   | Reads codebase, docs, existing tests — builds context        |
-| **Implementer**  | Writes code and tests based on spec + context                |
-| **Reviewer**     | Validates against acceptance criteria, runs linter and tests |
-| **Orchestrator** | Coordinates parallel workers, handles errors, owns the plan  |
+| Role                           | Memory Horizon   | Responsibility                                                                                                 |
+| ------------------------------ | ---------------- | -------------------------------------------------------------------------------------------------------------- |
+| **Planner (The Elephant)**     | **Deep Context** | Conducts `/egm-brainstorm` and `/egm-draft`, writes `docs/designs/<feature>.md`, enforces **No-Code Policy**   |
+| **Researcher**                 | Targeted Context | Reads codebase, docs, existing tests — builds factual context                                                  |
+| **Critic Swarm (The Goldfish)**| **Zero Context** | Stateless subagents (`egm-zoom-out`, `egm-comprehension`, `egm-design`, `egm-codebase-details`) auditing specs |
+| **Synthesizer (`egm-synthesizer`)**| Batch Orchestrator | Runs Hierarchical Dispatch (`/egm-review-loop`), deduplicates Goldfish feedback into `Blockers`, `Major`, `Nits` |
+| **Implementer**                | Spec-Bound       | Writes code and tests mechanically after `egm-implementation-readiness` confirms the **Zero-Decision Rule**    |
+| **Reviewer / Drift Auditor**   | **Zero Context** | Validates code via `/gauntlet-check`, 5-axis `/code-review`, and `/egm-drift-report`                           |
 
 **Context handoff contract** (pass between agents explicitly):
 
@@ -163,11 +169,14 @@ Before shipping any AI-assisted feature:
 
 ## Anti-Patterns to Flag
 
-| Anti-pattern                               | Rule                        |
-| ------------------------------------------ | --------------------------- |
-| Start coding before spec is written        | `missing-spec-before-agent` |
-| No `AGENTS.md` in repo                     | `no-agent-persona-file`     |
-| AI code merged without review              | `agent-output-unvalidated`  |
-| One prompt does planning + coding + review | `agent-doing-everything`    |
-| Agent retried same approach 3+ times       | `recurring-retry-pattern`   |
-| No record of friction after complex task   | `no-friction-log`           |
+| Anti-pattern                                                    | Rule                              |
+| --------------------------------------------------------------- | --------------------------------- |
+| Start coding before spec is written                             | `missing-spec-before-agent`       |
+| Deep-context planning session starts writing production code    | `elephant-premature-coding`       |
+| Passing chat history to spec/code critic subagents              | `goldfish-context-contamination`  |
+| Handing spec to coding agent with open design/API guesses       | `zero-decision-readiness-failure` |
+| No `AGENTS.md` in repo                                          | `no-agent-persona-file`           |
+| AI code merged without review                                   | `agent-output-unvalidated`        |
+| One prompt does planning + coding + review                      | `agent-doing-everything`          |
+| Agent retried same approach 3+ times                            | `recurring-retry-pattern`         |
+| No record of friction after complex task                        | `no-friction-log`                 |

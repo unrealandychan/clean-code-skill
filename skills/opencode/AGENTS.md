@@ -221,6 +221,15 @@ Also invoke this agent when a developer says:
 - **Quality Axes**: Correctness, Readability, Architecture, Security, Performance.
 - **Benchmark**: Approve a change when it **definitely improves overall code health**.
 
+## Elephant-Goldfish Model (EGM) & 2026 Agentic Execution Laws
+
+- **EGM Spec-Driven Protocol**: Reference `skills/shared/egm-spec-driven-rules.md` and `skills/elephant-goldfish/SKILL.md`. Separate durable `.specs/` ("Elephant", no production coding during design) from stateless zero-context subagents ("Goldfish", 5 adversarial lenses). Workflows: `/egm-brainstorm`, `/egm-draft`, `/egm-review`, `/egm-resolve`, `/egm-drift-report`, `/egm-bootstrap`.
+- **Deep Modules (`codebase-design`)**: Enforce `shallow-module-fragmentation`, `boolean-prop-proliferation`, `async-waterfall-chain`, `non-grepable-barrel-maze`, and `error-without-remediation-hint`.
+- **The 3 Iron Laws (`obra/superpowers`)**:
+  1. `symptom-fix-without-root-cause`: No fixes without root cause investigation first; stop after 3 failed fixes.
+  2. `unverified-completion-claim`: No completion claims without fresh verification evidence in the current turn.
+  3. `performative-review-agreement`: Verify review feedback against codebase & YAGNI before implementing.
+
 ---
 
 ## This agent vs. static analysis

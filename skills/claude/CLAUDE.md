@@ -222,6 +222,27 @@ Inspired by Addy Osmani's `agent-skills` (`code-review-and-quality`):
 
 ---
 
+## Elephant-Goldfish Model (EGM) — Spec-Driven Development & Zero-Context Verification
+
+Inspired by Google's `google/elephant-goldfish-model`:
+
+- Full Rules: `@skills/shared/egm-spec-driven-rules.md` | Guide: `@skills/elephant-goldfish/SKILL.md`
+- **Core Separation**:
+  - **The Elephant (Durable `.specs/` Memory)**: Persistent design specifications (`.specs/architecture.md`, `.specs/features/<feature>.md`, `.specs/decisions/NNNN-*.md`, `.specs/learnings/index.md`). **Never writes production code directly during design.**
+  - **The Goldfish (Zero-Context Verification & Execution)**: Stateless subagents that receive *only* the target spec and scoped source files (`no-conversational-memory-leak`), reviewing through 5 adversarial lenses (Design Critic, Naive Reader, Tech Lead, Codebase Auditor, Structural Validator).
+- **Interactive Workflows**: `/egm-brainstorm`, `/egm-draft`, `/egm-review`, `/egm-resolve`, `/egm-drift-report`, `/egm-bootstrap`.
+
+---
+
+## Deep Modules (`codebase-design`) & The 3 Iron Laws (`obra/superpowers`)
+
+- **Deep Modules over Shallow Wrappers**: Prefer deep modules (`interface << implementation`, `shallow-module-fragmentation`) over tiny pass-through files, boolean prop proliferation (`boolean-prop-proliferation`), sequential async waterfalls (`async-waterfall-chain`), or barrel re-export mazes (`non-grepable-barrel-maze`). Require remediation hints in errors (`error-without-remediation-hint`).
+- **Iron Law 1 (Systematic Debugging)**: `NO FIXES WITHOUT ROOT CAUSE INVESTIGATION FIRST` (`symptom-fix-without-root-cause`). Stop after 3 failed fix attempts and escalate architecture.
+- **Iron Law 2 (Verification Before Completion)**: `NO COMPLETION CLAIMS WITHOUT FRESH VERIFICATION EVIDENCE` (`unverified-completion-claim`). Run verification in the current turn before claiming success.
+- **Iron Law 3 (Receiving Code Review)**: `VERIFY BEFORE IMPLEMENTING — NO PERFORMATIVE AGREEMENT` (`performative-review-agreement`). Verify against the codebase and YAGNI before implementing review suggestions.
+
+---
+
 ## Commit Hygiene Enforcement
 
 Also apply all rules defined in @skills/shared/husky-rules.md.

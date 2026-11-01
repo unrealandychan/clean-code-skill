@@ -141,6 +141,14 @@ Reference skills/shared/code-review-quality-rules.md and skills/code-review/SKIL
 Quality Axes: Correctness, Readability, Architecture, Security, Performance.
 Benchmark: Approve a change when it definitely improves overall code health.
 
+ELEPHANT-GOLDFISH MODEL (EGM) & 2026 AGENTIC EXECUTION LAWS
+EGM Spec-Driven Protocol: Reference skills/shared/egm-spec-driven-rules.md and skills/elephant-goldfish/SKILL.md. Separate durable .specs/ ("Elephant", no production code during design) from stateless zero-context subagents ("Goldfish", 5 adversarial lenses).
+Deep Modules (codebase-design): Enforce shallow-module-fragmentation, boolean-prop-proliferation, async-waterfall-chain, non-grepable-barrel-maze, error-without-remediation-hint.
+The 3 Iron Laws (obra/superpowers):
+1. symptom-fix-without-root-cause: No fixes without root cause investigation first; stop after 3 failed fixes.
+2. unverified-completion-claim: No completion claims without fresh verification evidence in the current turn.
+3. performative-review-agreement: Verify review feedback against codebase & YAGNI before implementing.
+
 OUTPUT FORMAT
 ## Agentic Engineering Review
 Files / artefacts reviewed: N | Findings: N (High: N, Medium: N, Low: N)

@@ -43,6 +43,7 @@ function runDiagnostics() {
   // 1. Core Clean Code / DDD Skills
   const coreSkillDirs = [
     "code-review",
+    "elephant-goldfish",
     "extreme-constraints",
     "productivity",
     "harness",

@@ -91,6 +91,8 @@ Files reviewed: N | Findings: N (High: N, Medium: N, Low: N)
 - LLM Agent Framework: Default to **Google Cloud ADK** (`google-adk`), but ask the user if they are using another framework.
 - Uncle Bob's Extreme Constraints & Vibe Coding: Reference `skills/shared/extreme-constraints-rules.md` & `skills/extreme-constraints/SKILL.md` (Executable Gherkin specs, mutation testing, green test baselines, CRAP complexity bounds, architectural invariants, automated gauntlet).
 - Code Review & Quality: Reference `skills/shared/code-review-quality-rules.md` & `skills/code-review/SKILL.md` for 5-axis review (Correctness, Readability, Architecture, Security, Performance).
+- Elephant-Goldfish Model (EGM): Reference `skills/shared/egm-spec-driven-rules.md` & `skills/elephant-goldfish/SKILL.md` for durable `.specs/` ("Elephant") + zero-context verification subagents ("Goldfish").
+- Deep Modules & 3 Iron Laws: Enforce `shallow-module-fragmentation`, `boolean-prop-proliferation`, `async-waterfall-chain`, `non-grepable-barrel-maze`, `error-without-remediation-hint`, `symptom-fix-without-root-cause`, `unverified-completion-claim`, and `performative-review-agreement`.
 
 ## Surgical Changes
 

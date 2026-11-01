@@ -32,6 +32,23 @@ Skip flags when: formatting is already linter-enforced, a framework convention j
 
 ---
 
+## Deep Modules & AI-Navigable Architecture Rules (2026 Agentic Standard)
+
+Inspired by John Ousterhout (*A Philosophy of Software Design*), `codebase-design`, `vercel-labs/agent-skills`, and AI-native token economy principles:
+
+| Rule                             | Severity | Flag when                                                                                                                                                        |
+| -------------------------------- | -------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `shallow-module-fragmentation`   | high     | A module/class/file has a complex public interface relative to trivial internal logic (e.g., 10 tiny wrapper files instead of 1 cohesive **Deep Module**)        |
+| `pass-through-method-chain`      | medium   | Functions or service layers merely forward arguments to another function with the same signature without hiding complexity or transforming domain concepts       |
+| `temporal-decomposition-leak`    | medium   | Logic is split purely by execution order (`readStep()`, `parseStep()`, `writeStep()`) leaking shared format/schema knowledge across multiple modules             |
+| `in-process-over-mocking`        | high     | Unit tests mock internal in-process collaborators instead of testing at the **Deep Module Boundary Seam** (mocking only external I/O boundaries)                 |
+| `boolean-prop-proliferation`     | medium   | Functions or UI components accept 2+ boolean mode flags (`isPrimary`, `isCompact`, `withRetry`) creating $2^N$ hidden branches instead of composition/variants   |
+| `async-waterfall-chain`          | high     | Sequential `await` calls on independent operations where `Promise.all`, `asyncio.gather`, `errgroup`, or Suspense streaming would eliminate latency waterfalls   |
+| `non-grepable-barrel-maze`       | medium   | Deep `index.ts` re-export barrel chains or dynamic string-concatenated event/symbol dispatch break `ripgrep` / AST navigation and bloat agent token context      |
+| `error-without-remediation-hint` | medium   | Thrown errors or structured logs report failure without actionable context and a remediation hint for human/agent self-healing                                   |
+
+---
+
 ## DDD Rules
 
 Apply these when the codebase shows domain modelling intent (named aggregates, bounded contexts, value objects, repositories).
@@ -149,6 +166,20 @@ Before writing or changing any code:
 
 ---
 
+## The 3 Iron Laws of Execution (`obra/superpowers` Standard)
+
+1. **Iron Law of Systematic Debugging (`systematic-debugging`)**:
+   - **`NO FIXES WITHOUT ROOT CAUSE INVESTIGATION FIRST`** (`symptom-fix-without-root-cause` — **high**).
+   - **3-Strike Architecture Rule (`three-strike-architecture-stop` — **high**)**: If 3 consecutive fix attempts fail, stop patching symptoms and escalate to question the module architecture with the user.
+2. **Iron Law of Verification (`verification-before-completion`)**:
+   - **`NO COMPLETION CLAIMS WITHOUT FRESH VERIFICATION EVIDENCE`** (`unverified-completion-claim` — **high**).
+   - Never claim "Done", "Fixed", or "Tests pass" without running the verification command in the current turn and citing its exit code and output.
+3. **Iron Law of Code Review Reception (`receiving-code-review`)**:
+   - **`VERIFY BEFORE IMPLEMENTING — NO PERFORMATIVE AGREEMENT`** (`performative-review-agreement` — **medium**).
+   - Never respond with "You're absolutely right!" or blindly implement review feedback without checking codebase reality and YAGNI.
+
+---
+
 ## Default Package Managers
 
 When managing packages, dependencies, or virtual environments, strictly default to:
@@ -184,39 +215,43 @@ Before writing or changing code, run every request down the **Ponytail Ladder**:
 
 ---
 
-## Agent Skills & Workflow Setup (`mattpocock/skills` & `addyosmani/agent-skills`)
+## 2026 Trending Agent Skills Ecosystem (`skills.sh` Leaderboard Integration)
 
 When operating in an agentic coding environment or initializing a project workflow:
 
-1. **Check for `mattpocock/skills` & `addyosmani/agent-skills`**:
-   - Check if `mattpocock/skills` ([github.com/mattpocock/skills](https://github.com/mattpocock/skills)) and `addyosmani/agent-skills` ([github.com/addyosmani/agent-skills](https://github.com/addyosmani/agent-skills)) are installed in the project (look for `.agents/skills`, `.claude/skills`, or installed skill recipes).
+1. **Check for Core 2026 Skill Packs ([skills.sh](https://skills.sh))**:
+   - Check if `mattpocock/skills`, `obra/superpowers`, `vercel-labs/agent-skills`, `addyosmani/agent-skills`, and `anthropics/skills` are installed in the project (`.agents/skills`, `.claude/skills`).
    - **If NOT installed**, instruct the user or run:
 
      ```bash
      npx skills@latest add mattpocock/skills
+     npx skills@latest add obra/superpowers
+     npx skills@latest add vercel-labs/agent-skills
      npx skills@latest add addyosmani/agent-skills
+     npx skills@latest add anthropics/skills
      ```
 
-     _(Or for Claude Code: `/plugin marketplace add addyosmani/agent-skills`)_
-
 2. **Leverage Core Matt Pocock Workflows (`skills/shared/mattpocock-productivity-rules.md`)**:
-   - `/grill-me` & `grilling`: Relentlessly interview the user/agent about a proposed plan or design until every branch of the decision tree is resolved.
-   - `/wait-what`: When an explanation fails to land, immediately pivot to a 2-3 paragraph plain-English re-pitch grounded in `CONTEXT.md` domain vocabulary.
+   - `/grill-me` & `/grill-with-docs`: Relentlessly interview the user/agent about a proposed plan or design, grounding in `GLOSSARY.md` + `ADR`s and persisting decisions back into docs.
+   - `/loop-me`: Design recurring autonomous or checkpointed workflows in `workflows/*.md` using the `Trigger`, `Checkpoint`, `Push Right`, and `Brief` vocabulary.
+   - `/improve-codebase-architecture`: Run periodic Ousterhout architecture-deepening passes to consolidate shallow modules into deep, testable modules.
+   - `/wait-what`: Immediately pivot to a 2-3 paragraph plain-English re-pitch grounded in `CONTEXT.md` domain vocabulary.
    - `/handoff`: Compact conversation context into a structured markdown handoff document for the next session or agent.
    - `/to-questionnaire`: Turn architectural or product deadlocks into a clean Markdown questionnaire with explicit options, trade-offs, and recommendations.
-   - `/domain-modeling`: Maintain `CONTEXT.md` files mapped by `CONTEXT-MAP.md` linked to Architecture Decision Records (ADRs).
-   - `/to-spec` & `/to-tickets`: Convert proposals into formal specs and single-step verifiable tickets.
-   - `/wayfinder` & `/wizard`: Goal-driven architectural exploration and implementation.
+   - `/domain-modeling`: Maintain `CONTEXT.md` / `GLOSSARY.md` files mapped by `CONTEXT-MAP.md` linked to Architecture Decision Records (ADRs).
+   - `/to-spec`, `/to-tickets`, `/tdd`, `/triage`: Convert proposals into formal specs, verifiable single-step tickets, and strict Red-Green-Refactor loops.
 
 3. **Skill Invocations & Prompt Standards**:
-   - **User-Invoked Skill Boundaries**: Interactive conversational skills (`grill-me`, `to-questionnaire`, `wizard`) must have `disable-model-invocation: true`. Sub-agents and background tasks must never call user-interactive skills directly.
+   - **User-Invoked Skill Boundaries**: Interactive conversational skills (`grill-me`, `grill-with-docs`, `loop-me`, `to-questionnaire`, `wizard`) must have `disable-model-invocation: true`. Sub-agents and background tasks must never call user-interactive skills directly.
    - **Explicit Multi-Skill Tool Calls**: Standardize cross-skill calls with `call Skill tool with "<name>"`.
    - **Zero Fake Time Estimates**: Never generate speculative time estimates ("this will take 2 hours"). State concrete automated verification checks per step (`Step N -> Verify: <cmd>`).
    - **Prompt Cleanliness**: Avoid em-dashes in agent instructions; quote YAML frontmatter descriptions with colons.
 
-4. **Leverage Addy Osmani Quality Workflows (`skills/shared/code-review-quality-rules.md`)**:
-   - `code-review-and-quality`: 5-axis review (Correctness, Readability, Architecture, Security, Performance).
-   - `interview-me`, `spec-driven-development`, `debugging-and-error-recovery`, `security-and-hardening`.
+4. **Leverage Obra Superpowers, Vercel Labs & Addy Osmani Quality Workflows**:
+   - `obra/superpowers`: `systematic-debugging`, `verification-before-completion`, `receiving-code-review`, `test-driven-development`.
+   - `vercel-labs/agent-skills`: `vercel-react-best-practices` (no async waterfalls, Suspense streaming), `composition-patterns` (no boolean prop proliferation), `web-design-guidelines`.
+   - `addyosmani/agent-skills` (`skills/shared/code-review-quality-rules.md`): `code-review-and-quality` (5-axis review: Correctness, Readability, Architecture, Security, Performance), `spec-driven-development`, `debugging-and-error-recovery`, `security-and-hardening`.
+   - `anthropics/skills`: `frontend-design` (anti-"AI slop" UI design).
 
 ---
 
@@ -235,10 +270,32 @@ Refer to these specialized Google Cloud and AI platform skills when working with
 
 | Skill / Platform                                                                    | Capability & Scope                                                                         | Key Usage                                                                 |
 | ----------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------- |
+| **Google Elephant-Goldfish Model (EGM)** (`google/elephant-goldfish-model`)         | Spec-driven AI workflow splitting Deep-Context (Elephant) from Zero-Context (Goldfish)     | `/egm-brainstorm`, `/egm-draft`, `/egm-review-loop`, `/egm-drift-report`  |
 | **Google Agent Development Kit (ADK) & Antigravity SDK** (`google-antigravity-sdk`) | Designing, implementing, and debugging autonomous AI agents and multi-agent orchestrations | ADK agent setups, tool definitions, multi-agent workflows                 |
 | **Google Maps Platform** (`google-maps-platform`)                                   | Maps, Places, Geocoding, Routes, 3D/Street View, Air Quality, Solar, Pollen APIs           | Production & prototype mapping code (using demo key or Cloud project key) |
 | **Google Cloud ADK Deployment Playbooks** (`google-adk-deployment-playbook`)        | GCP infrastructure deployment patterns for LLM workloads                                   | Cloud Run, GKE, Vertex AI Agent Builder, Firestore, BigQuery, Terraform   |
 | **Vertex AI & Gemini API Best Practices**                                           | Grounding, structured outputs, function calling schemas, context caching                   | Gemini 1.5/2.0/3.x models integration, enterprise LLM safety              |
+
+---
+
+## Google's Elephant-Goldfish Model (EGM) Spec-Driven Module
+
+Inspired by Google's `elephant-goldfish-model` ([github.com/google/elephant-goldfish-model](https://github.com/google/elephant-goldfish-model)):
+
+> _"The Elephant remembers the entire conversational journey to draft the spec (and never writes code). The Goldfish forgets the conversation completely and critiques only what is written on the page."_
+
+Full rules: `skills/shared/egm-spec-driven-rules.md` | Guide: `skills/elephant-goldfish/SKILL.md` | Workflows: `skills/elephant-goldfish/WORKFLOWS.md`
+
+- **Core EGM Rules**:
+  - `elephant-premature-coding` (**high**): The Elephant session must never write or modify production code during `/egm-brainstorm` or `/egm-draft`.
+  - `goldfish-context-contamination` (**high**): Goldfish critic subagents must run in fresh, stateless contexts with zero access to the Elephant's conversation history.
+  - `missing-heilmeier-catechism` (**medium**): Brainstorming must answer the Heilmeier Catechism (`heilmeier-standard.md`) and survive Goldfish shootdown before drafting `docs/designs/<feature>.md`.
+  - `skipped-zoom-out-altitude-pass` (**high**): Spec reviews must run `egm-zoom-out` (`zoom-out-standard.md`) both initially (for Ponytail YAGNI / reuse) and post-critics (to prune critic-induced scope creep).
+  - `naive-reader-comprehension-gap` (**medium**): `egm-comprehension` must verify the spec is self-contained and aligns with `GLOSSARY.md` / `CONTEXT-MAP.md`.
+  - `hallucinated-codebase-reference` (**high**): `egm-codebase-details` must verify all cited file paths, symbols, and signatures against the live repo.
+  - `zero-decision-readiness-failure` (**high**): `egm-implementation-readiness` (`implementation-readiness-standard.md`) must confirm zero architectural or API decisions remain before implementation or `/gauntlet-check`.
+  - `unbounded-egm-sentinel-edit` (**medium**): `/egm-bootstrap` edits to `README.md` must stay strictly inside `<!-- EGM:START -->` and `<!-- EGM:END -->` sentinels.
+  - `unmonitored-spec-code-drift` (**medium**): Post-implementation changes must be audited with `/egm-drift-report` to prevent undocumented divergence from `docs/designs/<feature>.md`.
 
 ---
 

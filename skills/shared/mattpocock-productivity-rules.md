@@ -60,13 +60,15 @@
 | ----------------------------------- | -------- | -------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `blocking-on-unstructured-question` | medium   | Agent presents a wall of unformatted questions instead of a clean, structured Markdown questionnaire with selectable options and trade-off tables. |
 
-### 7. Goal-Driven Spec & Execution (`to-spec`, `to-tickets`, `wizard`)
+### 7. Goal-Driven Spec, Workflows & Deep Architecture (`to-spec`, `to-tickets`, `loop-me`, `improve-codebase-architecture`)
 
-| Rule                        | Severity | Trigger                                                                                                                                   |
-| --------------------------- | -------- | ----------------------------------------------------------------------------------------------------------------------------------------- |
-| `fictitious-time-estimates` | **high** | Agent or wizard fabricates arbitrary time estimates ("this will take 2 hours") instead of defining concrete, verifiable acceptance tests. |
-| `unverifiable-ticket-step`  | **high** | Spec or ticket breakdown lacks concrete per-step automated verification checks (`Step N -> Verify: <cmd>`).                               |
-| `oversized-ticket-scope`    | medium   | A ticket or task step modifies more than 2-3 logical files at once without intermediate verification.                                     |
+| Rule                              | Severity | Trigger                                                                                                                                   |
+| --------------------------------- | -------- | ----------------------------------------------------------------------------------------------------------------------------------------- |
+| `fictitious-time-estimates`       | **high** | Agent or wizard fabricates arbitrary time estimates ("this will take 2 hours") instead of defining concrete, verifiable acceptance tests. |
+| `unverifiable-ticket-step`        | **high** | Spec or ticket breakdown lacks concrete per-step automated verification checks (`Step N -> Verify: <cmd>`).                               |
+| `shallow-module-fragmentation`    | **high** | Agent splits logic into dozens of tiny shallow files instead of running an Ousterhout `/improve-codebase-architecture` deepening pass.    |
+| `premature-workflow-checkpoint`   | medium   | A `/loop-me` workflow spec interrupts the user early instead of applying **Push Right** (doing maximal automated work before a **Brief**).|
+| `oversized-ticket-scope`          | medium   | A ticket or task step modifies more than 2-3 logical files at once without intermediate verification.                                     |
 
 ---
 
@@ -123,7 +125,23 @@
 
 ### `/domain-modeling` - Bounded Context & Vocabulary Sync
 
-- **Purpose**: Maintain `CONTEXT.md` files mapped by `CONTEXT-MAP.md` whenever codebase terminology, ADRs, or bounded contexts are introduced or modified.
+- **Purpose**: Maintain `GLOSSARY.md` / `CONTEXT.md` files mapped by `CONTEXT-MAP.md` whenever codebase terminology, ADRs, or bounded contexts are introduced or modified.
+
+### `/grill-with-docs` - Document-Grounded Grilling
+
+- **Purpose**: Run a `/grilling` session grounded in the project's `GLOSSARY.md` and `ADR`s (`docs/adr/`), writing resolved domain terms and architectural decisions directly back into the docs before concluding.
+
+### `/loop-me` - Recurring Workflow Spec Designer
+
+- **Purpose**: Grill the user to specify recurring personal or engineering loops into `workflows/*.md` using four core primitives:
+  - **Trigger**: Event-driven (preferred) or scheduled.
+  - **Checkpoint**: Human-in-the-loop decision gate.
+  - **Push Right**: Defer checkpoints as far right as possible so maximal preparation happens before asking the human once.
+  - **Brief**: Present a tight, decision-ready summary at the checkpoint rather than raw intermediate output.
+
+### `/improve-codebase-architecture` - Ousterhout Deep Module Refactoring
+
+- **Purpose**: Counteract AI-generated shallow module fragmentation by identifying pass-through layers, temporal decomposition, and chatty internal interfaces, and consolidating them into **Deep Modules** (simple public interface hiding rich internal implementation, tested at the boundary seam).
 
 ---
 
