@@ -8,8 +8,8 @@ platforms: [linux, macos, windows]
 metadata:
   hermes:
     tags:
-      [clean-code, ddd, harness-engineering, agentic-engineering, code-review, elephant-goldfish-model, spec-driven-development]
-    related_skills: [elephant-goldfish-model]
+      [clean-code, ddd, harness-engineering, agentic-engineering, code-review, elephant-goldfish-model, spec-driven-development, impeccable, frontend-design, anti-slop]
+    related_skills: [elephant-goldfish-model, impeccable]
 ---
 
 # Clean Code + DDD + Harness + Agentic Engineering Review
@@ -302,6 +302,9 @@ When initializing or upgrading an agentic project workflow, check and leverage t
 5. **Anthropic Official Design & Document Skills (`anthropics/skills`)**:
    - Install: `npx skills@latest add anthropics/skills`
    - Core workflows: `frontend-design` (anti-"AI slop" UI aesthetics, cohesive typography, intentional motion) and document processing (`pdf`, `docx`, `pptx`, `xlsx`).
+6. **Impeccable Frontend Design & Anti-Slop Engine (`pbakaus/impeccable` — `skills/shared/impeccable-design-rules.md`)**:
+   - Install: `npx skills@latest add pbakaus/impeccable`
+   - Core workflows: 24 design commands (`init`, `shape`, `document`, `extract`, `critique`, `audit`, `polish`, `bolder`, `quieter`, `distill`, `harden`, `onboard`, `animate`, `colorize`, `typeset`, `layout`, `delight`, `overdrive`, `clarify`, `adapt`, `optimize`, `live`, `generate`) + 62-rule Rust anti-slop detector (`npx impeccable detect`).
 
 ## LLM Agent Framework Standard (Google Cloud ADK)
 
@@ -360,6 +363,16 @@ Inspired by Addy Osmani's `agent-skills` (`code-review-and-quality`):
 - **5-Axis Checkpoints**: Correctness (`spec-mismatch`, `unhandled-edge-case`), Readability (`vague-naming`, `deep-nesting-chain`), Architecture (`bounded-context-leak`, `tight-coupling`), Security (`unvalidated-input-injection`, `exposed-credentials-secrets`), Performance (`n-plus-one-query`, `memory-leak-hazard`).
 - **Benchmark**: Approve a change when it **definitely improves overall code health**, even if not perfect.
 - **Interactive Workflows**: `/code-review`, `/review-diff`, `/review-security`, `/review-perf`, `/quality-gate`.
+
+## Impeccable Frontend Design & Anti-Slop Module
+
+Powered by Paul Bakaus's `impeccable` ([github.com/pbakaus/impeccable](https://github.com/pbakaus/impeccable), v4.9.2):
+
+- Full Rules: `skills/shared/impeccable-design-rules.md` | Guide: `skills/impeccable/SKILL.md` | Workflows: `skills/impeccable/WORKFLOWS.md`
+- **4 Surface Modes**: Calibrate UI ambition to the surface — `Persuade` (landing/marketing/pricing), `Operate` (dashboards/app UI/settings), `Read` (docs/articles/changelogs), `Experience` (portfolios/showcases).
+- **Durable Design Context**: Capture product truth in `PRODUCT.md` (`/impeccable init`) and design-system tokens in `DESIGN.md` (`/impeccable document`).
+- **Craft Floor & Anti-Slop Bans**: Enforce `reference/craft-floor.md` before every UI edit — WCAG AA contrast (`low-contrast`), tinted text on color (`gray-on-color`), `65–75ch` measure (`line-length`), `hover`/`focus-visible`/`loading`/`empty`/`error` states, themed browser surfaces (`::selection`, scrollbars, `tabular-nums`), and hard bans on eyebrow kickers (`kicker-above-heading`), nested/3-up icon cards (`nested-cards`, `icon-tile-stack`), colored side stripes on rounded cards (`side-tab`), gradient text (`gradient-text`), and emoji icons.
+- **62-Rule Detector & Visual Subagents**: Run `npx impeccable detect <dir|url>` (or `/impeccable hooks on`) and gate completion with `impeccable-finish-reviewer` (`ship` | `fix` | `rebuild` | `recapture`).
 
 ## Commit Hygiene Enforcement
 

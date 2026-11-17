@@ -220,10 +220,11 @@ Before writing or changing code, run every request down the **Ponytail Ladder**:
 When operating in an agentic coding environment or initializing a project workflow:
 
 1. **Check for Core 2026 Skill Packs ([skills.sh](https://skills.sh))**:
-   - Check if `mattpocock/skills`, `obra/superpowers`, `vercel-labs/agent-skills`, `addyosmani/agent-skills`, and `anthropics/skills` are installed in the project (`.agents/skills`, `.claude/skills`).
+   - Check if `pbakaus/impeccable`, `mattpocock/skills`, `obra/superpowers`, `vercel-labs/agent-skills`, `addyosmani/agent-skills`, and `anthropics/skills` are installed in the project (`.agents/skills`, `.claude/skills`).
    - **If NOT installed**, instruct the user or run:
 
      ```bash
+     npx skills@latest add pbakaus/impeccable
      npx skills@latest add mattpocock/skills
      npx skills@latest add obra/superpowers
      npx skills@latest add vercel-labs/agent-skills
@@ -247,7 +248,8 @@ When operating in an agentic coding environment or initializing a project workfl
    - **Zero Fake Time Estimates**: Never generate speculative time estimates ("this will take 2 hours"). State concrete automated verification checks per step (`Step N -> Verify: <cmd>`).
    - **Prompt Cleanliness**: Avoid em-dashes in agent instructions; quote YAML frontmatter descriptions with colons.
 
-4. **Leverage Obra Superpowers, Vercel Labs & Addy Osmani Quality Workflows**:
+4. **Leverage Impeccable, Obra Superpowers, Vercel Labs & Addy Osmani Quality Workflows**:
+   - `pbakaus/impeccable` (`skills/shared/impeccable-design-rules.md`, `skills/impeccable/SKILL.md`): Mode-calibrated frontend design (`Persuade`, `Operate`, `Read`, `Experience`), durable `PRODUCT.md` + `DESIGN.md` context, 24 UI workflows (`init`, `shape`, `critique`, `audit`, `polish`, `harden`, `distill`, `clarify`), and 62-rule deterministic anti-slop detection (`npx impeccable detect`).
    - `obra/superpowers`: `systematic-debugging`, `verification-before-completion`, `receiving-code-review`, `test-driven-development`.
    - `vercel-labs/agent-skills`: `vercel-react-best-practices` (no async waterfalls, Suspense streaming), `composition-patterns` (no boolean prop proliferation), `web-design-guidelines`.
    - `addyosmani/agent-skills` (`skills/shared/code-review-quality-rules.md`): `code-review-and-quality` (5-axis review: Correctness, Readability, Architecture, Security, Performance), `spec-driven-development`, `debugging-and-error-recovery`, `security-and-hardening`.
@@ -330,6 +332,25 @@ Full rules: `skills/shared/code-review-quality-rules.md` | Guide: `skills/code-r
 - **Security**: Raw input injection (`unvalidated-input-injection`), exposed credentials (`exposed-credentials-secrets`), insecure defaults (`insecure-defaults`).
 - **Performance**: N+1 queries (`n-plus-one-query`), memory leaks (`memory-leak-hazard`), unbounded allocations (`unbounded-memory-allocation`).
 - **Benchmark**: Approve a change when it **definitely improves overall code health**, even if not perfect.
+
+---
+
+## Impeccable Frontend Design & Anti-Slop Module
+
+Powered by Paul Bakaus's `impeccable` ([github.com/pbakaus/impeccable](https://github.com/pbakaus/impeccable), v4.9.2):
+
+Full rules: `skills/shared/impeccable-design-rules.md` | Skill: `skills/impeccable/SKILL.md` | Workflows: `skills/impeccable/WORKFLOWS.md`
+
+- **4 Surface Modes**: Calibrate ambition to the surface — `Persuade` (landing/marketing/pricing), `Operate` (dashboards/app UI/settings), `Read` (docs/articles/changelogs), `Experience` (portfolios/showcases).
+- **Durable Design Context**: Persist product truth in `PRODUCT.md` (`/impeccable init`) and visual tokens/rules in `DESIGN.md` (`/impeccable document`).
+- **Craft Floor & Anti-Slop Mandates**:
+  - `kicker-above-heading` / `hero-eyebrow-chip` (**high**): Hard ban on eyebrow labels/pills above headings; let headings carry their own weight.
+  - `icon-tile-stack` / `nested-cards` (**high**): Refuse 3-column equal-height icon-card grids as default page scaffolds; nested cards are always wrong.
+  - `side-tab` / `border-accent-on-rounded` (**medium**): Refuse colored `border-left`/`border-right` > 1px accent stripes on rounded cards or callouts.
+  - `low-contrast` / `gray-on-color` (**high**): Enforce WCAG AA ($\ge 4.5:1$ body, $\ge 3:1$ large text) and tint secondary text on colored surfaces instead of neutral gray.
+  - `gradient-text` / `dark-glow` / `gpt-thin-border-wide-shadow` (**medium**): Achieve hierarchy via scale and weight; declare elevation once (border *or* soft offset shadow, never zero-offset neon halos).
+  - `line-length` / `heading-rhythm` / `unbalanced-heading` (**medium**): Enforce `65–75ch` body measure, more space above headings than below, `text-wrap: balance`, and themed browser surfaces (`::selection`, scrollbars, focus rings, `tabular-nums`).
+- **62-Rule Deterministic Detector & Subagents**: Run `npx impeccable detect <dir|url>` (or `/impeccable hooks on`) and verify finished surfaces with `impeccable-finish-reviewer` (`ship` | `fix` | `rebuild` | `recapture`).
 
 ---
 

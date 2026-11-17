@@ -19,7 +19,9 @@
 #   --extreme-constraints Copy Uncle Bob's Extreme Constraints & Vibe Coding skill files
 #   --code-review Copy 5-Axis Code Review & Quality skill files
 #   --productivity Copy Matt Pocock Productivity & Engineering skill files
-#   --agents     Copy 68 specialized ECC subagents to agents/
+#   --egm        Copy Google's Elephant-Goldfish Model (EGM) spec-driven skill files
+#   --impeccable Copy Impeccable v4.9.2 frontend design & anti-slop skill files
+#   --agents     Copy 73 specialized ECC + Impeccable subagents to agents/
 #   --ecc-rules  Copy 23 modular language/framework rule packs to rules/
 #   --memory-hooks Copy runtime hooks and memory persistence to hooks/ & contexts/
 #   --ecc-skills Copy 286 curated ECC domain skills to skills/ecc/
@@ -65,7 +67,9 @@ COPY_HARNESS=""     # harness engineering files
 COPY_CONSTRAINTS="" # uncle bob extreme constraints files
 COPY_REVIEW=""      # code review and quality files
 COPY_PRODUCTIVITY="" # matt pocock productivity files
-COPY_AGENTS=""      # 68 ECC subagents
+COPY_EGM=""         # google elephant-goldfish model files
+COPY_IMPECCABLE=""  # impeccable frontend design & anti-slop files
+COPY_AGENTS=""      # 73 ECC + Impeccable subagents
 COPY_ECC_RULES=""   # 23 ECC language & framework rule packs
 COPY_MEMORY_HOOKS="" # memory persistence hooks & contexts
 COPY_ECC_SKILLS=""  # 286 curated ECC skills
@@ -81,6 +85,8 @@ while [[ $# -gt 0 ]]; do
     --extreme-constraints|--constraints|--vibe-constraints) COPY_CONSTRAINTS=true; shift ;;
     --code-review) COPY_REVIEW=true; shift ;;
     --productivity|--mattpocock-productivity) COPY_PRODUCTIVITY=true; shift ;;
+    --egm|--elephant-goldfish) COPY_EGM=true; shift ;;
+    --impeccable|--frontend-design) COPY_IMPECCABLE=true; shift ;;
     --agents)   COPY_AGENTS=true;   shift ;;
     --ecc-rules|--rules) COPY_ECC_RULES=true; shift ;;
     --memory-hooks|--hooks) COPY_MEMORY_HOOKS=true; shift ;;
@@ -94,6 +100,8 @@ while [[ $# -gt 0 ]]; do
       COPY_CONSTRAINTS=true
       COPY_REVIEW=true
       COPY_PRODUCTIVITY=true
+      COPY_EGM=true
+      COPY_IMPECCABLE=true
       shift
       ;;
     --dry-run)  DRY_RUN=true;       shift ;;
@@ -292,6 +300,8 @@ fi
 [[ -z "$COPY_CONSTRAINTS" ]] && COPY_CONSTRAINTS=false
 [[ -z "$COPY_REVIEW" ]]      && COPY_REVIEW=false
 [[ -z "$COPY_PRODUCTIVITY" ]] && COPY_PRODUCTIVITY=false
+[[ -z "$COPY_EGM" ]]         && COPY_EGM=false
+[[ -z "$COPY_IMPECCABLE" ]]  && COPY_IMPECCABLE=false
 [[ -z "$COPY_AGENTS" ]]      && COPY_AGENTS=false
 [[ -z "$COPY_ECC_RULES" ]]   && COPY_ECC_RULES=false
 [[ -z "$COPY_MEMORY_HOOKS" ]] && COPY_MEMORY_HOOKS=false
@@ -373,6 +383,8 @@ echo "  Linting : $([ "$SKIP_LINT" == true ] && echo skip || echo yes)"
 echo "  Hooks   : $([ "$SKIP_HOOKS" == true ] && echo skip || echo yes)"
 echo "  Harness : $([ "$COPY_HARNESS" == true ] && echo yes || echo skip)"
 echo "  Vibe/EC : $([ "$COPY_CONSTRAINTS" == true ] && echo yes || echo skip)"
+echo "  EGM     : $([ "$COPY_EGM" == true ] && echo yes || echo skip)"
+echo "  Impecc. : $([ "$COPY_IMPECCABLE" == true ] && echo yes || echo skip)"
 echo "  Agents  : $([ "$COPY_AGENTS" == true ] && echo yes || echo skip)"
 echo "  Rules   : $([ "$COPY_ECC_RULES" == true ] && echo yes || echo skip)"
 echo "  MemHooks: $([ "$COPY_MEMORY_HOOKS" == true ] && echo yes || echo skip)"
@@ -399,6 +411,9 @@ section "AI Skills"
 copy_shared_skills() {
   # shared rules are needed by most adapters
   copy_file "$KIT_ROOT/skills/shared/rules.md"                       "$TARGET_DIR/skills/shared/rules.md"
+  copy_file "$KIT_ROOT/skills/shared/agentic-engineering-rules.md"   "$TARGET_DIR/skills/shared/agentic-engineering-rules.md"
+  copy_file "$KIT_ROOT/skills/shared/egm-spec-driven-rules.md"       "$TARGET_DIR/skills/shared/egm-spec-driven-rules.md"
+  copy_file "$KIT_ROOT/skills/shared/impeccable-design-rules.md"     "$TARGET_DIR/skills/shared/impeccable-design-rules.md"
   copy_file "$KIT_ROOT/skills/shared/lint-report-prompt.md"          "$TARGET_DIR/skills/shared/lint-report-prompt.md"
   copy_file "$KIT_ROOT/skills/shared/husky-rules.md"                 "$TARGET_DIR/skills/shared/husky-rules.md"
   copy_file "$KIT_ROOT/skills/shared/harness-rules.md"               "$TARGET_DIR/skills/shared/harness-rules.md"
@@ -567,11 +582,27 @@ if [[ "$COPY_PRODUCTIVITY" == true ]]; then
   echo "  NOTE  Productivity & Engineering workflows installed to skills/productivity/."
 fi
 
-# ── ECC Subagents ─────────────────────────────────────────────────────────────
+# ── Google's Elephant-Goldfish Model (EGM) files ─────────────────────────────
+if [[ "$COPY_EGM" == true ]]; then
+  section "Google's Elephant-Goldfish Model (EGM)"
+  copy_file "$KIT_ROOT/skills/shared/egm-spec-driven-rules.md" "$TARGET_DIR/skills/shared/egm-spec-driven-rules.md"
+  copy_dir  "$KIT_ROOT/skills/elephant-goldfish"               "$TARGET_DIR/skills/elephant-goldfish"
+  echo "  NOTE  EGM spec-driven rules & workflows installed to skills/elephant-goldfish/."
+fi
+
+# ── Impeccable Frontend Design & Anti-Slop files ─────────────────────────────
+if [[ "$COPY_IMPECCABLE" == true ]]; then
+  section "Impeccable Frontend Design & Anti-Slop (v4.9.2)"
+  copy_file "$KIT_ROOT/skills/shared/impeccable-design-rules.md" "$TARGET_DIR/skills/shared/impeccable-design-rules.md"
+  copy_dir  "$KIT_ROOT/skills/impeccable"                        "$TARGET_DIR/skills/impeccable"
+  echo "  NOTE  Impeccable v4.9.2 skill, 48 playbooks & launcher installed to skills/impeccable/."
+fi
+
+# ── ECC + Impeccable Subagents ───────────────────────────────────────────────
 if [[ "$COPY_AGENTS" == true ]]; then
-  section "ECC Subagents (68 Agents)"
+  section "Specialized Subagents (73 Agents)"
   copy_dir "$KIT_ROOT/agents" "$TARGET_DIR/agents"
-  echo "  NOTE  68 specialized subagents installed to agents/."
+  echo "  NOTE  73 specialized subagents installed to agents/."
 fi
 
 # ── ECC Rules (23 Rule Packs) ─────────────────────────────────────────────────

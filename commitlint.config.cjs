@@ -46,7 +46,9 @@ module.exports = {
         "aider", // skills/aider/
         "generic", // skills/generic/
         "code-review", // skills/code-review/
+        "elephant-goldfish", // skills/elephant-goldfish/
         "extreme-constraints", // skills/extreme-constraints/
+        "impeccable", // skills/impeccable/
         "productivity", // skills/productivity/
         "harness", // skills/harness/
 

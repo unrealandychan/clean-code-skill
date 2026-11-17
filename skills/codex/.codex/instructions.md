@@ -190,3 +190,10 @@ When the user says "summarize this session as a skill", "capture this task as a 
   1. `symptom-fix-without-root-cause`: No fixes without root cause investigation first; stop after 3 failed fixes.
   2. `unverified-completion-claim`: No completion claims without fresh verification evidence in the current turn.
   3. `performative-review-agreement`: Verify review feedback against codebase & YAGNI before implementing.
+
+## Impeccable Frontend Design & Anti-Slop Protocol
+
+- **Impeccable Design Engine**: Reference `skills/shared/impeccable-design-rules.md`, `skills/impeccable/SKILL.md`, and `skills/impeccable/WORKFLOWS.md`.
+- **Surface Modes & Context**: Classify UI surfaces as `Persuade`, `Operate`, `Read`, or `Experience`. Persist product context in `PRODUCT.md` (`/impeccable init`) and tokens in `DESIGN.md` (`/impeccable document`).
+- **Craft Floor & 62-Rule Anti-Slop Gate**: Read `skills/impeccable/reference/craft-floor.md` before UI edits. Ban eyebrow kickers (`kicker-above-heading`), nested/3-up icon cards (`nested-cards`, `icon-tile-stack`), colored side stripes on rounded cards (`side-tab`), gradient text (`gradient-text`), untinted gray on color (`gray-on-color`), and emoji icons. Run `npx impeccable detect <dir|url>` and gate finished UI with `impeccable-finish-reviewer` (`ship` | `fix` | `rebuild` | `recapture`).
+

@@ -179,6 +179,12 @@ Guide: COMMIT-GUIDE.md
   2. `unverified-completion-claim`: No completion claims without fresh verification evidence in the current turn.
   3. `performative-review-agreement`: Verify review feedback against codebase & YAGNI before implementing.
 
+## Impeccable Frontend Design & Anti-Slop Protocol
+
+- Reference `skills/shared/impeccable-design-rules.md`, `skills/impeccable/SKILL.md`, and `skills/impeccable/WORKFLOWS.md` (`pbakaus/impeccable` v4.9.2).
+- **Surface Modes & Context**: Calibrate UI ambition to `Persuade`, `Operate`, `Read`, or `Experience`. Maintain `PRODUCT.md` (`/impeccable init`) and `DESIGN.md` (`/impeccable document`).
+- **Craft Floor & 62-Rule Detector**: Read `skills/impeccable/reference/craft-floor.md` before UI edits. Refuse eyebrow kickers (`kicker-above-heading`), nested/3-up icon cards (`nested-cards`, `icon-tile-stack`), colored side stripes on rounded cards (`side-tab`), gradient text (`gradient-text`), untinted gray on color (`gray-on-color`), and emoji icons. Run `npx impeccable detect <dir|url>`.
+
 ## Language Notes
 
 | Language      | Key signals                                                                                   |

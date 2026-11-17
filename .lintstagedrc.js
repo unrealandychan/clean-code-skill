@@ -1,5 +1,8 @@
 const IGNORED_DIRS = [
   "skills/ecc/",
+  "skills/impeccable/reference/",
+  "skills/impeccable/scripts/",
+  "skills/impeccable/agents/",
   "rules/",
   "agents/",
   "hooks/",

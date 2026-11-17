@@ -93,6 +93,7 @@ Files reviewed: N | Findings: N (High: N, Medium: N, Low: N)
 - Code Review & Quality: Reference `skills/shared/code-review-quality-rules.md` & `skills/code-review/SKILL.md` for 5-axis review (Correctness, Readability, Architecture, Security, Performance).
 - Elephant-Goldfish Model (EGM): Reference `skills/shared/egm-spec-driven-rules.md` & `skills/elephant-goldfish/SKILL.md` for durable `.specs/` ("Elephant") + zero-context verification subagents ("Goldfish").
 - Deep Modules & 3 Iron Laws: Enforce `shallow-module-fragmentation`, `boolean-prop-proliferation`, `async-waterfall-chain`, `non-grepable-barrel-maze`, `error-without-remediation-hint`, `symptom-fix-without-root-cause`, `unverified-completion-claim`, and `performative-review-agreement`.
+- Impeccable Frontend Design & Anti-Slop: Reference `skills/shared/impeccable-design-rules.md` & `skills/impeccable/SKILL.md` (`pbakaus/impeccable` v4.9.2). Calibrate UI to `Persuade`/`Operate`/`Read`/`Experience`, maintain `PRODUCT.md` + `DESIGN.md`, enforce `reference/craft-floor.md` (no eyebrow kickers, no nested/3-up icon cards, no colored side stripes on rounded cards, no gradient text, WCAG AA contrast), and run `npx impeccable detect`.
 
 ## Surgical Changes
 

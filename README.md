@@ -23,9 +23,11 @@
 
 A single, unified powerhouse combining **Clean Code + DDD + Harness Engineering** with **ECC (Everything Claude Code / Agent Harness OS)**:
 
-- **68 Specialized Subagents** — architecture, review, implementation, build errors, simplification, and security (`agents/`)
+- **73 Specialized Subagents** — architecture, review, implementation, build errors, simplification, security, and visual finish review (`agents/`)
 - **286 Curated Domain Skills** — cloud, database, systems, frontend, backend, security, and TDD (`skills/ecc/`)
 - **23 Modular Language & Framework Rule Packs** — TypeScript, Python, Go, Rust, Java, C#, C++, Swift, Kotlin, React, Vue, etc. (`rules/`)
+- **Impeccable Frontend Design & Anti-Slop Engine** — `pbakaus/impeccable` v4.9.2 with 4 surface modes (`Persuade`, `Operate`, `Read`, `Experience`), `PRODUCT.md` + `DESIGN.md` context, 24 UI workflows, 5 visual subagents, and a 62-rule Rust anti-slop detector (`skills/impeccable/`)
+- **Google's Elephant-Goldfish Model (EGM)** — spec-driven architecture separating deep-context spec drafting (The Elephant) from stateless zero-context multi-agent verification critics (The Goldfish) (`skills/elephant-goldfish/`)
 - **Zero-Latency Memory Persistence** — event hooks (`SessionStart`, `PreCompact`, `SessionEnd`) preserving instincts and context (`hooks/`)
 - **Continuous Learning & Evolution** — execution telemetry (`skill-runs.jsonl`), health monitoring, and failure-driven amendments (`amendify.js`)
 - **AgentShield Prompt Defense Baselines** — bulletproof protection against injection, data leaks, and unsafe tool execution
@@ -37,7 +39,7 @@ A single, unified powerhouse combining **Clean Code + DDD + Harness Engineering*
 - **Empirical Skill Auditing & Grading** — `skill-doctor` (from Warp) scoring actual conversation transcripts against Efficiency & Code Quality rubrics
 - **Standardized Skill Authoring** — `update-skill` enforcing action-oriented descriptions, progressive disclosure, and concise instructions
 - **Universal CLI & Diagnostics** — `clean-code-skill doctor`, `audit`, `sync`, `health`, `catalog`, `adapt`, `migrate`
-- **In-Depth Architectural Analysis** — see [ECC Analysis & Integration Manual](file:///Users/eddiechan/clean-code-skills/docs/ECC-ANALYSIS-AND-INTEGRATION.md)
+- **In-Depth Architectural Analysis** — see [ECC Analysis & Integration Manual](docs/ECC-ANALYSIS-AND-INTEGRATION.md)
 
 **One rule set. Every tool. Every language. Complete agent operating system.**
 
@@ -62,6 +64,8 @@ skills/
   shared/
     rules.md                          ← canonical rules (edit here first)
     agentic-engineering-rules.md      ← spec hygiene + guardrails + AI output eval + multi-agent
+    egm-spec-driven-rules.md          ← Google Elephant-Goldfish Model (EGM) canonical rules
+    impeccable-design-rules.md        ← Impeccable v4.9.2 frontend design & 62-rule anti-slop catalog
     code-review-quality-rules.md      ← 5-axis code review rubric
     extreme-constraints-rules.md      ← Uncle Bob extreme constraints & vibe coding rules
     mattpocock-productivity-rules.md  ← productivity guardrails & workflows
@@ -99,9 +103,18 @@ skills/
   code-review/                        ← 5-Axis Code Review skill & workflows
     SKILL.md
     WORKFLOWS.md
+  elephant-goldfish/                  ← Google Elephant-Goldfish Model (EGM) spec-driven skill
+    SKILL.md
+    WORKFLOWS.md
   extreme-constraints/                ← Uncle Bob Extreme Constraints & Vibe Coding skill
     SKILL.md
     WORKFLOWS.md
+  impeccable/                         ← Impeccable v4.9.2 frontend design, 48 playbooks & launcher
+    SKILL.md
+    WORKFLOWS.md
+    reference/
+    scripts/
+    agents/
   productivity/                       ← Matt Pocock Productivity workflows
     SKILL.md
     WORKFLOWS.md
@@ -132,6 +145,8 @@ To change a rule, update `shared/rules.md` and propagate to the adapters.
 │   ├── shared/
 │   │   ├── rules.md                            ← single source of truth for all rules
 │   │   ├── agentic-engineering-rules.md        ← spec hygiene + guardrails + AI output eval + multi-agent
+│   │   ├── egm-spec-driven-rules.md            ← Google Elephant-Goldfish Model (EGM) canonical rules
+│   │   ├── impeccable-design-rules.md          ← Impeccable v4.9.2 frontend design & anti-slop rules
 │   │   ├── code-review-quality-rules.md        ← 5-axis code review rubric
 │   │   ├── extreme-constraints-rules.md        ← Uncle Bob extreme constraints & vibe coding rules
 │   │   ├── mattpocock-productivity-rules.md    ← productivity guardrails & workflows
@@ -169,9 +184,18 @@ To change a rule, update `shared/rules.md` and propagate to the adapters.
 │   ├── code-review/                            ← 5-Axis Code Review skill & workflows
 │   │   ├── SKILL.md
 │   │   └── WORKFLOWS.md
+│   ├── elephant-goldfish/                      ← Google Elephant-Goldfish Model (EGM) spec-driven skill
+│   │   ├── SKILL.md
+│   │   └── WORKFLOWS.md
 │   ├── extreme-constraints/                    ← Uncle Bob Extreme Constraints & Vibe Coding skill
 │   │   ├── SKILL.md
 │   │   └── WORKFLOWS.md
+│   ├── impeccable/                             ← Impeccable v4.9.2 frontend design & anti-slop engine
+│   │   ├── SKILL.md
+│   │   ├── WORKFLOWS.md
+│   │   ├── reference/                          ← 48 design command & craft-floor playbooks
+│   │   ├── scripts/                            ← Self-contained Rust detector launcher & live browser
+│   │   └── agents/                             ← Codex/OpenAI subagent definitions
 │   ├── productivity/                           ← Matt Pocock Productivity workflows
 │   │   ├── SKILL.md
 │   │   └── WORKFLOWS.md
@@ -191,7 +215,7 @@ To change a rule, update `shared/rules.md` and propagate to the adapters.
 │   │   └── references/                         ← Best practices & progressive disclosure
 │   └── ecc/                                    ← 286 curated domain skills from ECC
 │
-├── agents/                                     ← 68 specialized subagents (architect, reviewer, etc.)
+├── agents/                                     ← 73 specialized subagents (architect, reviewer, impeccable, etc.)
 │
 ├── rules/                                      ← 23 modular language & framework rule packs (122 files)
 │   ├── common/
@@ -375,14 +399,14 @@ This repository incorporates the full capability catalog of **[ECC (Everything C
 
 | Component                                    | Quantity / Scope          | Purpose                                                                                                                                                                                                                                            |
 | -------------------------------------------- | ------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| **Specialized Subagents** (`agents/`)        | 68 Agents                 | Cognitive tiering: Architecture (`architect`, `planner`), Review (`code-reviewer`, `security-reviewer`), Implementation (`tdd-guide`), Error Resolution (`build-error-resolver`), Refactoring (`code-simplifier`), and Exploration (`spec-miner`). |
+| **Specialized Subagents** (`agents/`)        | 73 Agents                 | Cognitive tiering: Architecture (`architect`, `planner`), Review (`code-reviewer`, `security-reviewer`, `impeccable-finish-reviewer`), Implementation (`tdd-guide`), Error Resolution (`build-error-resolver`), Refactoring (`code-simplifier`), and Exploration (`spec-miner`). |
 | **Curated Domain Skills** (`skills/ecc/`)    | 286 Skills                | Full-stack engineering: TDD workflows, cloud architectures, database patterns, accessibility, performance tuning, and systems design.                                                                                                              |
 | **Modular Rule Packs** (`rules/`)            | 23 Rule Packs (122 files) | Modular coding-style, testing, security, patterns, and hooks for TypeScript, Python, Go, Rust, Java, C#, C++, Swift, Kotlin, React, Vue, etc.                                                                                                      |
 | **Memory Persistence Engine** (`hooks/`)     | Zero-Latency Runtime      | Event-driven state capture (`SessionStart`, `PreCompact`, `SessionEnd`) preserving decisions and instincts without per-prompt token overhead.                                                                                                      |
 | **Dynamic Execution Contexts** (`contexts/`) | 3 System Profiles         | Surgical context switches (`dev.md`, `review.md`, `research.md`) eliminating context clutter.                                                                                                                                                      |
 | **Prompt Defense (AgentShield)**             | Universal Baseline        | Strict protection across all agents against prompt injection, unauthorized shell execution, and secret leaks.                                                                                                                                      |
 
-For full architectural analysis, see **[docs/ECC-ANALYSIS-AND-INTEGRATION.md](file:///Users/eddiechan/clean-code-skills/docs/ECC-ANALYSIS-AND-INTEGRATION.md)**.
+For full architectural analysis, see **[docs/ECC-ANALYSIS-AND-INTEGRATION.md](docs/ECC-ANALYSIS-AND-INTEGRATION.md)**.
 
 ---
 

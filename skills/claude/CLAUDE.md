@@ -243,6 +243,18 @@ Inspired by Google's `google/elephant-goldfish-model`:
 
 ---
 
+## Impeccable Frontend Design & Anti-Slop Module
+
+Powered by Paul Bakaus's `pbakaus/impeccable` (v4.9.2):
+
+- Full Rules: `@skills/shared/impeccable-design-rules.md` | Skill: `@skills/impeccable/SKILL.md` | Workflows: `@skills/impeccable/WORKFLOWS.md`
+- **4 Surface Modes**: Calibrate UI ambition to the surface — `Persuade` (landing/marketing/pricing), `Operate` (dashboards/app UI/settings), `Read` (docs/articles/changelogs), `Experience` (portfolios/showcases).
+- **Durable Design Context**: Persist product truth in `PRODUCT.md` (`/impeccable init`) and design-system tokens in `DESIGN.md` (`/impeccable document`).
+- **Craft Floor & Anti-Slop Bans**: Read `skills/impeccable/reference/craft-floor.md` before every UI edit. Enforce WCAG AA contrast (`low-contrast`), tinted text on color (`gray-on-color`), `65–75ch` measure (`line-length`), complete interactive states, and themed browser surfaces (`::selection`, scrollbars, `tabular-nums`). Hard-ban eyebrow kickers (`kicker-above-heading`), 3-up/nested icon cards (`nested-cards`, `icon-tile-stack`), colored side stripes on rounded cards (`side-tab`), gradient text (`gradient-text`), and emoji icons.
+- **62-Rule Detector & Subagents**: Run `npx impeccable detect <dir|url>` (or `/impeccable hooks on`) and verify finished surfaces with `impeccable-finish-reviewer` (`ship` | `fix` | `rebuild` | `recapture`).
+
+---
+
 ## Commit Hygiene Enforcement
 
 Also apply all rules defined in @skills/shared/husky-rules.md.

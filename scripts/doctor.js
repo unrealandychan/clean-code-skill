@@ -45,6 +45,7 @@ function runDiagnostics() {
     "code-review",
     "elephant-goldfish",
     "extreme-constraints",
+    "impeccable",
     "productivity",
     "harness",
     "skill-doctor",
